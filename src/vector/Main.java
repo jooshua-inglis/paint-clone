@@ -5,8 +5,7 @@ import vector.shape.VectorShape;
 import vector.util.VectorColor;
 
 public class Main {
-    public static void main(String[] args) {
-        GUI gui = new GUI();
+    private static void test(GUI gui) {
         try {
             VectorShape e = new Rectangle();
             e.addPoint(0, 0);
@@ -16,6 +15,9 @@ public class Main {
             gui.canvas.addShape(e);
         } catch (IllegalArgumentException error) { System.out.println("error"); }
 
-
+    }
+    public static void main(String[] args) {
+        GUI gui = new GUI();
+//        test(gui);
     }
 }

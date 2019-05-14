@@ -4,8 +4,11 @@ import vector.shape.VectorShape;
 import vector.util.CanvasMouse;
 import vector.util.Tool;
 import vector.util.VectorColor;
+import vector.util.VectorPoint;
 
 import javax.swing.*;
+import javax.swing.plaf.InternalFrameUI;
+import javax.swing.plaf.basic.BasicTreeUI;
 import java.awt.*;
 import java.util.LinkedList;
 import java.util.List;
@@ -27,27 +30,34 @@ public class VectorCanvas extends JPanel {
     private List<VectorShape> shapes;
     private Tool selectedTool;
     private VectorColor selectedPenColor, selectedFillColor;
-    private CanvasMouse MouseObserver;
+    private CanvasMouse mouseListener;
     private int sideWidth;
 
     /**
      * Method required by Canvas class to be able to be printed to the window
      * @param g Graphic
      */
-    public void paintChildren(Graphics g) {
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        super.paintBorder(g);
+        int num = 0;
         for (VectorShape shape : shapes) {
-            shape.draw(g, sideWidth);
+            System.out.println("Drawing: " + shape.getName() + num);
+            System.out.println(getWidth());
+            shape.draw(g, getWidth());
+            num++;
         }
         g.dispose();
     }
 
     public VectorCanvas() {
-        selectedFillColor = new VectorColor(0xffffff);
+        selectedFillColor = new VectorColor(0xfffff, false);
         selectedPenColor = new VectorColor(0);
         shapes = new LinkedList<>();
         selectedTool = Tool.LINE;
-        MouseObserver = new CanvasMouse();
-        MouseObserver.attachCanvas(this);
+        mouseListener = new CanvasMouse();
+        mouseListener.attachCanvas(this);
+        this.addMouseListener(mouseListener);
     }
 
     public int getSideWith() {
@@ -91,6 +101,21 @@ public class VectorCanvas extends JPanel {
 
     public void setSelectedPenColor(VectorColor color) {
         selectedPenColor.update(color);
+    }
+
+    public void drag(VectorShape shape) {
+        while (mouseListener.shapeCreating) {
+            try {
+                Thread.sleep(0, 500);
+            } catch (InterruptedException e) {
+                System.out.println("Interrupted");
+                repaint();
+                return;
+            }
+            shape.getPoint(1).update(mouseListener);
+            repaint();
+        }
+        System.out.println("Done");
     }
 
     public VectorColor getSelectedFillColor() {

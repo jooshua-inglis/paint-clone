@@ -49,15 +49,20 @@ public abstract class BoxLikeShape extends VectorShape {
         }
         java.awt.Point p1 = getPoint(0).getAbsPoint(size);
         java.awt.Point p2 = getPoint(1).getAbsPoint(size);
-        int width = p2.x - p1.x;
-        int height = p2.y - p1.y;
-        if (getPen() != null) {
+
+        int rootX = Math.min(p1.x, p2.x);
+        int rootY = Math.min(p1.y, p2.y);
+
+        int width = Math.abs(p2.x - p1.x);
+        int height = Math.abs(p2.y - p1.y);
+
+        if (getPen().isActive()) {
             g.setColor(getPen().asColor());
-            drawPen(g, p1.x, p1.y, width, height);
+            drawPen(g, rootX, rootY, width, height);
         }
-        if (getFill() != null) {
+        if (getFill().isActive()) {
             g.setColor(getFill().asColor());
-            drawFill(g, p1.x, p1.y, width, height);
+            drawFill(g, rootX + 1, rootY + 1, width - 1, height - 1);
         }
     }
 }

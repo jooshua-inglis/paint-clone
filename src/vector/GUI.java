@@ -1,6 +1,5 @@
 package vector;
 
-import vector.util.CanvasMouse; // Assessing interface for mouse event handlers
 import vector.util.Tool;
 import vector.util.VectorColor;
 import javax.swing.*;
@@ -19,10 +18,10 @@ import static java.awt.Color.*;
  * GUI class controls the what is output to the window. It contains one canvas object that is read to
  * determine what is printed to the window.
  */
-public class GUI extends CanvasMouse  {
+public class GUI  {
 
     JFrame frame;
-    JPanel mainFrame;
+    JPanel mainPanel;
     VectorCanvas canvas;
     boolean penPressed = false;
     boolean fillPressed = false;
@@ -291,19 +290,14 @@ public class GUI extends CanvasMouse  {
     }
 
     public void showCanvas() {
-        CanvasMouse mouseEvent = new CanvasMouse(); // interface for mouse events
         canvas = new VectorCanvas();
-        mainFrame = new JPanel(new SpringLayout());
         canvas.setBackground(WHITE);
         canvas.setBorder(new LineBorder(BLACK));
-
         canvas.setPreferredSize(new Dimension(500, 500));
-        mainFrame.add(canvas);
-        frame.add(mainFrame);
-//        canvas.setSideWidth(500);
-        attachCanvas(canvas); // specify canvas to be used
-        canvas.addMouseListener(mouseEvent); // listen for still mouse events
-        canvas.addMouseMotionListener(mouseEvent); // listen for moving mouse events
 
+        mainPanel = new JPanel(new SpringLayout());
+        mainPanel.add(canvas);
+
+        frame.add(mainPanel);
     }
 }
