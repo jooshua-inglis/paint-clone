@@ -180,6 +180,7 @@ public class GUI  {
         JButton zoomMinus = new JButton("MINUS");
        // zoomMinus.setPreferredSize(new Dimension(45,55));
         JButton undo = new JButton("UNDO");
+        addListener(undo, (event) -> canvas.undo());
       //  undo.setPreferredSize(new Dimension(45,55));
         return new JButton[]{zoomPlus, zoomMinus, undo};
     }

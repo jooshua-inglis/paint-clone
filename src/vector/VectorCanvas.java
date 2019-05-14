@@ -10,6 +10,7 @@ import javax.swing.*;
 import javax.swing.plaf.InternalFrameUI;
 import javax.swing.plaf.basic.BasicTreeUI;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,7 +28,7 @@ import java.util.List;
  */
 public class VectorCanvas extends JPanel {
     /** List of all shapes */
-    private List<VectorShape> shapes;
+    private LinkedList<VectorShape> shapes;
     private Tool selectedTool;
     private VectorColor selectedPenColor, selectedFillColor;
     private CanvasMouse mouseListener;
@@ -77,6 +78,11 @@ public class VectorCanvas extends JPanel {
         s.setFill(selectedFillColor);
         addShape(s);
         return s;
+    }
+
+    public void undo() {
+        shapes.removeLast();
+        repaint();
     }
 
     /**
