@@ -20,7 +20,9 @@ public class CanvasMouse implements MouseListener, MouseMotionListener, Point {
         vectorCanvas = c;
     }
 
-    public void mouseClicked(MouseEvent mouseEvent) {
+    public void mouseClicked(MouseEvent mouseEvent) { }
+
+    public void mousePressed(MouseEvent mouseEvent) {
         System.out.println("Clicked on " + this.getX());
         System.out.println("Clicked on " + this.getY());
 
@@ -37,8 +39,6 @@ public class CanvasMouse implements MouseListener, MouseMotionListener, Point {
         }
         System.out.println("Creating: " + vectorCanvas.getselectTool().name());
     }
-
-    public void mousePressed(MouseEvent mouseEvent) { }
 
     public void mouseReleased(MouseEvent mouseEvent) { }
 

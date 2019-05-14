@@ -85,6 +85,14 @@ public class VectorCanvas extends JPanel {
         repaint();
     }
 
+    public void zoom(int amount) {
+        Dimension d = getPreferredSize();
+        d.width += amount;
+        d.height += amount;
+        setPreferredSize(d);
+        setSize(d);
+    }
+
     /**
      * Add {@link VectorShape shape} to canvas
      * @param shape

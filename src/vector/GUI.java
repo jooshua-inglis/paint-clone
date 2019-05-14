@@ -6,6 +6,8 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.io.*;
 import java.util.ArrayList;
@@ -176,9 +178,19 @@ public class GUI  {
     }
     private JButton[] toolButton(){
         JButton zoomPlus = new JButton("PLUS");
+        addListener(zoomPlus, (event) -> {
+            canvas.zoom(100);
+            mainPanel.setPreferredSize(canvas.getSize());
+            frame.pack();
+        });
       //  zoomPlus.setPreferredSize(new Dimension(45,55));
         JButton zoomMinus = new JButton("MINUS");
        // zoomMinus.setPreferredSize(new Dimension(45,55));
+        addListener(zoomMinus, (event) -> {
+            canvas.zoom(-100);
+            mainPanel.setPreferredSize(canvas.getSize());
+            frame.pack();
+        });
         JButton undo = new JButton("UNDO");
         addListener(undo, (event) -> canvas.undo());
       //  undo.setPreferredSize(new Dimension(45,55));
@@ -295,10 +307,13 @@ public class GUI  {
         canvas.setBackground(WHITE);
         canvas.setBorder(new LineBorder(BLACK));
         canvas.setPreferredSize(new Dimension(500, 500));
+        canvas.setSize(500, 500);
 
-        mainPanel = new JPanel(new SpringLayout());
+        mainPanel = new JPanel(null);
+        mainPanel.setPreferredSize(new Dimension(500, 500));
         mainPanel.add(canvas);
 
-        frame.add(mainPanel);
+        JScrollPane scrPane = new JScrollPane(mainPanel);
+        frame.getContentPane().add(scrPane);
     }
 }
