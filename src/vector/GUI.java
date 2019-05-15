@@ -1,9 +1,11 @@
 package vector;
 
+import vector.util.FileIO;
 import vector.util.Tool;
 import vector.util.VectorColor;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -84,6 +86,25 @@ public class GUI  {
 
     }
 
+    private void export() {
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Bitmap", "bmp");
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileFilter(filter);
+
+        fileChooser.setSelectedFile(new File("export.bmp"));
+
+        if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            System.out.println(file.toString());
+            try {
+                FileIO.toImage(canvas, file);
+            }
+            catch (IOException e) {
+                System.err.println("failed to save");
+            }
+        }
+    }
+
     private JMenuItem createMenuItem(String text, ActionListener e) {
         JMenuItem newMenuItem = new JMenuItem(text);
         newMenuItem.setMnemonic(KeyEvent.VK_N);
@@ -99,6 +120,7 @@ public class GUI  {
         fileMenu.add(createMenuItem("Open", (event) -> open()));
         fileMenu.add(createMenuItem("Save", (event) -> save()));
         fileMenu.add(createMenuItem("Save As...", (event) -> saveAs()));
+        fileMenu.add(createMenuItem("Export", (event) -> export()));
 
         menuBar.add(fileMenu);
         frame.setJMenuBar(menuBar);
