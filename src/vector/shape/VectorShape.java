@@ -1,6 +1,7 @@
 package vector.shape;
 
 
+import vector.VectorCanvas;
 import vector.util.*;
 
 import java.awt.Graphics;
@@ -59,6 +60,7 @@ public abstract class VectorShape  {
      * @param size size of canvas.
      */
     public abstract void draw(Graphics g, int size);
+    public abstract void drag(VectorCanvas canvas);
 
 
     public void addPoints(List<VectorPoint> points) {
