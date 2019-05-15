@@ -1,6 +1,7 @@
 package vector.util;
 
 import vector.shape.Rectangle;
+import vector.shape.Ellipse;
 import vector.shape.VectorShape;
 
 public enum Tool {
@@ -15,8 +16,8 @@ public enum Tool {
         switch (this) {
             case RECTANGLE:
                 return new Rectangle();
-//            case ELLIPSE:
-//                return new Ellipse();
+            case ELLIPSE:
+                return new Ellipse();
 //            case POLYGON:
 //                return new Polygon();
 //            case LINE:

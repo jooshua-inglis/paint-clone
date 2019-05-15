@@ -12,21 +12,78 @@ import vector.util.VectorColor;
 import vector.util.VectorPoint;
 
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 class CanvasTests {
+    // Test basic functionality
     @Test
-    void testCreateShape() {
+    void testRectangle() {
         VectorCanvas subject = new VectorCanvas();
         subject.selectTool(Tool.RECTANGLE);
+        assertEquals(subject.getselectTool(),Tool.RECTANGLE);
         assertEquals(subject.createShape().getClass(), Rectangle.class);
-//        subject.selectTool(Tool.ELLIPSE);
-//        assertEquals(subject.createShape().getClass(), Ellipse.class);
-//        subject.selectTool(Tool.LINE);
-//        assertEquals(subject.createShape().getClass(), Line.class);
     }
+
+
+    // To be completed after other tools are fully implemented
+
+    @Test
+    void testEllipse(){
+        VectorCanvas subject = new VectorCanvas();
+        subject.selectTool(Tool.ELLIPSE);
+        assertEquals(subject.getselectTool(),Tool.ELLIPSE);
+        //assertEquals(subject.createShape().getClass(), Rectangle.class);
+    }
+    @Test
+    void testPolygon(){
+        VectorCanvas subject = new VectorCanvas();
+        subject.selectTool(Tool.POLYGON);
+        assertEquals(subject.getselectTool(),Tool.POLYGON);
+        //assertEquals(subject.createShape().getClass(), Rectangle.class);
+    }
+    @Test
+    void testLine(){
+        VectorCanvas subject = new VectorCanvas();
+        subject.selectTool(Tool.LINE);
+        assertEquals(subject.getselectTool(),Tool.LINE);
+        //assertEquals(subject.createShape().getClass(), Rectangle.class);
+    }
+    @Test
+    void testPlot(){
+        VectorCanvas subject = new VectorCanvas();
+        subject.selectTool(Tool.PLOT);
+        assertEquals(subject.getselectTool(),Tool.PLOT);
+        //assertEquals(subject.createShape().getClass(), Plot.class);
+    }
+    @Test
+    void testMultipleTools(){
+        VectorCanvas subject = new VectorCanvas();
+        subject.selectTool(Tool.PLOT);
+        assertEquals(subject.getselectTool(),Tool.PLOT);
+        subject.selectTool(Tool.LINE);
+        assertEquals(subject.getselectTool(),Tool.LINE);
+        //assertEquals(subject.createShape().getClass(), Plot.class);
+    }
+
+
+    @Test
+    void testMultipleShapes(){
+        VectorCanvas subject = new VectorCanvas();
+        subject.selectTool(Tool.RECTANGLE);
+        //tool to be changed after more shapes are implemented
+        subject.createShape();
+        subject.createShape();
+        subject.createShape();
+
+
+        assertEquals(3, subject.getShapes().size());
+
+    }
+
 
     VectorCanvas createEqualCanvas() {
 

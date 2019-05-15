@@ -23,6 +23,8 @@ public abstract class BoxLikeShape extends VectorShape {
 
     public int getMaxPoints() { return 2; }
 
+    
+
     /**
      * Draws the shape outline to g
      * @param g
