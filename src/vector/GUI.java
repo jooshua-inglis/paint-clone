@@ -6,8 +6,6 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.io.*;
 import java.util.ArrayList;
@@ -93,7 +91,7 @@ public class GUI  {
         return newMenuItem;
     }
 
-    public void showMenuBar() {
+    private void showMenuBar() {
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
 
@@ -114,11 +112,7 @@ public class GUI  {
             addListener(button, (event) -> colourButtonFunctions(button));
         }
     }
-    public void shapeButtonPressed(HashMap<Tool, JButton> buttonArray){
-        for (Tool tool : buttonArray.keySet()){
-            addListener(buttonArray.get(tool), (event) -> shapeButtonFunctions(tool));
-        }
-    }
+    
     public void colourButtonFunctions(JButton button){
         System.out.println(button.getName());
 
@@ -170,34 +164,34 @@ public class GUI  {
     private HashMap<Tool, JButton> shapeButton(){
         HashMap<Tool, JButton> buttons = new HashMap<>();
         for (Tool name : Tool.values()) {
-            buttons.put(name, new JButton(name.name()));
+            JButton button = new JButton(name.name());
+            button.addActionListener((event) -> shapeButtonFunctions(name));
+            buttons.put(name, button);
         }
-
-        shapeButtonPressed(buttons);
         return buttons;
     }
+
+    private void zoom(int amount) {
+        canvas.zoom(100);
+        mainPanel.setPreferredSize(canvas.getSize());
+        frame.pack();
+    }
+
     private JButton[] toolButton(){
         JButton zoomPlus = new JButton("PLUS");
-        addListener(zoomPlus, (event) -> {
-            canvas.zoom(100);
-            mainPanel.setPreferredSize(canvas.getSize());
-            frame.pack();
-        });
+        addListener(zoomPlus, (event) -> zoom(100));
       //  zoomPlus.setPreferredSize(new Dimension(45,55));
         JButton zoomMinus = new JButton("MINUS");
        // zoomMinus.setPreferredSize(new Dimension(45,55));
-        addListener(zoomMinus, (event) -> {
-            canvas.zoom(-100);
-            mainPanel.setPreferredSize(canvas.getSize());
-            frame.pack();
-        });
+        addListener(zoomMinus, (event) -> zoom(-100));
+
         JButton undo = new JButton("UNDO");
         addListener(undo, (event) -> canvas.undo());
       //  undo.setPreferredSize(new Dimension(45,55));
         return new JButton[]{zoomPlus, zoomMinus, undo};
     }
     public ArrayList<JButton> colourButton(){
-        Color[]colourBackground = { RED, BLUE, GREEN, WHITE, BLACK, YELLOW, ORANGE, PINK, CYAN, GRAY};//, blue, green, white, black, yellow, orange, pink, cyan, clear};
+        Color[] colourBackground = { RED, BLUE, GREEN, WHITE, BLACK, YELLOW, ORANGE, PINK, CYAN, GRAY};//, blue, green, white, black, yellow, orange, pink, cyan, clear};
 
         JButton pen = new JButton("PEN");
         pen.setName("pen");

@@ -117,21 +117,6 @@ public class VectorCanvas extends JPanel {
         selectedPenColor.update(color);
     }
 
-    public void drag(VectorShape shape) {
-        while (mouseListener.shapeCreating) {
-            try {
-                Thread.sleep(0, 500);
-            } catch (InterruptedException e) {
-                System.out.println("Interrupted");
-                repaint();
-                return;
-            }
-            shape.getPoint(1).update(mouseListener);
-            repaint();
-        }
-        System.out.println("Done");
-    }
-
     public VectorColor getSelectedFillColor() {
         return selectedFillColor;
     }
@@ -149,6 +134,10 @@ public class VectorCanvas extends JPanel {
 
     public Tool getselectTool(){
         return selectedTool;
+    }
+
+    public CanvasMouse getMouseListener() {
+        return mouseListener;
     }
 
     @Override

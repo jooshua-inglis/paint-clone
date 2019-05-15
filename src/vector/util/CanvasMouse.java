@@ -32,7 +32,7 @@ public class CanvasMouse implements MouseListener, MouseMotionListener, Point {
             s.addPoint(new VectorPoint(this));
             shapeCreating = true;
             vectorCanvas.repaint();
-            Thread createShape = new Thread(() ->  vectorCanvas.drag(s));
+            Thread createShape = new Thread(() ->  s.drag(vectorCanvas));
             createShape.start();
         } else {
             shapeCreating = false;
