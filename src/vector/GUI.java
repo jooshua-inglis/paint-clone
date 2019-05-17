@@ -1,5 +1,6 @@
 package vector;
 
+import vector.shape.Plot;
 import vector.util.FileIO;
 import vector.util.Tool;
 import vector.util.VectorColor;
@@ -13,6 +14,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import static java.awt.Color.*;
 
@@ -141,8 +143,6 @@ public class GUI  {
         return (r*65536)+(g*256)+b;
     }
     public void colourButtonFunctions(JButton button, ArrayList<JButton>buttonArrayList){
-
-
         Color colour;
         if(button.getName().equals("picker") && penPressed || button.getName().equals("picker") &&fillPressed){
             colour = JColorChooser.showDialog(null, "Choose a Color", Color.black);
@@ -168,7 +168,6 @@ public class GUI  {
         if(!button.getName().equals("pen")&& !button.getName().equals("fill") && penPressed){
             canvas.setSelectedPenColor(new VectorColor(rgb));
             buttonArrayList.get(0).setBackground(colour);
-
             System.out.println(canvas.getSelectedPenColor().toString());
             penPressed = false;
         }
@@ -194,8 +193,10 @@ public class GUI  {
 
     private HashMap<Tool, JButton> shapeButton(){
         HashMap<Tool, JButton> buttons = new HashMap<>();
+
         for (Tool name : Tool.values()) {
-            JButton button = new JButton(name.name());
+            JButton button = new JButton(name.getImage());
+
             button.addActionListener((event) -> shapeButtonFunctions(name));
             buttons.put(name, button);
         }

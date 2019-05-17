@@ -9,12 +9,38 @@ import vector.shape.Polygon;
 
 import vector.shape.VectorShape;
 
+import javax.swing.*;
+import java.awt.*;
+
 public enum Tool {
     RECTANGLE,
     ELLIPSE,
     POLYGON,
     LINE,
     PLOT;
+
+
+    public Icon getImage(){
+        switch (this){
+            case RECTANGLE:
+                return new ImageIcon("src/vector/shape/ShapeImages/square.png");
+            case ELLIPSE:
+                return new ImageIcon("src/vector/shape/ShapeImages/ellipse.png");
+            case POLYGON:
+                return new ImageIcon("src/vector/shape/ShapeImages/polygon.png");
+            case LINE:
+                return new ImageIcon("src/vector/shape/ShapeImages/line.png");
+            case PLOT:
+                return new ImageIcon("src/vector/shape/ShapeImages/plot.png");
+            default:
+                assert (true);
+                return null;
+        }
+    }
+
+
+
+
 
 
     public VectorShape getCls() {
