@@ -165,17 +165,15 @@ public class GUI  {
         else{
             // error message to till user to click pen or fill first
         }
-        if(!button.getName().equals("pen")&& !button.getName().equals("fill") && penPressed){
+        if(!button.getName().equals("pen")&& !button.getName().equals("fill") && !fillPressed){
             canvas.setSelectedPenColor(new VectorColor(rgb));
             buttonArrayList.get(0).setBackground(colour);
             System.out.println(canvas.getSelectedPenColor().toString());
-            penPressed = false;
         }
-        else if( !button.getName().equals("fill")&& !button.getName().equals("pen") && fillPressed){
+        else if( !button.getName().equals("fill")&& !button.getName().equals("pen") && !penPressed){
             canvas.setSelectedFillColor(new VectorColor(rgb));
             buttonArrayList.get(1).setBackground(colour);
             System.out.println(canvas.getSelectedFillColor().toString());
-            fillPressed = false;
         }
     }
 
