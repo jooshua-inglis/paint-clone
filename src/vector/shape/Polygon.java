@@ -9,6 +9,7 @@ import vector.util.VectorPoint;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 public class Polygon extends VectorShape {
@@ -34,9 +35,13 @@ public class Polygon extends VectorShape {
         g.drawLine(startX, startY, endX, endY);
     }
 
+
     @Override
     public void drag(VectorCanvas canvas) {
         CanvasMouse mouseListener = canvas.getMouseListener();
+        finished = false;
+        boolean first = true;
+        ArrayList<java.awt.Point> polyArray = new ArrayList<>();
 //        CanvasKeys canvasKey = new CanvasKeys(canvas);
 
         while(!finished) {
@@ -48,16 +53,39 @@ public class Polygon extends VectorShape {
                     canvas.repaint();
                     return;
                 }
-                this.getPoint(1).update(mouseListener);
-                canvas.repaint();
+                if(first){
+
+                    this.getPoint(1).update(mouseListener);
+                    canvas.repaint();
+                    first = false;
+                    System.out.println("First");
+                }
+                else{
+                    this.getPoint(1).update(mouseListener);
+                    canvas.repaint();
+                    System.out.println("not First");
+                    first = false;
+                }
+
+
 
             }
+            if(canvas.keysListener.key == KeyEvent.VK_ENTER) {
+
+                finished = true;
+            }
+
+
+            System.out.println("YAAASSS Biiittcchhh");
+
             //System.out.println("check");
 
         }
 
 
         System.out.println("check");
+        finished = false;
+
     }
 
 

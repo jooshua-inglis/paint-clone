@@ -29,7 +29,7 @@ public class VectorCanvas extends JPanel {
     private Tool selectedTool;
     private VectorColor selectedPenColor, selectedFillColor;
     private CanvasMouse mouseListener;
-    private CanvasKeys keysListener;
+    public CanvasKeys keysListener;
     private int sideWidth;
 
     /**
@@ -39,6 +39,11 @@ public class VectorCanvas extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         super.paintBorder(g);
+        // Set keyboard focus to a component
+        this.setFocusable(true);
+        System.out.println(this.isFocusable());
+        this.requestFocusInWindow();
+        System.out.println(this.isFocusOwner());
         int num = 0;
         for (VectorShape shape : shapes) {
             System.out.println("Drawing:" + shape.getName() + num);
@@ -50,10 +55,6 @@ public class VectorCanvas extends JPanel {
     }
 
     public VectorCanvas() {
-
-        this.setFocusable(true);
-        this.requestFocus();
-
         selectedFillColor = new VectorColor(0xfffff, false);
         selectedPenColor = new VectorColor(0);
         shapes = new LinkedList<>();
@@ -61,7 +62,7 @@ public class VectorCanvas extends JPanel {
         mouseListener = new CanvasMouse();
         mouseListener.attachCanvas(this);
         this.addMouseListener(mouseListener);
-        // KeysListener not working
+
         keysListener = new CanvasKeys();
         keysListener.attachCanvas(this);
         this.addKeyListener(keysListener);
