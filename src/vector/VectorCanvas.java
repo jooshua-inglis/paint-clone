@@ -43,7 +43,7 @@ public class VectorCanvas extends JPanel {
         super.paintBorder(g);
         int num = 0;
         for (VectorShape shape : shapes) {
-            System.out.println("Drawing: butts" + shape.getName() + num);
+            System.out.println("Drawing:" + shape.getName() + num);
             System.out.println(getWidth());
             shape.draw(g, getWidth());
             num++;

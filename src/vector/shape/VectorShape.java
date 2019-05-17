@@ -60,7 +60,26 @@ public abstract class VectorShape  {
      * @param size size of canvas.
      */
     public abstract void draw(Graphics g, int size);
-    public abstract void drag(VectorCanvas canvas);
+
+ /** Function to find second vectorPoint of shape
+  * @param canvas relevant canvas to be used
+  * */
+
+    public void drag(VectorCanvas canvas) {
+        CanvasMouse mouseListener = canvas.getMouseListener();
+        while (mouseListener.shapeCreating) {
+            try {
+                Thread.sleep(0, 500);
+            } catch (InterruptedException e) {
+                System.out.println("Interrupted");
+                canvas.repaint();
+                return;
+            }
+            this.getPoint(1).update(mouseListener);
+            canvas.repaint();
+        }
+        System.out.println("Done");
+    }
 
 
     public void addPoints(List<VectorPoint> points) {

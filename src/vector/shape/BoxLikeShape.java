@@ -46,23 +46,6 @@ public abstract class BoxLikeShape extends VectorShape {
      */
     abstract void drawFill(Graphics g, int startX, int startY, int width, int height);
 
-    public void drag(VectorCanvas canvas) {
-        CanvasMouse mouseListener = canvas.getMouseListener();
-        while (mouseListener.shapeCreating) {
-            try {
-                Thread.sleep(0, 500);
-            } catch (InterruptedException e) {
-                System.out.println("Interrupted");
-                canvas.repaint();
-                return;
-            }
-            this.getPoint(1).update(mouseListener);
-            canvas.repaint();
-        }
-        System.out.println("Done");
-    }
-
-
     public void draw(Graphics g, int size) {
         if (getVectorPoints().size() != getMaxPoints()) {
             throw new IllegalArgumentException("Invalid number of points");
