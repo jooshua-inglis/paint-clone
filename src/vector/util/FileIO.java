@@ -5,6 +5,13 @@ import vector.exception.UnknownCommandException;
 import vector.shape.Rectangle;
 import vector.shape.VectorShape;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.awt.image.WritableRaster;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,5 +77,14 @@ public class FileIO {
             }
         }
         return output;
+    }
+
+    static public void toImage(VectorCanvas canvas, File file) throws IOException {
+        BufferedImage i = new BufferedImage(500, 500, BufferedImage.TYPE_INT_RGB);
+        canvas.paintComponent(i.getGraphics());
+        FileOutputStream out = new FileOutputStream(file);
+        ImageIO.write(i, "BMP", out);
+        out.flush();
+        out.close();
     }
 }
