@@ -33,7 +33,7 @@ public class ColorChooser_01 extends JFrame {
 
     private class ButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            Color c = JColorChooser.showDialog(null, "Choose a Color", sampleText.getForeground());
+            Color c = JColorChooser.showDialog(null, "Choose a Color",Color.pink);// sampleText.getForeground());
             if (c != null)
                 sampleText.setForeground(c);
         }
