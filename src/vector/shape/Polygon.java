@@ -50,8 +50,8 @@ public class Polygon extends VectorShape {
 
             }
             System.out.println("check");
-            java.awt.event.KeyListener listener = new java.awt.event.KeyListener();
-            int key = e.getKeyCode();
+            //java.awt.event.KeyListener listener = new java.awt.event.KeyListener();
+            //int key = e.getKeyCode();
         }
 
 
