@@ -130,7 +130,7 @@ public class GUI  {
     }
     public void colourButtonPressed(ArrayList<JButton> buttonArrayList){
         for (JButton button : buttonArrayList){
-            addListener(button, (event) -> colourButtonFunctions(button));
+            addListener(button, (event) -> colourButtonFunctions(button, buttonArrayList));
         }
     }
 
@@ -140,8 +140,9 @@ public class GUI  {
         int b = colour.getBlue();
         return (r*65536)+(g*256)+b;
     }
-    public void colourButtonFunctions(JButton button){
-        System.out.println(button.getName());
+    public void colourButtonFunctions(JButton button, ArrayList<JButton>buttonArrayList){
+
+
         Color colour;
         if(button.getName().equals("picker") && penPressed || button.getName().equals("picker") &&fillPressed){
             colour = JColorChooser.showDialog(null, "Choose a Color", Color.black);
@@ -166,11 +167,14 @@ public class GUI  {
         }
         if(!button.getName().equals("pen")&& !button.getName().equals("fill") && penPressed){
             canvas.setSelectedPenColor(new VectorColor(rgb));
+            buttonArrayList.get(0).setBackground(colour);
+
             System.out.println(canvas.getSelectedPenColor().toString());
             penPressed = false;
         }
         else if( !button.getName().equals("fill")&& !button.getName().equals("pen") && fillPressed){
             canvas.setSelectedFillColor(new VectorColor(rgb));
+            buttonArrayList.get(1).setBackground(colour);
             System.out.println(canvas.getSelectedFillColor().toString());
             fillPressed = false;
         }
@@ -222,6 +226,7 @@ public class GUI  {
 
         JButton pen = new JButton("PEN");
         pen.setName("pen");
+
        // pen.setPreferredSize(new Dimension(45,20));
         JButton fill = new JButton("FILL");
         fill.setName("fill");
