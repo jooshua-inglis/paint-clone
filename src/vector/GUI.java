@@ -27,7 +27,6 @@ public class GUI  {
     VectorCanvas canvas;
     boolean penPressed = false;
     boolean fillPressed = false;
-    boolean quickSelect = false;
 
     GUI() {
         JFrame.setDefaultLookAndFeelDecorated(true);
@@ -155,12 +154,12 @@ public class GUI  {
 
 
         if(button.getName().equals("pen")){
+            fillPressed = false;
             penPressed = true;
-            quickSelect = true;
         }
         else if(button.getName().equals("fill")){
+            penPressed = false;
             fillPressed = true;
-            quickSelect = true;
         }
         else{
             // error message to till user to click pen or fill first
@@ -175,10 +174,6 @@ public class GUI  {
             System.out.println(canvas.getSelectedFillColor().toString());
             fillPressed = false;
         }
-
-
-
-
     }
 
 
