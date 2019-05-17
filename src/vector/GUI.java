@@ -210,14 +210,14 @@ public class GUI  {
     }
 
     private JButton[] toolButton(){
-        JButton zoomPlus = new JButton("PLUS");
+        JButton zoomPlus = new JButton(new ImageIcon("src/vector/util/UtilImages/zoomIn.png"));
         addListener(zoomPlus, (event) -> zoom(100));
       //  zoomPlus.setPreferredSize(new Dimension(45,55));
-        JButton zoomMinus = new JButton("MINUS");
+        JButton zoomMinus = new JButton(new ImageIcon("src/vector/util/UtilImages/zoomOut.png"));
        // zoomMinus.setPreferredSize(new Dimension(45,55));
         addListener(zoomMinus, (event) -> zoom(-100));
 
-        JButton undo = new JButton("UNDO");
+        JButton undo = new JButton(new ImageIcon("src/vector/util/UtilImages/undo.png"));
         addListener(undo, (event) -> canvas.undo());
       //  undo.setPreferredSize(new Dimension(45,55));
         return new JButton[]{zoomPlus, zoomMinus, undo};
@@ -266,9 +266,9 @@ public class GUI  {
     private void showToolPalette(){
         //frame.add(mainPanel);
         JPanel pallet = new JPanel(new GridLayout(3,1));
-        JPanel shapePallet = new JPanel(  );
+        JPanel shapePallet = new JPanel(new GridLayout(5,1));
         //shapePallet.setMaximumSize(new Dimension(500,100));
-        JPanel toolPallet = new JPanel();
+        JPanel toolPallet = new JPanel(new GridLayout(3,1));
         JPanel colourPallet = new JPanel();
 
         pallet.setBackground(Color.lightGray);

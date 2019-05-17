@@ -23,7 +23,7 @@ public enum Tool {
     public Icon getImage(){
         switch (this){
             case RECTANGLE:
-                return new ImageIcon("src/vector/shape/ShapeImages/square.png");
+                return new ImageIcon("src/vector/shape/ShapeImages/rectangle.png");
             case ELLIPSE:
                 return new ImageIcon("src/vector/shape/ShapeImages/ellipse.png");
             case POLYGON:
