@@ -27,7 +27,6 @@ public class GUI  {
     VectorCanvas canvas;
     boolean penPressed = false;
     boolean fillPressed = false;
-    boolean quickSelect = false;
 
     GUI() {
         JFrame.setDefaultLookAndFeelDecorated(true);
@@ -134,41 +133,47 @@ public class GUI  {
             addListener(button, (event) -> colourButtonFunctions(button));
         }
     }
-    
-    public void colourButtonFunctions(JButton button){
-        System.out.println(button.getName());
 
-        Color colour = button.getBackground();
+    public int ColortoInt(Color colour){
         int r = colour.getRed();
         int g = colour.getGreen();
         int b = colour.getBlue();
-        int rgb = (r*65536)+(g*256)+b;
+        return (r*65536)+(g*256)+b;
+    }
+    public void colourButtonFunctions(JButton button){
+        System.out.println(button.getName());
+        Color colour;
+        if(button.getName().equals("picker") && penPressed || button.getName().equals("picker") &&fillPressed){
+            colour = JColorChooser.showDialog(null, "Choose a Color", Color.black);
+        }
+        else{
+            colour = button.getBackground();
+        }
+
+        int rgb = ColortoInt(colour);
+
 
         if(button.getName().equals("pen")){
+            fillPressed = false;
             penPressed = true;
-            quickSelect = true;
         }
         else if(button.getName().equals("fill")){
+            penPressed = false;
             fillPressed = true;
-            quickSelect = true;
         }
         else{
             // error message to till user to click pen or fill first
         }
-        if (quickSelect) {
-            if(!button.getName().equals("pen")&& !button.getName().equals("fill")){
-
-                canvas.setSelectedPenColor(new VectorColor(rgb));
-                System.out.println(canvas.getSelectedPenColor().toString());
-              //  penPressed = false;
-            }
-            else if( fillPressed && !button.getName().equals("fill")&& !button.getName().equals("pen")){
-              //  canvas.setSelectedFillColor(new VectorColor(rgb));
-                System.out.println(canvas.getSelectedFillColor().toString());
-               // fillPressed = false;
-            }
+        if(!button.getName().equals("pen")&& !button.getName().equals("fill") && penPressed){
+            canvas.setSelectedPenColor(new VectorColor(rgb));
+            System.out.println(canvas.getSelectedPenColor().toString());
+            penPressed = false;
         }
-       // quickSelect = false;
+        else if( !button.getName().equals("fill")&& !button.getName().equals("pen") && fillPressed){
+            canvas.setSelectedFillColor(new VectorColor(rgb));
+            System.out.println(canvas.getSelectedFillColor().toString());
+            fillPressed = false;
+        }
     }
 
 

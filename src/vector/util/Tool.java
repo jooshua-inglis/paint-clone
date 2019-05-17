@@ -1,8 +1,8 @@
 package vector.util;
 
 import vector.shape.Rectangle;
-import vector.shape.Ellipse;
-import vector.shape.Line;
+//import vector.shape.Ellipse;
+//import vector.shape.Line;
 import vector.shape.Plot;
 import vector.shape.Polygon;
 
@@ -22,11 +22,11 @@ public enum Tool {
             case RECTANGLE:
                 return new Rectangle();
             case ELLIPSE:
-                return new Ellipse();
+               // return new Ellipse();
             case POLYGON:
                 return new Polygon();
            case LINE:
-                return new Line();
+               //return new Line();
            case PLOT:
                return new Plot();
             default:
