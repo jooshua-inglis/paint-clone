@@ -1,6 +1,7 @@
 package vector.shape;
 
 import vector.VectorCanvas;
+import vector.util.CanvasKeys;
 import vector.util.CanvasMouse;
 import vector.util.VectorColor;
 
@@ -36,6 +37,8 @@ public class Polygon extends VectorShape {
     @Override
     public void drag(VectorCanvas canvas) {
         CanvasMouse mouseListener = canvas.getMouseListener();
+//        CanvasKeys canvasKey = new CanvasKeys(canvas);
+
         while(!finished) {
             while (mouseListener.shapeCreating) {
                 try {
@@ -49,9 +52,8 @@ public class Polygon extends VectorShape {
                 canvas.repaint();
 
             }
-            System.out.println("check");
-            //java.awt.event.KeyListener listener = new java.awt.event.KeyListener();
-            //int key = e.getKeyCode();
+            //System.out.println("check");
+
         }
 
 
