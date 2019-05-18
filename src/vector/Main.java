@@ -2,6 +2,7 @@ package vector;
 
 import vector.shape.Rectangle;
 import vector.shape.VectorShape;
+import vector.util.CanvasKeys;
 import vector.util.VectorColor;
 
 public class Main {
