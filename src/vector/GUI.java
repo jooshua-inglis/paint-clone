@@ -133,7 +133,9 @@ public class GUI  {
     }
     public void colourButtonPressed(ArrayList<JButton> buttonArrayList){
         for (JButton button : buttonArrayList){
-            addListener(button, (event) -> colourButtonFunctions(button, buttonArrayList));
+            if(!button.getName().equals("PENCOLOUR") || button.getName().equals("FILLCOLOUR")) {
+                addListener(button, (event) -> colourButtonFunctions(button, buttonArrayList));
+            }
         }
     }
 
@@ -145,7 +147,7 @@ public class GUI  {
     }
     public void colourButtonFunctions(JButton button, ArrayList<JButton>buttonArrayList){
         Color colour;
-        if(button.getName().equals("picker") && penPressed || button.getName().equals("picker") &&fillPressed){
+        if(button.getName().equals("PICKER") && penPressed || button.getName().equals("PICKER") &&fillPressed){
             colour = JColorChooser.showDialog(null, "Choose a Color", Color.black);
         }
         else{
@@ -155,26 +157,26 @@ public class GUI  {
         int rgb = ColortoInt(colour);
 
 
-        if(button.getName().equals("pen")){
+        if(button.getName().equals("PEN")){
             fillPressed = false;
             penPressed = true;
         }
 
-        else if(button.getName().equals("fill")){
+        else if(button.getName().equals("FILL")){
             penPressed = false;
             fillPressed = true;
         }
         else{
             // error message to till user to click pen or fill first
         }
-        if(!button.getName().equals("pen")&& !button.getName().equals("fill") && !fillPressed){
+        if(!button.getName().equals("pen")&& !button.getName().equals("fill") && !fillPressed && penPressed){
             canvas.setSelectedPenColor(new VectorColor(rgb));
-            buttonArrayList.get(0).setBackground(colour);
+            buttonArrayList.get(1).setBackground(colour);
             System.out.println(canvas.getSelectedPenColor().toString());
         }
-        else if( !button.getName().equals("fill")&& !button.getName().equals("pen") && !penPressed){
+        else if( !button.getName().equals("fill")&& !button.getName().equals("pen") && !penPressed && fillPressed){
             canvas.setSelectedFillColor(new VectorColor(rgb));
-            buttonArrayList.get(1).setBackground(colour);
+            buttonArrayList.get(3).setBackground(colour);
             System.out.println(canvas.getSelectedFillColor().toString());
         }
     }
@@ -222,45 +224,54 @@ public class GUI  {
       //  undo.setPreferredSize(new Dimension(45,55));
         return new JButton[]{zoomPlus, zoomMinus, undo};
     }
+
+    public ArrayList<JButton> colourButtonTools(ArrayList<JButton> colourPanelButtons){
+        String[] colourToolNames = {"PEN", "PENCOLOUR", "FILL", "FILLCOLOUR", "PICKER"};
+        for(String colourToolName : colourToolNames){
+            JButton colourToolButton = new JButton();
+
+            colourToolButton.setName(colourToolName);
+            String buttonName = colourToolButton.getName();
+
+            if(!buttonName.equals("PICKER")){
+                colourToolButton.setPreferredSize(new Dimension(20,20));
+            }
+            else{
+                //colourToolButton.setText("PICKER");
+                colourToolButton.setPreferredSize(new Dimension(50,50));
+                colourToolButton.setIcon(new ImageIcon("src/vector/util/UtilImages/picker.png"));
+            }
+            switch (buttonName){
+                case "PEN":
+                    colourToolButton.setIcon(new ImageIcon("src/vector/util/UtilImages/pen.png"));
+                    break;
+                case "FILL":
+                    colourToolButton.setIcon(new ImageIcon("src/vector/util/UtilImages/fill.png"));
+            }
+            colourPanelButtons.add(colourToolButton);
+        }
+        return colourPanelButtons;
+    }
+
     public ArrayList<JButton> colourButton(){
+        ArrayList<JButton> colourPanelButtons = new ArrayList<>();
         Color[] colourBackground = { RED, BLUE, GREEN, WHITE, BLACK, YELLOW, ORANGE, PINK, CYAN, GRAY};//, blue, green, white, black, yellow, orange, pink, cyan, clear};
+        String[] colourNames = {"red","blue", "green", "white", "black", "yellow", "orange", "pink", "cyan", "gray"};
 
-        JButton pen = new JButton("PEN");
-        pen.setName("pen");
-
-       // pen.setPreferredSize(new Dimension(20,20));
-        JButton fill = new JButton("FILL");
-        fill.setName("fill");
-       // fill.setPreferredSize(new Dimension(20,20));
-        JButton picker = new JButton("PICKER");
-        picker.setName("picker");
-     //   picker.setPreferredSize(new Dimension(20,20));
-        JButton red = new JButton();
-        JButton blue = new JButton();
-        JButton green = new JButton();
-        JButton white = new JButton();
-        JButton black = new JButton();
-        JButton yellow = new JButton();
-        JButton orange = new JButton();
-        JButton pink = new JButton();
-        JButton cyan= new JButton();
-        JButton clear = new JButton();
-
-        JButton[] colourButtonNames = {red, blue, green, white, black, yellow, orange, pink, cyan, clear};
-        String[] colourNames = {"red","blue", "green", "white", "black", "yellow", "orange", "pink", "cyan", "clear"};
-        ArrayList<JButton> colourButtonArrayList = new ArrayList<>(Arrays.asList(pen,fill,picker));
+        colourButtonTools(colourPanelButtons);
 
         int counter = 0;
-        for(JButton i : colourButtonNames){
-            i.setPreferredSize(new Dimension(20,20));
-            i.setBackground(colourBackground[counter]);
-            i.setName(colourNames[counter]);
-            colourButtonArrayList.add(i);
+        for(String colourName : colourNames){
+            JButton colourButton = new JButton();
+            colourButton.setPreferredSize(new Dimension(20,20));
+            colourButton.setBackground(colourBackground[counter]);
+            colourButton.setName(colourName);
+            colourPanelButtons.add(colourButton);
             counter ++;
         }
-        colourButtonPressed(colourButtonArrayList);
+        colourButtonPressed(colourPanelButtons);
 
-        return colourButtonArrayList;
+        return colourPanelButtons;
     }
 
     private void showToolPalette(){
@@ -315,29 +326,6 @@ public class GUI  {
         for (JButton button : colourButton()){
             colourPallet.add(button);
         }
-
-      //  shapePallet.setPreferredSize(new Dimension(50,20));
-        palletConstraints.fill = GridBagConstraints.VERTICAL;
-        palletConstraints.gridx =0;
-        palletConstraints.gridy =0 ;
-      //  palletConstraints.ipady = 2;
-       // palletConstraints.weighty =0.5;
-//        palletConstraints.gridwidth = 50;
-      //  palletConstraints.gridheight = 2;
-     //   pallet.add(shapePallet, palletConstraints);
-
-      //  toolPallet.setPreferredSize(new Dimension(50,60));
-      //  palletConstraints.gridheight = 10;
-        palletConstraints.gridx = 0;
-        palletConstraints.gridy = 1;
-       // palletConstraints.gridheight = 2;
-       // pallet.add(toolPallet, palletConstraints);
-     //   colourPallet.setPreferredSize(new Dimension(70,20));
-        palletConstraints.gridx = 0;
-        palletConstraints.gridy = 2;
-     //   palletConstraints.gridheight = 2;
-    //    pallet.add(colourPallet, palletConstraints);
-
 
         pallet.add(shapePallet);
         pallet.add(toolPallet);
