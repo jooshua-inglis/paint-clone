@@ -1,10 +1,7 @@
 package vector;
 
-import vector.shape.BoxLikeShape;
-import vector.shape.Plot;
-import vector.util.FileIO;
-import vector.util.Tool;
-import vector.util.VectorColor;
+import vector.util.*;
+
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -13,7 +10,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -185,25 +181,18 @@ public class GUI  {
 
     public void shapeButtonFunctions(Tool tool){
         canvas.selectTool(tool);
-        System.out.println(canvas.getselectTool());
     }
 
-    private JButton palletButton() {
-        JButton output = new JButton("");
-        output.setPreferredSize(new Dimension(20,20));
-        return output;
-    }
-
-    private HashMap<Tool, JButton> shapeButton(){
-        HashMap<Tool, JButton> buttons = new HashMap<>();
+    private HashMap<Tool, JButton> toolButtons(){
+        HashMap<Tool, JButton> ToolButtons = new HashMap<>();
 
         for (Tool name : Tool.values()) {
             JButton button = new JButton(name.getImage());
 
             button.addActionListener((event) -> shapeButtonFunctions(name));
-            buttons.put(name, button);
+            ToolButtons.put(name, button);
         }
-        return buttons;
+        return ToolButtons;
     }
 
     private void zoom(int amount) {
@@ -212,46 +201,41 @@ public class GUI  {
         frame.pack();
     }
 
-    private JButton[] toolButton(){
-        JButton zoomPlus = new JButton(new ImageIcon("src/vector/util/UtilImages/zoomIn.png"));
-        addListener(zoomPlus, (event) -> zoom(100));
-      //  zoomPlus.setPreferredSize(new Dimension(45,55));
-        JButton zoomMinus = new JButton(new ImageIcon("src/vector/util/UtilImages/zoomOut.png"));
-       // zoomMinus.setPreferredSize(new Dimension(45,55));
-        addListener(zoomMinus, (event) -> zoom(-100));
 
-        JButton undo = new JButton(new ImageIcon("src/vector/util/UtilImages/undo.png"));
-        addListener(undo, (event) -> canvas.undo());
-      //  undo.setPreferredSize(new Dimension(45,55));
-        return new JButton[]{zoomPlus, zoomMinus, undo};
+    public void UtilitiesButtonsFunctions(JButton button, Utilities Utility) {
+        switch (Utility.name()) {
+            case "ZOOM_IN":
+                addListener(button, (event) -> zoom(100));
+                break;
+            case "ZOOM_OUT":
+                addListener(button, (event) -> zoom(-100));
+                break;
+            case "UNDO":
+                addListener(button, (event) -> canvas.undo());
+                break;
+        }
+    }
+
+    public HashMap<Utilities, JButton>  utilityButtons(){
+        HashMap<Utilities, JButton> UtilitiesButtons = new HashMap<>();
+        for (Utilities Utility  : Utilities.values()) {
+            JButton button = new JButton(Utility.getImage());
+            UtilitiesButtonsFunctions(button, Utility);
+            UtilitiesButtons.put(Utility, button);
+        }
+        return UtilitiesButtons;
     }
 
     public ArrayList<JButton> colourButtonTools(ArrayList<JButton> colourPanelButtons){
-        String[] colourToolNames = {"PEN", "PENCOLOUR", "FILL", "FILLCOLOUR", "PICKER"};
-        for(String colourToolName : colourToolNames){
-            JButton colourToolButton = new JButton();
+       for(ColourTools ffs : ColourTools.values()){
 
-            colourToolButton.setName(colourToolName);
-            String buttonName = colourToolButton.getName();
+            JButton colourToolButton = new JButton(ffs.getImage());
+            colourToolButton.setName(ffs.name());
+            ffs.setSize(colourToolButton);
 
-            if(!buttonName.equals("PICKER")){
-                colourToolButton.setPreferredSize(new Dimension(20,20));
-            }
-            else{
-                //colourToolButton.setText("PICKER");
-                colourToolButton.setPreferredSize(new Dimension(50,50));
-                colourToolButton.setIcon(new ImageIcon("src/vector/util/UtilImages/picker.png"));
-            }
-            switch (buttonName){
-                case "PEN":
-                    colourToolButton.setIcon(new ImageIcon("src/vector/util/UtilImages/pen.png"));
-                    break;
-                case "FILL":
-                    colourToolButton.setIcon(new ImageIcon("src/vector/util/UtilImages/fill.png"));
-            }
             colourPanelButtons.add(colourToolButton);
-        }
-        return colourPanelButtons;
+       }
+       return colourPanelButtons;
     }
 
     public ArrayList<JButton> colourButton(){
@@ -316,11 +300,11 @@ public class GUI  {
         colourPallet.setBorder(BorderFactory.createTitledBorder("Colours"));
         //colourPallet.setLayout(new GridLayout(3,1));
 
-        for(JButton button : shapeButton().values()){
+        for(JButton button : toolButtons().values()){
            // button.setPreferredSize(new Dimension(30,30));
             shapePallet.add(button);
         }
-        for(JButton button : toolButton()){
+        for(JButton button : utilityButtons().values()){
           //  button.setPreferredSize(new Dimension(30,30));
             toolPallet.add(button);
         }
@@ -332,7 +316,7 @@ public class GUI  {
         pallet.add(toolPallet);
         pallet.add(colourPallet);
 
-        System.out.println(pallet.getSize());
+
         frame.getContentPane().add(basePallet, BorderLayout.LINE_START);
 
 
