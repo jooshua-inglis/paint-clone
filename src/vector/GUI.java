@@ -228,13 +228,13 @@ public class GUI  {
         JButton pen = new JButton("PEN");
         pen.setName("pen");
 
-       // pen.setPreferredSize(new Dimension(45,20));
+       // pen.setPreferredSize(new Dimension(20,20));
         JButton fill = new JButton("FILL");
         fill.setName("fill");
-      //  fill.setPreferredSize(new Dimension(45,20));
+       // fill.setPreferredSize(new Dimension(20,20));
         JButton picker = new JButton("PICKER");
         picker.setName("picker");
-      //  picker.setPreferredSize(new Dimension(45,20));
+     //   picker.setPreferredSize(new Dimension(20,20));
         JButton red = new JButton();
         JButton blue = new JButton();
         JButton green = new JButton();
@@ -273,14 +273,16 @@ public class GUI  {
 
 
 
-        //pallet.setMaximumSize(new Dimension(50, 800));
-        pallet.setMinimumSize(new Dimension(50,600));
-        pallet.setPreferredSize(new Dimension(50, 600));
+       // pallet.setMaximumSize(new Dimension(60, 800));
+        pallet.setMinimumSize(new Dimension(60,650));
+        pallet.setPreferredSize(new Dimension(60, 650));
 
         JPanel shapePallet = new JPanel(new GridLayout(5,1));
-        shapePallet.setMaximumSize(new Dimension(50,100));
+        shapePallet.setMaximumSize(new Dimension(60,100));
+
         JPanel toolPallet = new JPanel(new GridLayout(3,1));
-        toolPallet.setMaximumSize(new Dimension(50,120));
+        toolPallet.setMaximumSize(new Dimension(60,120));
+
         JPanel colourPallet = new JPanel();
 
         pallet.setBackground(Color.lightGray);
@@ -291,12 +293,15 @@ public class GUI  {
 
         //shapePallet.setPreferredSize(new Dimension(50,100));
         shapePallet.setBackground(Color.BLACK);
+        shapePallet.setBorder(BorderFactory.createTitledBorder("Shapes"));
      //   shapePallet.setLayout(new GridLayout(5,1));
        // toolPallet.setPreferredSize(new Dimension(50,300));
         toolPallet.setBackground(Color.GREEN);
+        toolPallet.setBorder(BorderFactory.createTitledBorder("Tools"));
       //  toolPallet.setLayout(new GridLayout(3,1));
        // colourPallet.setPreferredSize(new Dimension(50,300));
         colourPallet.setBackground(RED);
+        colourPallet.setBorder(BorderFactory.createTitledBorder("Colours"));
         //colourPallet.setLayout(new GridLayout(3,1));
 
         for(JButton button : shapeButton().values()){
