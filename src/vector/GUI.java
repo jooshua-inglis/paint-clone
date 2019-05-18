@@ -1,5 +1,6 @@
 package vector;
 
+import vector.shape.BoxLikeShape;
 import vector.shape.Plot;
 import vector.util.FileIO;
 import vector.util.Tool;
@@ -34,7 +35,7 @@ public class GUI  {
         JFrame.setDefaultLookAndFeelDecorated(true);
         frame = new JFrame("VectorTool");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setPreferredSize(new Dimension(700+20, 800));
+        frame.setPreferredSize(new Dimension(700+20, 900));
         frame.setLocation(970,50);
         frame.getContentPane().setLayout(new BorderLayout());
 
@@ -158,6 +159,7 @@ public class GUI  {
             fillPressed = false;
             penPressed = true;
         }
+
         else if(button.getName().equals("fill")){
             penPressed = false;
             fillPressed = true;
@@ -262,17 +264,29 @@ public class GUI  {
     }
 
     private void showToolPalette(){
-        //frame.add(mainPanel);
-        JPanel pallet = new JPanel(new GridLayout(3,1));
+        JPanel basePallet = new JPanel();
+        basePallet.setBackground(pink);
+        JPanel pallet = new JPanel();
+        basePallet.add(pallet);
+        BoxLayout boxLayout = new BoxLayout(pallet, BoxLayout.Y_AXIS);
+        pallet.setLayout(boxLayout);
+
+
+
+        //pallet.setMaximumSize(new Dimension(50, 800));
+        pallet.setMinimumSize(new Dimension(50,600));
+        pallet.setPreferredSize(new Dimension(50, 600));
+
         JPanel shapePallet = new JPanel(new GridLayout(5,1));
-        //shapePallet.setMaximumSize(new Dimension(500,100));
+        shapePallet.setMaximumSize(new Dimension(50,100));
         JPanel toolPallet = new JPanel(new GridLayout(3,1));
+        toolPallet.setMaximumSize(new Dimension(50,120));
         JPanel colourPallet = new JPanel();
 
         pallet.setBackground(Color.lightGray);
       //  pallet.setLayout(new GridBagLayout());
         GridBagConstraints palletConstraints = new GridBagConstraints();
-        pallet.setPreferredSize(new Dimension(50, 100));
+
 
 
         //shapePallet.setPreferredSize(new Dimension(50,100));
@@ -286,9 +300,11 @@ public class GUI  {
         //colourPallet.setLayout(new GridLayout(3,1));
 
         for(JButton button : shapeButton().values()){
+           // button.setPreferredSize(new Dimension(30,30));
             shapePallet.add(button);
         }
         for(JButton button : toolButton()){
+          //  button.setPreferredSize(new Dimension(30,30));
             toolPallet.add(button);
         }
         for (JButton button : colourButton()){
@@ -303,29 +319,32 @@ public class GUI  {
        // palletConstraints.weighty =0.5;
 //        palletConstraints.gridwidth = 50;
       //  palletConstraints.gridheight = 2;
-        pallet.add(shapePallet, palletConstraints);
+     //   pallet.add(shapePallet, palletConstraints);
 
       //  toolPallet.setPreferredSize(new Dimension(50,60));
       //  palletConstraints.gridheight = 10;
         palletConstraints.gridx = 0;
         palletConstraints.gridy = 1;
        // palletConstraints.gridheight = 2;
-        pallet.add(toolPallet, palletConstraints);
+       // pallet.add(toolPallet, palletConstraints);
      //   colourPallet.setPreferredSize(new Dimension(70,20));
         palletConstraints.gridx = 0;
         palletConstraints.gridy = 2;
      //   palletConstraints.gridheight = 2;
-        pallet.add(colourPallet, palletConstraints);
+    //    pallet.add(colourPallet, palletConstraints);
 
-/*     pallet.add(palletButton());
-        pallet.add(palletButton());
-        pallet.add(palletButton());
-        pallet.add(palletButton());
-        pallet.add(palletButton());
-        pallet.add(palletButton());*/
-        frame.getContentPane().add(pallet, BorderLayout.WEST);
-        //mainPanel.add(pallet, BorderLayout.EAST);
+
+        pallet.add(shapePallet);
+        pallet.add(toolPallet);
+        pallet.add(colourPallet);
+
+        System.out.println(pallet.getSize());
+        frame.getContentPane().add(basePallet, BorderLayout.LINE_START);
+
+
+
     }
+
 
     public void showCanvas() {
         canvas = new VectorCanvas();
