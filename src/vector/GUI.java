@@ -133,6 +133,7 @@ public class GUI  {
     }
     public void colourButtonPressed(ArrayList<JButton> buttonArrayList){
         for (JButton button : buttonArrayList){
+            // remove to make these buttons functional
             if(!button.getName().equals("PENCOLOUR") || button.getName().equals("FILLCOLOUR")) {
                 addListener(button, (event) -> colourButtonFunctions(button, buttonArrayList));
             }
@@ -206,7 +207,7 @@ public class GUI  {
     }
 
     private void zoom(int amount) {
-        canvas.zoom(100);
+        canvas.zoom(amount);
         mainPanel.setPreferredSize(canvas.getSize());
         frame.pack();
     }
@@ -286,13 +287,13 @@ public class GUI  {
 
        // pallet.setMaximumSize(new Dimension(60, 800));
         pallet.setMinimumSize(new Dimension(60,650));
-        pallet.setPreferredSize(new Dimension(60, 650));
+        pallet.setPreferredSize(new Dimension(61, 650));
 
         JPanel shapePallet = new JPanel(new GridLayout(5,1));
         shapePallet.setMaximumSize(new Dimension(60,100));
 
         JPanel toolPallet = new JPanel(new GridLayout(3,1));
-        toolPallet.setMaximumSize(new Dimension(60,120));
+        toolPallet.setMaximumSize(new Dimension(70,120));
 
         JPanel colourPallet = new JPanel();
 
