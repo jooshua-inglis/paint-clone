@@ -11,6 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Polygon extends VectorShape {
 
@@ -23,84 +24,83 @@ public class Polygon extends VectorShape {
         super(startingPoint, penColor, fillColor);
     }
 
-    public void lineMaker(Graphics g, java.awt.Point p1, java.awt.Point p2) {
-        int startX = p1.x;
-        int startY = p1.y;
-        int endX = p2.x;
-        int endY = p2.y;
-
-        if (getPen().isActive()) {
-            g.setColor(getPen().asColor());
-        }
-        g.drawLine(startX, startY, endX, endY);
-    }
-
 
     @Override
     public void drag(VectorCanvas canvas) {
         CanvasMouse mouseListener = canvas.getMouseListener();
         finished = false;
-        boolean first = true;
-        ArrayList<java.awt.Point> polyArray = new ArrayList<>();
-//        CanvasKeys canvasKey = new CanvasKeys(canvas);
-
-        while(!finished) {
-            while (mouseListener.shapeCreating) {
-                try {
-                    Thread.sleep(0, 500);
-                } catch (InterruptedException e) {
-                    System.out.println("Interrupted");
-                    canvas.repaint();
-                    return;
-                }
-                if(first){
-
-                    this.getPoint(1).update(mouseListener);
-                    canvas.repaint();
-                    first = false;
-                    System.out.println("First");
-                }
-                else{
-                    this.getPoint(1).update(mouseListener);
-                    canvas.repaint();
-                    System.out.println("not First");
-                    first = false;
-                }
+        System.out.println("x position:"+mouseListener.getX()+"y"+mouseListener.getX());
 
 
 
-            }
-            if(canvas.keysListener.key == KeyEvent.VK_ENTER) {
-
-                finished = true;
-            }
 
 
-            System.out.println("YAAASSS Biiittcchhh");
-
-            //System.out.println("check");
-
-        }
+        //new Line(startX, this.getPen(), this.getFill());
 
 
-        System.out.println("check");
-        finished = false;
 
     }
+
+//
+//        while(!finished) {
+//            while (mouseListener.shapeCreating) {
+//                try {
+//                    Thread.sleep(0, 500);
+//                } catch (InterruptedException e) {
+//                    System.out.println("Interrupted");
+//                    canvas.repaint();
+//                    return;
+//                }
+//                if(first){
+//
+//                    this.getPoint(1).update(mouseListener);
+//                    canvas.repaint();
+//                    first = false;
+//                    System.out.println("First");
+//                }
+//                else{
+//                    this.getPoint(1).update(mouseListener);
+//                    canvas.repaint();
+//                    System.out.println("not First");
+//                    first = false;
+//                }
+
+
+
+////            }
+//            if(canvas.keysListener.key == KeyEvent.VK_ENTER) {
+//
+//                finished = true;
+//            }
+//
+//
+//            System.out.println("Loop Test");
+//
+//            //System.out.println("check");
+//
+//        }
+//
+//
+//        System.out.println("check");
+//        finished = false;
+//
+//    }
 
 
     @Override
     public void draw(Graphics g, int size) {
-        ArrayList<java.awt.Point> polyArray = new ArrayList<>();
-        //ArrayList<Line> lineArray = new ArrayList<>();
-        //polyFinished = false;
+        //ArrayList<java.awt.Point> polyArray = new ArrayList<>();
 
 
 
 
-                polyArray.add(getPoint(0).getAbsPoint(size));
-                polyArray.add(getPoint(1).getAbsPoint(size));
-                lineMaker(g, polyArray.get(polyArray.size() - 2), polyArray.get(polyArray.size() - 1));
+
+
+
+
+//        polyArray.add(getPoint(0).getAbsPoint(size));
+//        polyArray.add(getPoint(1).getAbsPoint(size));
+//        lineMaker(g, polyArray.get(polyArray.size() - 2), polyArray.get(polyArray.size() - 1));
 
 
 
