@@ -3,9 +3,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public enum Utilities {
-        ZOOM_IN,
-        ZOOM_OUT,
-        UNDO;
+    ZOOM_IN,
+    ZOOM_OUT,
+    UNDO;
 
     public Icon getImage(){
         switch (this){

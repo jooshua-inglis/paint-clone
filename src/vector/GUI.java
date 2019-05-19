@@ -227,15 +227,60 @@ public class GUI  {
     }
 
     public ArrayList<JButton> colourButtonTools(ArrayList<JButton> colourPanelButtons){
-       for(ColourTools ffs : ColourTools.values()){
+       for(ColourTools ColourTools : ColourTools.values()){
 
-            JButton colourToolButton = new JButton(ffs.getImage());
-            colourToolButton.setName(ffs.name());
-            ffs.setSize(colourToolButton);
+            JButton colourToolButton = new JButton(ColourTools.getImage());
+            colourToolButton.setName(ColourTools.name());
+            ColourTools.setSize(colourToolButton);
 
             colourPanelButtons.add(colourToolButton);
        }
        return colourPanelButtons;
+    }
+    public ArrayList<JButton> colourButtonOptions(ArrayList<JButton> colourPanelButtons){
+        int counter = 0;
+
+        for(ColourQuickSelect quickSelect : ColourQuickSelect.values()){
+
+            JButton button = new JButton();
+            button.setName(quickSelect.name());
+            quickSelect.setSize(button);
+            button.setBackground(quickSelect.getValue(quickSelect.getEnum(button)));
+            //ColourQuickSelectButton.setName(quickSelect.setName(ColourQuickSelectButton));
+           // quickSelect.setName(colourPanelButtons.get(counter));
+           // quickSelect.setSize(colourPanelButtons.get(counter));
+           // quickSelect.setColor(ColourQuickSelectButton);
+
+           colourPanelButtons.add(button);
+
+/*            ColourQuickSelect x = ColourTools.values()[0];
+            x.
+
+            colourToolButton.setName(ColourTools.name());
+            ColourTools.setSize(colourToolButton);
+
+            colourPanelButtons.add(colourToolButton);*/
+
+
+
+
+        }
+/*        for(String colourName : colourNames){
+            JButton colourButton = new JButton();
+            colourButton.setPreferredSize(new Dimension(20,20));
+            colourButton.setBackground(colourBackground[counter]);
+            colourButton.setName(colourName);
+            colourPanelButtons.add(colourButton);
+            counter ++;
+        }*/
+
+
+
+
+
+
+
+        return colourPanelButtons;
     }
 
     public ArrayList<JButton> colourButton(){
@@ -246,14 +291,19 @@ public class GUI  {
         colourButtonTools(colourPanelButtons);
 
         int counter = 0;
-        for(String colourName : colourNames){
+     /*   for(ColourQuickSelect x : ColourQuickSelect.values()){
+            System.out.println(x);
+        }*/
+
+   /*     for(String colourName : colourNames){
             JButton colourButton = new JButton();
             colourButton.setPreferredSize(new Dimension(20,20));
             colourButton.setBackground(colourBackground[counter]);
             colourButton.setName(colourName);
             colourPanelButtons.add(colourButton);
             counter ++;
-        }
+        }*/
+        colourButtonOptions(colourPanelButtons);
         colourButtonPressed(colourPanelButtons);
 
         return colourPanelButtons;
