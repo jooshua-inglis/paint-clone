@@ -11,7 +11,6 @@ import java.awt.event.KeyEvent;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import static java.awt.Color.*;
 
@@ -123,11 +122,11 @@ public class GUI  {
         menuBar.add(fileMenu);
         frame.setJMenuBar(menuBar);
     }
-    public JButton addListener(JButton button, ActionListener e){
+    private void addListener(JButton button, ActionListener e){
         button.addActionListener(e);
-        return button;
+      //  return button;
     }
-    public void colourButtonPressed(ArrayList<JButton> buttonArrayList){
+    private void colourButtonPressed(ArrayList<JButton> buttonArrayList){
         for (JButton button : buttonArrayList){
             // remove to make these buttons functional
             if(!button.getName().equals("PENCOLOUR") || button.getName().equals("FILLCOLOUR")) {
@@ -136,13 +135,13 @@ public class GUI  {
         }
     }
 
-    public int ColortoInt(Color colour){
+    private int ColortoInt(Color colour){
         int r = colour.getRed();
         int g = colour.getGreen();
         int b = colour.getBlue();
         return (r*65536)+(g*256)+b;
     }
-    public void colourButtonFunctions(JButton button, ArrayList<JButton>buttonArrayList){
+    private void colourButtonFunctions(JButton button, ArrayList<JButton>buttonArrayList){
         Color colour;
         if(button.getName().equals("PICKER") && penPressed || button.getName().equals("PICKER") &&fillPressed){
             colour = JColorChooser.showDialog(null, "Choose a Color", Color.black);
@@ -179,7 +178,7 @@ public class GUI  {
     }
 
 
-    public void shapeButtonFunctions(Tool tool){
+    private void shapeButtonFunctions(Tool tool){
         canvas.selectTool(tool);
     }
 
@@ -202,7 +201,7 @@ public class GUI  {
     }
 
 
-    public void UtilitiesButtonsFunctions(JButton button, Utilities Utility) {
+    private void UtilitiesButtonsFunctions(JButton button, Utilities Utility) {
         switch (Utility.name()) {
             case "ZOOM_IN":
                 addListener(button, (event) -> zoom(100));
@@ -216,7 +215,7 @@ public class GUI  {
         }
     }
 
-    public HashMap<Utilities, JButton>  utilityButtons(){
+    private HashMap<Utilities, JButton>  utilityButtons(){
         HashMap<Utilities, JButton> UtilitiesButtons = new HashMap<>();
         for (Utilities Utility  : Utilities.values()) {
             JButton button = new JButton(Utility.getImage());
@@ -226,7 +225,7 @@ public class GUI  {
         return UtilitiesButtons;
     }
 
-    public ArrayList<JButton> colourButtonTools(ArrayList<JButton> colourPanelButtons){
+    private void colourButtonTools(ArrayList<JButton> colourPanelButtons){
        for(ColourTools ColourTools : ColourTools.values()){
 
             JButton colourToolButton = new JButton(ColourTools.getImage());
@@ -235,74 +234,23 @@ public class GUI  {
 
             colourPanelButtons.add(colourToolButton);
        }
-       return colourPanelButtons;
+      // return colourPanelButtons; // return type ArrayList<JButton>
     }
-    public ArrayList<JButton> colourButtonOptions(ArrayList<JButton> colourPanelButtons){
-        int counter = 0;
-
+    private void colourButtonOptions(ArrayList<JButton> colourPanelButtons){
         for(ColourQuickSelect quickSelect : ColourQuickSelect.values()){
-
             JButton button = new JButton();
             button.setName(quickSelect.name());
             quickSelect.setSize(button);
             button.setBackground(quickSelect.getValue(quickSelect.getEnum(button)));
-            //ColourQuickSelectButton.setName(quickSelect.setName(ColourQuickSelectButton));
-           // quickSelect.setName(colourPanelButtons.get(counter));
-           // quickSelect.setSize(colourPanelButtons.get(counter));
-           // quickSelect.setColor(ColourQuickSelectButton);
 
            colourPanelButtons.add(button);
-
-/*            ColourQuickSelect x = ColourTools.values()[0];
-            x.
-
-            colourToolButton.setName(ColourTools.name());
-            ColourTools.setSize(colourToolButton);
-
-            colourPanelButtons.add(colourToolButton);*/
-
-
-
-
         }
-/*        for(String colourName : colourNames){
-            JButton colourButton = new JButton();
-            colourButton.setPreferredSize(new Dimension(20,20));
-            colourButton.setBackground(colourBackground[counter]);
-            colourButton.setName(colourName);
-            colourPanelButtons.add(colourButton);
-            counter ++;
-        }*/
-
-
-
-
-
-
-
-        return colourPanelButtons;
+       // return colourPanelButtons; // return type ArrayList<JButton>
     }
 
-    public ArrayList<JButton> colourButton(){
+    private ArrayList<JButton> colourButtons(){
         ArrayList<JButton> colourPanelButtons = new ArrayList<>();
-        Color[] colourBackground = { RED, BLUE, GREEN, WHITE, BLACK, YELLOW, ORANGE, PINK, CYAN, GRAY};//, blue, green, white, black, yellow, orange, pink, cyan, clear};
-        String[] colourNames = {"red","blue", "green", "white", "black", "yellow", "orange", "pink", "cyan", "gray"};
-
         colourButtonTools(colourPanelButtons);
-
-        int counter = 0;
-     /*   for(ColourQuickSelect x : ColourQuickSelect.values()){
-            System.out.println(x);
-        }*/
-
-   /*     for(String colourName : colourNames){
-            JButton colourButton = new JButton();
-            colourButton.setPreferredSize(new Dimension(20,20));
-            colourButton.setBackground(colourBackground[counter]);
-            colourButton.setName(colourName);
-            colourPanelButtons.add(colourButton);
-            counter ++;
-        }*/
         colourButtonOptions(colourPanelButtons);
         colourButtonPressed(colourPanelButtons);
 
@@ -358,7 +306,7 @@ public class GUI  {
           //  button.setPreferredSize(new Dimension(30,30));
             toolPallet.add(button);
         }
-        for (JButton button : colourButton()){
+        for (JButton button : colourButtons()){
             colourPallet.add(button);
         }
 
@@ -374,7 +322,7 @@ public class GUI  {
     }
 
 
-    public void showCanvas() {
+    private void showCanvas() {
         canvas = new VectorCanvas();
         canvas.setBackground(WHITE);
         canvas.setBorder(new LineBorder(BLACK));

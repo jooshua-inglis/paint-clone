@@ -1,6 +1,7 @@
 package vector.util;
 
 import vector.VectorCanvas;
+import vector.shape.VectorShape;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -30,6 +31,12 @@ public class CanvasKeys implements KeyListener {
 //            Thread closeShape = new Thread(() ->  mouseListener. );
 //
 //        }
+
+       // if(key == KeyEvent.CTRL_DOWN_MASK)
+            if((e.getKeyCode() == KeyEvent.VK_Z) && e.isControlDown()) {
+                VectorCanvas.undo();
+            }
+
     }
 
     @Override
