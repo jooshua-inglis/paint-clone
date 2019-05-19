@@ -23,7 +23,7 @@ public enum ColourTools {
         }
     }
 
-    public void setSize(JButton button){
+    public void setSize(AbstractButton button){
         switch (this){
             case PEN:
                 button.setPreferredSize(new Dimension(20,20));

@@ -124,11 +124,14 @@ public class GUI  {
     }
 
 
-    private void addListener(JButton button, ActionListener e){
+    private void addListener(JToggleButton button, ActionListener e){
         button.addActionListener(e);
       //  return button;
     }
-
+    private void addListener(AbstractButton button, ActionListener e){
+        button.addActionListener(e);
+        //  return button;
+    }
 
     private void zoom(int amount) {
         canvas.zoom(amount);
@@ -140,12 +143,18 @@ public class GUI  {
     private void toolPanelFunctions(Tool tool){
         canvas.selectTool(tool);
     }
-    private LinkedHashMap<Tool, JButton> toolPanel(){
-        LinkedHashMap<Tool, JButton> toolButtonMap = new LinkedHashMap<>();
-
+    private LinkedHashMap<Tool, JToggleButton> toolPanel(){
+        LinkedHashMap<Tool, JToggleButton> toolButtonMap = new LinkedHashMap<>();
+        ButtonGroup group = new ButtonGroup();
         for (Tool tool : Tool.values()) {
-            JButton toolButton = new JButton(tool.getImage());
+            JToggleButton toolButton = new JToggleButton(tool.getImage());
+            group.add(toolButton);
 
+            toolButton.setFocusPainted(false);
+            toolButton.setBorderPainted(true);
+            toolButton.setRolloverEnabled(true);
+            toolButton.setContentAreaFilled(true);
+            toolButton.setRequestFocusEnabled(true);
             toolButton.addActionListener((event) -> toolPanelFunctions(tool));
             toolButtonMap.put(tool, toolButton);
         }
@@ -189,15 +198,7 @@ public class GUI  {
         return utilityButtonMap;
     }
 
-    private LinkedHashMap<Object, JButton> combineToolsandQuickSelect( LinkedHashMap<Object, JButton> combinedMap, LinkedHashMap<ColourTools, JButton> toolsMap, LinkedHashMap<ColourQuickSelect, JButton> quickSelectMap){
-/*        toolsMap.forEach((k, v) ->
-                quickSelectMap.merge(k, v, (v1, v2) ->
-                {throw new AssertionError("duplicate values for key: "+k);}));*/
 
-        combinedMap.putAll(toolsMap);
-        combinedMap.putAll(quickSelectMap);
-        return  combinedMap;
-    }
 
     private int ColortoInt(Color colour){
         int r = colour.getRed();
@@ -205,18 +206,29 @@ public class GUI  {
         int b = colour.getBlue();
         return (r*65536)+(g*256)+b;
     }
-    private void colourPanelTools(LinkedHashMap<ColourTools, JButton> colourPanelButtons){
-       for(ColourTools ColourTools : ColourTools.values()){
+    private void colourPanelTools(LinkedHashMap<ColourTools, AbstractButton> colourPanelButtons){
+        ButtonGroup toggleGroup = new ButtonGroup();
+        for(ColourTools ColourTools : ColourTools.values()){
 
-            JButton colourToolButton = new JButton(ColourTools.getImage());
-            colourToolButton.setName(ColourTools.name());
-            ColourTools.setSize(colourToolButton);
+           if (ColourTools.equals(vector.util.ColourTools.PEN) || ColourTools.equals(vector.util.ColourTools.FILL)) {
+               JToggleButton colourToolToggleButton = new JToggleButton(ColourTools.getImage());
+               colourToolToggleButton.setName(ColourTools.name());
+               ColourTools.setSize(colourToolToggleButton);
+               toggleGroup.add(colourToolToggleButton);
+               colourPanelButtons.put(ColourTools,colourToolToggleButton);
+           }
+           else{
+               JButton colourToolButton = new JButton(ColourTools.getImage());
+               colourToolButton.setName(ColourTools.name());
+               ColourTools.setSize(colourToolButton);
+               System.out.println("JButton");
+               colourPanelButtons.put(ColourTools,colourToolButton);
+           }
 
-            colourPanelButtons.put(ColourTools,colourToolButton);
        }
-      // return colourPanelButtons; // return type ArrayList<JButton>
+      // return colourPanelButtons; // return type ArrayList<JToggleButton>
     }
-    private void colourPanelQuickSelect(LinkedHashMap<ColourQuickSelect, JButton> colourPanelButtons){
+    private void colourPanelQuickSelect(LinkedHashMap<ColourQuickSelect, AbstractButton> colourPanelButtons){
         for(ColourQuickSelect quickSelect : ColourQuickSelect.values()){
             JButton button = new JButton();
             button.setName(quickSelect.name());
@@ -225,17 +237,26 @@ public class GUI  {
 
            colourPanelButtons.put(quickSelect,button);
         }
-       // return colourPanelButtons; // return type ArrayList<JButton>
+       // return colourPanelButtons; // return type ArrayList<JToggleButton>
     }
-    private void colourPanelPressed(  LinkedHashMap<Object, JButton> colourPanelButtons){
-        for (JButton button : colourPanelButtons.values()){
+    private void combineToolsandQuickSelect( LinkedHashMap<Object, AbstractButton> combinedMap, LinkedHashMap<ColourTools, AbstractButton> toolsMap, LinkedHashMap<ColourQuickSelect, AbstractButton> quickSelectMap){
+/*        toolsMap.forEach((k, v) ->
+                quickSelectMap.merge(k, v, (v1, v2) ->
+                {throw new AssertionError("duplicate values for key: "+k);}));*/
+        // PUT FUNCTION TO CHECK IF SAME KEYS
+        combinedMap.putAll(toolsMap);
+        combinedMap.putAll(quickSelectMap);
+
+    }
+    private void colourPanelPressed( LinkedHashMap<Object, AbstractButton> colourPanelButtons){
+        for (AbstractButton button : colourPanelButtons.values()){
             // remove to make these buttons functional
             if(!button.getName().equals("PENCOLOUR") || button.getName().equals("FILLCOLOUR")) {
                 addListener(button, (event) -> colourPanelFunctions(button, colourPanelButtons));
             }
         }
     }
-    private void colourPanelFunctions(JButton button, LinkedHashMap<Object, JButton>colourPanelButtons){
+    private void colourPanelFunctions(AbstractButton button, LinkedHashMap<Object, AbstractButton>colourPanelButtons){
         Color colour;
         if(button.getName().equals("PICKER") && penPressed || button.getName().equals("PICKER") &&fillPressed){
             colour = JColorChooser.showDialog(null, "Choose a Color", Color.black);
@@ -270,32 +291,22 @@ public class GUI  {
             System.out.println(canvas.getSelectedFillColor().toString());
         }
     }
-
-    private LinkedHashMap<Object, JButton> colourPanel(){
-        LinkedHashMap<ColourTools, JButton> colourToolsMap = new LinkedHashMap<>();
-        LinkedHashMap<ColourQuickSelect, JButton> quickSelectMap = new LinkedHashMap<>();
-        LinkedHashMap<Object, JButton> combinedMap = new LinkedHashMap<>();
+    private LinkedHashMap<Object, AbstractButton> colourPanel(){
+        LinkedHashMap<ColourTools, AbstractButton> colourToolsMap = new LinkedHashMap<>();
+        LinkedHashMap<ColourQuickSelect, AbstractButton> quickSelectMap = new LinkedHashMap<>();
+        LinkedHashMap<Object, AbstractButton> combinedMap = new LinkedHashMap<>();
 
         colourPanelTools(colourToolsMap);
         colourPanelQuickSelect(quickSelectMap);
         combineToolsandQuickSelect(combinedMap, colourToolsMap, quickSelectMap);
         colourPanelPressed(combinedMap);
-        System.out.println(combinedMap.keySet());
         return combinedMap;
     }
 
-/*    private ArrayList<JButton> colourPanel(){
-        ArrayList<JButton> colourPanelButtons = new ArrayList<>();
-        colourPanelTools(colourPanelButtons);
-        colourPanelQuickSelect(colourPanelButtons);
-        colourPanelPressed(colourPanelButtons);
-
-        return colourPanelButtons;
-    }*/
 
     private void showToolPalette(){
         JPanel basePallet = new JPanel();
-        basePallet.setBackground(pink);
+        basePallet.setBackground(lightGray);
         JPanel pallet = new JPanel();
         basePallet.add(pallet);
         BoxLayout boxLayout = new BoxLayout(pallet, BoxLayout.Y_AXIS);
@@ -316,25 +327,19 @@ public class GUI  {
         JPanel colourPallet = new JPanel();
 
         pallet.setBackground(Color.lightGray);
-      //  pallet.setLayout(new GridBagLayout());
-        GridBagConstraints palletConstraints = new GridBagConstraints();
 
 
+        shapePallet.setBackground(Color.lightGray);
+        shapePallet.setBorder(BorderFactory.createTitledBorder("Tools"));
 
-        //shapePallet.setPreferredSize(new Dimension(50,100));
-        shapePallet.setBackground(Color.BLACK);
-        shapePallet.setBorder(BorderFactory.createTitledBorder("Shapes"));
-     //   shapePallet.setLayout(new GridLayout(5,1));
-       // toolPallet.setPreferredSize(new Dimension(50,300));
-        toolPallet.setBackground(Color.GREEN);
-        toolPallet.setBorder(BorderFactory.createTitledBorder("Tools"));
-      //  toolPallet.setLayout(new GridLayout(3,1));
-       // colourPallet.setPreferredSize(new Dimension(50,300));
-        colourPallet.setBackground(RED);
+        toolPallet.setBackground(Color.lightGray);
+        toolPallet.setBorder(BorderFactory.createTitledBorder("Utilities"));
+
+        colourPallet.setBackground(lightGray);
         colourPallet.setBorder(BorderFactory.createTitledBorder("Colours"));
-        //colourPallet.setLayout(new GridLayout(3,1));
 
-        for(JButton button : toolPanel().values()){
+
+        for(JToggleButton button : toolPanel().values()){
            // button.setPreferredSize(new Dimension(30,30));
             shapePallet.add(button);
         }
@@ -342,7 +347,7 @@ public class GUI  {
           //  button.setPreferredSize(new Dimension(30,30));
             toolPallet.add(button);
         }
-        for (JButton button : colourPanel().values()){
+        for (AbstractButton button : colourPanel().values()){
             colourPallet.add(button);
         }
 

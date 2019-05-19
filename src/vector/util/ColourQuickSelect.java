@@ -34,7 +34,7 @@ public enum ColourQuickSelect {
     public Color getValue(ColourQuickSelect enumColour) {
         return quickSelectColours.get(enumColour);
     }
-    public ColourQuickSelect getEnum (JButton button){
+    public ColourQuickSelect getEnum (AbstractButton button){
         for(ColourQuickSelect Enum : ColourQuickSelect.values()){
             if(Enum.toString().equals(button.getName())){
                 return Enum;
@@ -43,7 +43,7 @@ public enum ColourQuickSelect {
         return null;
     }
 
-    public void setSize(JButton colourButton){
+    public void setSize(AbstractButton colourButton){
         colourButton.setPreferredSize(new Dimension(20,20));
     }
 }
