@@ -258,15 +258,24 @@ public class GUI  {
     }
     private void colourPanelFunctions(AbstractButton button, LinkedHashMap<Object, AbstractButton>colourPanelButtons){
         Color colour;
-        if(button.getName().equals("PICKER") && penPressed || button.getName().equals("PICKER") &&fillPressed){
+        Color previousColour;
+        if(button.getName().equals("PICKER") && penPressed || button.getName().equals("PICKER") && fillPressed){
+            if(penPressed){
+                previousColour = canvas.getSelectedPenColor().asColor();
+            }
+            else{
+                previousColour = canvas.getSelectedFillColor().asColor();
+            }
             colour = JColorChooser.showDialog(null, "Choose a Color", Color.black);
+            if(colour == null){
+                colour = previousColour;
+            }
         }
         else{
             colour = button.getBackground();
         }
 
         int rgb = ColortoInt(colour);
-
 
         if(button.getName().equals("PEN")){
             fillPressed = false;
