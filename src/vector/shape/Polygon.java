@@ -15,10 +15,11 @@ import java.util.LinkedList;
 
 public class Polygon extends VectorShape {
 
-    boolean finished = false;
+    private boolean finished = false;
     LinkedList<VectorPoint> polygonPoints = new LinkedList<>();
 
     public Polygon() {
+        this.finished = false;
     }
 
     public Polygon(vector.util.Point startingPoint, VectorColor penColor, VectorColor fillColor) {
@@ -29,7 +30,6 @@ public class Polygon extends VectorShape {
     @Override
     public void drag(VectorCanvas canvas) {
         CanvasMouse mouseListener = canvas.getMouseListener();
-
         polygonPoints.add(this.getPoint(0));
         finished = false;
         while(!finished) {
@@ -46,23 +46,24 @@ public class Polygon extends VectorShape {
 
                 canvas.repaint();
                 if(canvas.keysListener.key == KeyEvent.VK_ENTER) {
+                    canvas.keysListener.key =0;
                     finished = true;
                     mouseListener.shapeCreating=false;
+                    mouseListener.polygon = false;
                     System.out.println("Finished");
                 }
             }
-            VectorPoint point = this.getPoint(1);
-            System.out.println(point);
-            polygonPoints.add(point);
-            System.out.println(polygonPoints);
-
+            if(!finished) {
+                VectorPoint point = new VectorPoint(this.getPoint(1).getX(), this.getPoint(1).getY());
+                System.out.println(point);
+                polygonPoints.add(point);
+                System.out.println(polygonPoints);
+            }
         }
-        mouseListener.polygon = false;
-
+        mouseListener.shapeCreating = false;
         System.out.println("x position:"+mouseListener.getX()+"y"+mouseListener.getX());
-
-
     }
+
     @Override
     public void draw(Graphics g, int size) {
 
@@ -75,83 +76,18 @@ public class Polygon extends VectorShape {
                 xPoints[i] = point.x;
                 yPoints[i] = point.y;
             }
-            g.drawPolygon(xPoints,yPoints,nPoints);
-            finished =false;
-//        }
+            java.awt.Polygon polygon = new java.awt.Polygon(xPoints,yPoints,nPoints);
+
+        if (getPen().isActive()) {
+            g.setColor(getPen().asColor());
+            g.drawPolygon(polygon);
+        }
+        if(getFill().isActive()){
+            g.setColor(getFill().asColor());
+            g.fillPolygon(polygon);
+        }
+
     }
-
-//
-//        while(!finished) {
-//            while (mouseListener.shapeCreating) {
-//                try {
-//                    Thread.sleep(0, 500);
-//                } catch (InterruptedException e) {
-//                    System.out.println("Interrupted");
-//                    canvas.repaint();
-//                    return;
-//                }
-//                if(first){
-//
-//                    this.getPoint(1).update(mouseListener);
-//                    canvas.repaint();
-//                    first = false;
-//                    System.out.println("First");
-//                }
-//                else{
-//                    this.getPoint(1).update(mouseListener);
-//                    canvas.repaint();
-//                    System.out.println("not First");
-//                    first = false;
-//                }
-
-
-
-////            }
-//            if(canvas.keysListener.key == KeyEvent.VK_ENTER) {
-//
-//                finished = true;
-//            }
-//
-//
-//            System.out.println("Loop Test");
-//
-//            //System.out.println("check");
-//
-//        }
-//
-//
-//        System.out.println("check");
-//        finished = false;
-//
-//    }
-
-
-//    @Override
-//    public void draw(Graphics g, int size) {
-        //ArrayList<java.awt.Point> polyArray = new ArrayList<>();
-
-
-
-
-
-
-
-
-//        polyArray.add(getPoint(0).getAbsPoint(size));
-//        polyArray.add(getPoint(1).getAbsPoint(size));
-//        lineMaker(g, polyArray.get(polyArray.size() - 2), polyArray.get(polyArray.size() - 1));
-
-
-
-//            } else {
-//                polyArray.add(polyArray.get(polyArray.size()));
-//                polyArray.add(getPoint(0).getAbsPoint(size));
-//                lineMaker(g, polyArray.get(polyArray.size() - 2), polyArray.get(polyArray.size() - 1));
-//
-//            }
-
-
-//}
 
     @Override
     public int getMaxPoints() {
