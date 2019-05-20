@@ -13,6 +13,7 @@ public class CanvasMouse implements MouseListener, MouseMotionListener, Point {
 
     private VectorCanvas vectorCanvas;
     public boolean shapeCreating = false;
+    public boolean polygon = false;
     private int x;
     private int y;
 
@@ -27,13 +28,15 @@ public class CanvasMouse implements MouseListener, MouseMotionListener, Point {
         System.out.println("Clicked on " + this.getY());
 
         if (!shapeCreating) {
-            VectorShape s = vectorCanvas.createShape();
-            s.addPoint(new VectorPoint(this));
-            s.addPoint(new VectorPoint(this));
-            shapeCreating = true;
-            vectorCanvas.repaint();
-            Thread createShape = new Thread(() ->  s.drag(vectorCanvas));
-            createShape.start();
+            if(!polygon){
+                VectorShape s = vectorCanvas.createShape();
+                s.addPoint(new VectorPoint(this));
+                s.addPoint(new VectorPoint(this));
+                shapeCreating = true;
+                vectorCanvas.repaint();
+                Thread createShape = new Thread(() -> s.drag(vectorCanvas));
+                createShape.start();
+            }
         } else {
             shapeCreating = false;
         }

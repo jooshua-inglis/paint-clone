@@ -16,6 +16,7 @@ import java.util.LinkedList;
 public class Polygon extends VectorShape {
 
     boolean finished = false;
+    LinkedList<VectorPoint> polygonPoints = new LinkedList<>();
 
     public Polygon() {
     }
@@ -28,17 +29,55 @@ public class Polygon extends VectorShape {
     @Override
     public void drag(VectorCanvas canvas) {
         CanvasMouse mouseListener = canvas.getMouseListener();
+
+        polygonPoints.add(this.getPoint(0));
         finished = false;
+        while(!finished) {
+            mouseListener.shapeCreating=true;
+            while (mouseListener.shapeCreating) {
+                try {
+                    Thread.sleep(0, 500);
+                } catch (InterruptedException e) {
+                    System.out.println("Interrupted");
+                    canvas.repaint();
+                    return;
+                }
+                this.getPoint(1).update(mouseListener);
+
+                canvas.repaint();
+                if(canvas.keysListener.key == KeyEvent.VK_ENTER) {
+                    finished = true;
+                    mouseListener.shapeCreating=false;
+                    System.out.println("Finished");
+                }
+            }
+            VectorPoint point = this.getPoint(1);
+            System.out.println(point);
+            polygonPoints.add(point);
+            System.out.println(polygonPoints);
+
+        }
+        mouseListener.polygon = false;
+
         System.out.println("x position:"+mouseListener.getX()+"y"+mouseListener.getX());
 
 
+    }
+    @Override
+    public void draw(Graphics g, int size) {
 
-
-
-        //new Line(startX, this.getPen(), this.getFill());
-
-
-
+//        if(finished){
+            int nPoints = polygonPoints.size();
+            int xPoints[]=new int[nPoints];
+            int yPoints[]=new int[nPoints];
+            for(int i=0; i<nPoints;i++){
+                Point point = polygonPoints.get(i).getAbsPoint(size);
+                xPoints[i] = point.x;
+                yPoints[i] = point.y;
+            }
+            g.drawPolygon(xPoints,yPoints,nPoints);
+            finished =false;
+//        }
     }
 
 //
@@ -87,8 +126,8 @@ public class Polygon extends VectorShape {
 //    }
 
 
-    @Override
-    public void draw(Graphics g, int size) {
+//    @Override
+//    public void draw(Graphics g, int size) {
         //ArrayList<java.awt.Point> polyArray = new ArrayList<>();
 
 
@@ -112,7 +151,7 @@ public class Polygon extends VectorShape {
 //            }
 
 
-    }
+//}
 
     @Override
     public int getMaxPoints() {
@@ -121,7 +160,7 @@ public class Polygon extends VectorShape {
 
     @Override
     public String getName() {
-        return null;
+        return "POLYGON";
     }
 }
 
