@@ -41,13 +41,13 @@ public class VectorCanvas extends JPanel {
         super.paintBorder(g);
         // Set keyboard focus to a component
         this.setFocusable(true);
-        System.out.println(this.isFocusable());
+//        System.out.println(this.isFocusable());
         this.requestFocusInWindow();
-        System.out.println(this.isFocusOwner());
+//        System.out.println(this.isFocusOwner());
         int num = 0;
         for (VectorShape shape : shapes) {
-            System.out.println("Drawing:" + shape.getName() + num);
-            System.out.println(getWidth());
+//            System.out.println("Drawing:" + shape.getName() + num);
+//            System.out.println(getWidth());
             shape.draw(g, getWidth());
             num++;
         }
