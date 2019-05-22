@@ -28,9 +28,9 @@ public class GUI  {
     boolean fillPressed = false;
 
     GUI() {
-        JFrame.setDefaultLookAndFeelDecorated(true);
+        JFrame.setDefaultLookAndFeelDecorated(false);
         frame = new JFrame("VectorTool");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setPreferredSize(new Dimension(700+20, 900));
         frame.setLocation(970,50);
         frame.getContentPane().setLayout(new BorderLayout());
