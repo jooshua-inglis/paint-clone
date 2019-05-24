@@ -66,7 +66,6 @@ public class VectorCanvas extends JPanel {
         keysListener = new CanvasKeys();
         keysListener.attachCanvas(this);
         this.addKeyListener(keysListener);
-
     }
 
     public int getSideWith() {
@@ -113,6 +112,12 @@ public class VectorCanvas extends JPanel {
      * Gets a list of {@link VectorShape shapes} on the canvas
      * @return
      */
+
+    public void copyShapes(VectorCanvas canvas) {
+        for (VectorShape shape: canvas.getShapes()) {
+            addShape(shape);
+        }
+    }
     public List<VectorShape> getShapes() {
         return shapes;
     }

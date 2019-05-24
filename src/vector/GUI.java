@@ -12,6 +12,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.concurrent.CancellationException;
 
 import static java.awt.Color.*;
 
@@ -94,12 +95,7 @@ public class GUI  {
         if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
             System.out.println(file.toString());
-            try {
-                FileIO.toImage(canvas, file);
-            }
-            catch (IOException e) {
-                System.err.println("failed to save");
-            }
+            FileIO.toImage(canvas, file);
         }
     }
 

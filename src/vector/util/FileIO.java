@@ -6,6 +6,8 @@ import vector.shape.Rectangle;
 import vector.shape.VectorShape;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import java.io.ByteArrayOutputStream;
@@ -14,6 +16,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
+import java.util.concurrent.CancellationException;
 
 public class FileIO {
 
@@ -49,7 +53,7 @@ public class FileIO {
         VectorColor fillColor = new VectorColor(0, false);
         VectorCanvas output = new VectorCanvas();
         VectorShape shape;
-        for (String line: input) {
+        for (String line : input) {
             String[] l = line.strip().split(" ");
             String command = l[0];
             switch (command) {
@@ -57,8 +61,11 @@ public class FileIO {
                     penColor.setRgb(l[1]);
                     break;
                 case "FILL":
-                    if (l[1].equals("OFF")) { fillColor.setActive(false); }
-                    else { fillColor.setRgb(l[1]); }
+                    if (l[1].equals("OFF")) {
+                        fillColor.setActive(false);
+                    } else {
+                        fillColor.setRgb(l[1]);
+                    }
                     break;
                 case "RECTANGLE":
                     output.addShape(new Rectangle(parseShape(l)));
@@ -79,12 +86,77 @@ public class FileIO {
         return output;
     }
 
-    static public void toImage(VectorCanvas canvas, File file) throws IOException {
-        BufferedImage i = new BufferedImage(500, 500, BufferedImage.TYPE_INT_RGB);
-        canvas.paintComponent(i.getGraphics());
+    private static JTextField constrain(String message, Component top, JPanel panel, SpringLayout layout) {
+        JLabel label = new JLabel(message);
+        JTextField text = new JTextField(5);
+        layout.putConstraint(SpringLayout.WEST, label, 5, SpringLayout.WEST, panel);
+        layout.putConstraint(SpringLayout.NORTH, label, 5, SpringLayout.SOUTH, top);
+        layout.putConstraint(SpringLayout.WEST, text, 5, SpringLayout.EAST, label);
+        layout.putConstraint(SpringLayout.NORTH, text, 5, SpringLayout.SOUTH, top);
+        panel.add(label);
+        panel.add(text);
+        return text;
+    }
+
+    static private int showSizeDialog(String additionMessage) throws CancellationException {
+        if (additionMessage == null) { additionMessage = "";}
+        String message = "Please enter side width of bmp.\n(Output is always square)\n" + additionMessage;
+        String a = JOptionPane.showInputDialog(
+                null,
+                message
+        );
+
+        if (a == null) {
+            throw new CancellationException("Cancel creating bmp");
+        }
+
+        try {
+            int size = Integer.parseInt(a);
+            if (size <= 0) { return showSizeDialog("Invalid number"); }
+            return size;
+        }  catch (NumberFormatException e) {
+            return showSizeDialog("Invalid number ");
+        }
+    }
+
+    static private int showSizeDialog() throws CancellationException {
+        return showSizeDialog(null);
+    }
+
+    static private void toImage(VectorCanvas canvas, File file, int size)
+            throws IOException, CancellationException, OutOfMemoryError {
+        VectorCanvas bmp = new VectorCanvas();
+        bmp.copyShapes(canvas);
+        bmp.setSize(size,size);
+        BufferedImage i = new BufferedImage(size, size, BufferedImage.TYPE_INT_RGB);
+        bmp.paintComponent(i.getGraphics());
         FileOutputStream out = new FileOutputStream(file);
         ImageIO.write(i, "BMP", out);
         out.flush();
         out.close();
+    }
+
+    static public void toImage(VectorCanvas canvas, File file) {
+        int size = showSizeDialog();
+        try {
+            toImage(canvas, file, size);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Failed to save bmp (IO error)",
+                    "export error!",
+                    JOptionPane.WARNING_MESSAGE
+            );
+        } catch (CancellationException e){
+            System.out.println("User cancelled");
+        } catch (OutOfMemoryError e) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "System ran out of memory when saving to bmp, please chose smaller size!",
+                    "export error!",
+                    JOptionPane.WARNING_MESSAGE
+            );
+            toImage(canvas, file);
+        }
     }
 }
