@@ -1,6 +1,5 @@
 package vector;
 
-import vector.shape.VectorShape;
 import vector.util.*;
 
 import javax.swing.*;
@@ -11,8 +10,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.*;
 import java.util.LinkedHashMap;
-import java.util.concurrent.CancellationException;
-
 import static java.awt.Color.*;
 
 /**
@@ -394,7 +391,7 @@ System.out.println(colourPanelButtons.get(ColourTools.FILL_COLOUR).getBackground
         canvas.setPreferredSize(new Dimension(500, 500));
         canvas.setSize(500, 500);
 
-        mainPanel = new JPanel(null);
+        mainPanel = new JPanel();
         mainPanel.setPreferredSize(new Dimension(500, 500));
         mainPanel.add(canvas);
 

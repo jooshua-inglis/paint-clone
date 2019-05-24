@@ -3,7 +3,8 @@ package tests;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import vector.VectorCanvas;
-import vector.exception.UnknownCommandException;
+import vector.exception.VecFileException;
+import vector.shape.Ellipse;
 import vector.shape.Rectangle;
 import vector.shape.VectorShape;
 import vector.util.FileIO;
@@ -11,12 +12,14 @@ import vector.util.Tool;
 import vector.util.VectorColor;
 import vector.util.VectorPoint;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 
 class CanvasTests {
     // Test basic functionality
@@ -133,29 +136,67 @@ class CanvasTests {
         assertEquals("PEN #005500\nFILL #334499\nRECTANGLE 0.10 0.70 0.30 0.20\n", FileIO.getString(subject));
     }
 
-
     @Test
     void parseStringTest() {
         VectorCanvas expected = new VectorCanvas();
         VectorShape shape = new Rectangle();
-        try {
-            shape.addPoint(new VectorPoint(0.2, 0.2));
-            shape.addPoint(new VectorPoint(0.3, 0.8));
-            expected.addShape(shape);
-            expected.addShape(shape);
-        } catch (IllegalArgumentException e) {
-            fail();
-        }
+
+        shape.addPoint(new VectorPoint(0.2, 0.2));
+        shape.addPoint(new VectorPoint(0.3, 0.8));
+        expected.addShape(shape);
+        expected.addShape(shape);
+
 
         VectorCanvas subject;
         String testString = "RECTANGLE 0.20 0.20 0.30 0.80\n";
         try {
             subject = FileIO.parseString(Arrays.asList(testString, testString));
             assertEquals(expected, subject);
-        } catch (UnknownCommandException error) {
+        } catch (VecFileException error) {
             System.out.println("Did not load file: " + error.getMessage());
             fail("Command Error");
         }
     }
 
+    @Test
+    void parseColorsTest() {
+        VectorCanvas expected = new VectorCanvas();
+        VectorShape shape = new Ellipse();
+
+        expected.setSelectedPenColor(new VectorColor(0x669933));
+        expected.setSelectedFillColor(new VectorColor(0xff9933));
+
+        shape.addPoint(new VectorPoint(0.2, 0.2));
+        shape.addPoint(new VectorPoint(0.3, 0.8));
+        expected.addShape(shape);
+        expected.addShape(shape);
+
+        ArrayList<String> testString = new ArrayList<>();
+        testString.add("PEN #669933");
+        testString.add("PEN #FF9933");
+        testString.add("ELLIPSE 0.2 0.2 0.3 0.8");
+        VectorCanvas actual = FileIO.parseString(testString);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void exceptionTest() {
+        assertThrows(VecFileException.class, () -> FileIO.parseString("PENN #66534"));
+        assertThrows(VecFileException.class, () -> FileIO.parseString("PEN $66534"));
+        assertThrows(VecFileException.class, () -> FileIO.parseString("PEN 6534"));
+        assertThrows(VecFileException.class, () -> FileIO.parseString("FILL 66534"));
+        assertThrows(VecFileException.class, () -> FileIO.parseString("FILL#66534"));
+        assertThrows(VecFileException.class, () -> FileIO.parseString("RECTANGLE 0.2 0.5 0.2 0.2 0.2"));
+        assertThrows(VecFileException.class, () -> FileIO.parseString("RECTANGLE 0.2 0.5 0.2 0.2 0.2 0.2"));
+        assertThrows(VecFileException.class, () -> FileIO.parseString("rectangle 0.2 0.5 0.2 0.2"));
+        assertThrows(VecFileException.class, () -> FileIO.parseString("RECTANGLE \n 0.2 0.5 0.2 0.2"));
+        assertThrows(VecFileException.class, () -> FileIO.parseString("ELLIPSE 1.3 0.5 0.2 0.2"));
+        assertThrows(VecFileException.class, () -> FileIO.parseString("LINE -0.2 0.5 0.2 0.2"));
+        assertThrows(VecFileException.class, () -> FileIO.parseString("LINE -.2 0.5 0.2 0.2"));
+
+        assertDoesNotThrow(() -> FileIO.parseString(" FILL #66534"));
+        assertDoesNotThrow(() -> FileIO.parseString("LINE   0.2  0.5    0.2  0.2"));
+        assertDoesNotThrow(() -> FileIO.parseString("POLYGON 0.2 0.5 0.2 0.2"));
+        assertDoesNotThrow(() -> FileIO.parseString("POLYGON 0.2 0.5 0.2 0.2"));
+    }
 }

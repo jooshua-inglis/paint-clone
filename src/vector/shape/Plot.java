@@ -18,8 +18,8 @@ public class Plot extends VectorShape {
     @Override
     public void draw(Graphics g, int size) {
         java.awt.Point p1 = getPoint(0).getAbsPoint(size);
-        int width =20;
-        int height = 20;
+        int width = 2;
+        int height = 2;
         int startX = (p1.x)-(width/2);
         int startY = p1.y-(height/2);
 
@@ -39,7 +39,7 @@ public class Plot extends VectorShape {
 
     @Override
     public int getMaxPoints() {
-        return 0;
+        return 1;
     }
 
     @Override
