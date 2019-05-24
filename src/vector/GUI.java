@@ -48,6 +48,27 @@ public class GUI  {
         JFileChooser fileChooser = new JFileChooser();
         if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
+            try {
+                List<String> a = Files.readAllLines(file.toPath());;
+                canvas.copyShapes(FileIO.parseString(a));
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(
+                        frame,
+                        "Could not load file (Unknown IO Error)",
+                        "Open error!",
+                        JOptionPane.ERROR_MESSAGE
+                );
+                System.err.println("could not open file");
+            } catch (VecFileException e) {
+                JOptionPane.showMessageDialog(
+                        frame,
+                        "Not a valid vec file",
+                        "Open error",
+                        JOptionPane.ERROR_MESSAGE
+                );
+                System.err.println("Corrupted file " + e.getMessage()) ;
+            }
+            canvas.repaint();
             System.out.println(file.toString());
         }
     }
