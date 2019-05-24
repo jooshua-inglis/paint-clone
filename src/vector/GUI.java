@@ -1,5 +1,6 @@
 package vector;
 
+import vector.shape.VectorShape;
 import vector.util.*;
 
 import javax.swing.*;
@@ -9,8 +10,6 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import static java.awt.Color.*;
@@ -23,6 +22,8 @@ public class GUI  {
 
     JFrame frame;
     JPanel mainPanel;
+    JPanel shapePallet;
+    JPanel toolPallet;
     VectorCanvas canvas;
     boolean penPressed = false;
     boolean fillPressed = false;
@@ -123,14 +124,8 @@ public class GUI  {
         frame.setJMenuBar(menuBar);
     }
 
-
-    private void addListener(JToggleButton button, ActionListener e){
-        button.addActionListener(e);
-      //  return button;
-    }
     private void addListener(AbstractButton button, ActionListener e){
         button.addActionListener(e);
-        //  return button;
     }
 
     private void zoom(int amount) {
@@ -199,7 +194,6 @@ public class GUI  {
     }
 
 
-
     private int ColortoInt(Color colour){
         int r = colour.getRed();
         int g = colour.getGreen();
@@ -208,21 +202,21 @@ public class GUI  {
     }
     private void colourPanelTools(LinkedHashMap<ColourTools, AbstractButton> colourPanelButtons){
         ButtonGroup toggleGroup = new ButtonGroup();
-        for(ColourTools ColourTools : ColourTools.values()){
 
-           if (ColourTools.equals(vector.util.ColourTools.PEN) || ColourTools.equals(vector.util.ColourTools.FILL)) {
-               JToggleButton colourToolToggleButton = new JToggleButton(ColourTools.getImage());
-               colourToolToggleButton.setName(ColourTools.name());
-               ColourTools.setSize(colourToolToggleButton);
+        for(ColourTools colourTools : ColourTools.values()){
+           if (colourTools.equals(ColourTools.PEN) || colourTools.equals(ColourTools.FILL) || colourTools.equals(ColourTools.FILL_OFF)) {
+               JToggleButton colourToolToggleButton = new JToggleButton(colourTools.getImage());
+               colourToolToggleButton.setName(colourTools.name());
+               colourTools.setSize(colourToolToggleButton);
                toggleGroup.add(colourToolToggleButton);
-               colourPanelButtons.put(ColourTools,colourToolToggleButton);
+               colourPanelButtons.put(colourTools,colourToolToggleButton);
            }
            else{
-               JButton colourToolButton = new JButton(ColourTools.getImage());
-               colourToolButton.setName(ColourTools.name());
-               ColourTools.setSize(colourToolButton);
+               JButton colourToolButton = new JButton(colourTools.getImage());
+               colourToolButton.setName(colourTools.name());
+               colourTools.setSize(colourToolButton);
                System.out.println("JButton");
-               colourPanelButtons.put(ColourTools,colourToolButton);
+               colourPanelButtons.put(colourTools,colourToolButton);
            }
 
        }
@@ -251,53 +245,77 @@ public class GUI  {
     private void colourPanelPressed( LinkedHashMap<Object, AbstractButton> colourPanelButtons){
         for (AbstractButton button : colourPanelButtons.values()){
             // remove to make these buttons functional
-            if(!button.getName().equals("PENCOLOUR") || button.getName().equals("FILLCOLOUR")) {
+            if(!button.getName().equals("PENCOLOUR") || button.getName().equals("FILLCOLOUR") || button.getName().equals(ColourTools.FILL_OFF.toString())) {
                 addListener(button, (event) -> colourPanelFunctions(button, colourPanelButtons));
             }
         }
     }
-    private void colourPanelFunctions(AbstractButton button, LinkedHashMap<Object, AbstractButton>colourPanelButtons){
+
+
+    private Color selectColor(AbstractButton button){
         Color colour;
-        Color previousColour;
         if(button.getName().equals("PICKER") && penPressed || button.getName().equals("PICKER") && fillPressed){
+            Color previousColor;
             if(penPressed){
-                previousColour = canvas.getSelectedPenColor().asColor();
+                previousColor = canvas.getSelectedPenColor().asColor();
             }
             else{
-                previousColour = canvas.getSelectedFillColor().asColor();
+                previousColor = canvas.getSelectedFillColor().asColor();
             }
             colour = JColorChooser.showDialog(null, "Choose a Color", Color.black);
             if(colour == null){
-                colour = previousColour;
+                colour = previousColor;
             }
         }
         else{
             colour = button.getBackground();
         }
+        return colour;
+    }
+    private void colourPanelFunctions(AbstractButton button, LinkedHashMap<Object, AbstractButton>colourPanelButtons){
+        Color colour;
+        boolean fillOffPressed = false;
+        if(button.getName().equals("PEN")){
+            fillPressed = false;
+            fillOffPressed = false;
+            penPressed = true;
+        }
+        else if(button.getName().equals("FILL")){
+            penPressed = false;
+            fillOffPressed = false;
+            fillPressed = true;
+        }
+        else if (button.getName().equals(ColourTools.FILL_OFF.toString())){
+            fillPressed = false;
+            penPressed = false;
+            fillOffPressed = true;
+        }
+
+        if(fillOffPressed){
+
+        }
+
+
+        Color x  = colourPanelButtons.get(ColourTools.FILL_OFF).getBackground();
+        colour = selectColor(button);
 
         int rgb = ColortoInt(colour);
 
-        if(button.getName().equals("PEN")){
-            fillPressed = false;
-            penPressed = true;
-        }
-
-        else if(button.getName().equals("FILL")){
-            penPressed = false;
-            fillPressed = true;
-        }
-        else{
-            // error message to till user to click pen or fill first
-        }
+System.out.println(colourPanelButtons.get(ColourTools.FILL_COLOUR).getBackground().toString());
+//        else{
+//            // error message to till user to click pen or fill first
+//        }
         if(!button.getName().equals("PEN") && !button.getName().equals("FILL") && !fillPressed && penPressed){
             canvas.setSelectedPenColor(new VectorColor(rgb));
             colourPanelButtons.get(ColourTools.PEN_COLOUR).setBackground(colour);
-            System.out.println(canvas.getSelectedPenColor().toString());
         }
         else if( !button.getName().equals("FILL")&& !button.getName().equals("PEN") && !penPressed && fillPressed){
             canvas.setSelectedFillColor(new VectorColor(rgb));
             colourPanelButtons.get(ColourTools.FILL_COLOUR).setBackground(colour);
-            System.out.println(canvas.getSelectedFillColor().toString());
+        }
+        else if (fillOffPressed){
+            canvas.setSelectedFillColor(new VectorColor(rgb, false));
+           colourPanelButtons.get(ColourTools.FILL_COLOUR).setBackground(x);
         }
     }
     private LinkedHashMap<Object, AbstractButton> colourPanel(){
@@ -322,18 +340,19 @@ public class GUI  {
         pallet.setLayout(boxLayout);
 
 
-
        // pallet.setMaximumSize(new Dimension(60, 800));
-        pallet.setMinimumSize(new Dimension(60,650));
-        pallet.setPreferredSize(new Dimension(61, 650));
+        //pallet.setMinimumSize(new Dimension(60,650));
+        pallet.setPreferredSize(new Dimension(61, 800));
 
-        JPanel shapePallet = new JPanel(new GridLayout(5,1));
-        shapePallet.setMaximumSize(new Dimension(60,100));
+        shapePallet = new JPanel(new GridLayout(Tool.values().length,1));
+        shapePallet.setMaximumSize(new Dimension(60,220));
 
-        JPanel toolPallet = new JPanel(new GridLayout(3,1));
-        toolPallet.setMaximumSize(new Dimension(70,120));
+        toolPallet = new JPanel(new GridLayout(Utilities.values().length,1));
+        toolPallet.setMaximumSize(new Dimension(70,140));
 
         JPanel colourPallet = new JPanel();
+        //colourPallet.setPreferredSize(new Dimension(70,500));
+        colourPallet.setMaximumSize(new Dimension(70,400));
 
         pallet.setBackground(Color.lightGray);
 
@@ -344,7 +363,7 @@ public class GUI  {
         toolPallet.setBackground(Color.lightGray);
         toolPallet.setBorder(BorderFactory.createTitledBorder("Utilities"));
 
-        colourPallet.setBackground(lightGray);
+        colourPallet.setBackground(black);
         colourPallet.setBorder(BorderFactory.createTitledBorder("Colours"));
 
 

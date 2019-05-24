@@ -42,9 +42,21 @@ public enum ColourQuickSelect {
         }
         return null;
     }
-
-    public void setSize(AbstractButton colourButton){
-        colourButton.setPreferredSize(new Dimension(20,20));
+    public void setSize(AbstractButton button){
+        switch (this){
+            case RED:
+            case BLUE:
+            case GREEN:
+            case WHITE:
+            case BLACK:
+            case YELLOW:
+            case ORANGE:
+            case PINK:
+            case CYAN:
+            case GRAY:
+                button.setPreferredSize(new Dimension(20,20));
+                break;
+        }
     }
 }
 

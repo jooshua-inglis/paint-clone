@@ -7,6 +7,7 @@ public enum ColourTools {
     PEN_COLOUR,
     FILL,
     FILL_COLOUR,
+    FILL_OFF,
     PICKER;
 
     public Icon getImage(){
@@ -15,6 +16,8 @@ public enum ColourTools {
                 return new ImageIcon("src/vector/util/UtilImages/pen.png");
             case FILL:
                 return new ImageIcon("src/vector/util/UtilImages/fill.png");
+            case FILL_OFF:
+                return new ImageIcon("src/vector/util/UtilImages/FILL_OFF.png");
             case PICKER:
                 return new ImageIcon("src/vector/util/UtilImages/picker.png");
             default:
@@ -26,23 +29,13 @@ public enum ColourTools {
     public void setSize(AbstractButton button){
         switch (this){
             case PEN:
-                button.setPreferredSize(new Dimension(20,20));
-                break;
             case PEN_COLOUR:
-                button.setPreferredSize(new Dimension(20,20));
-                break;
             case FILL:
-                button.setPreferredSize(new Dimension(20,20));
-                break;
             case FILL_COLOUR:
+            case FILL_OFF:
+            case PICKER:
                 button.setPreferredSize(new Dimension(20,20));
                 break;
-            case PICKER:
-                button.setPreferredSize(new Dimension(50,50));
-                break;
-
         }
     }
-
-
 }
