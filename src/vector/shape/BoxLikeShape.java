@@ -59,13 +59,13 @@ public abstract class BoxLikeShape extends VectorShape {
         int width = Math.abs(p2.x - p1.x);
         int height = Math.abs(p2.y - p1.y);
 
+        if (getFill().isActive()) {
+            g.setColor(getFill().asColor());
+            drawFill(g, rootX, rootY, width, height);
+        }
         if (getPen().isActive()) {
             g.setColor(getPen().asColor());
             drawPen(g, rootX, rootY, width, height);
-        }
-        if (getFill().isActive()) {
-            g.setColor(getFill().asColor());
-            drawFill(g, rootX + 1, rootY + 1, width - 1, height - 1);
         }
     }
 }
