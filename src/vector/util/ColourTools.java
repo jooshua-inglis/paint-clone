@@ -1,6 +1,11 @@
 package vector.util;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.nio.Buffer;
+import java.io.File;
 
 public enum ColourTools {
     PEN,
@@ -25,7 +30,6 @@ public enum ColourTools {
                 return null;
         }
     }
-
     public void setSize(AbstractButton button){
         switch (this){
             case PEN:

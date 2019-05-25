@@ -21,6 +21,14 @@ public enum Utilities {
         }
     }
 
-
+    public void setSize(AbstractButton button){
+        switch (this){
+            case ZOOM_IN:
+            case ZOOM_OUT:
+            case UNDO:
+                button.setPreferredSize(new Dimension(50,40));
+                break;
+        }
+    }
 
 }

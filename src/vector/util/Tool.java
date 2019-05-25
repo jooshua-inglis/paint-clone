@@ -36,7 +36,17 @@ public enum Tool {
                 return null;
         }
     }
-
+    public void setSize(AbstractButton button){
+        switch (this){
+            case RECTANGLE:
+            case ELLIPSE:
+            case POLYGON:
+            case LINE:
+            case PLOT:
+                button.setPreferredSize(new Dimension(50,40));
+                break;
+        }
+    }
 
 
 

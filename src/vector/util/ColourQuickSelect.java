@@ -17,6 +17,7 @@ public enum ColourQuickSelect {
     PINK (pink),
     CYAN (cyan),
     GRAY (gray);
+   // BATMAN (black);
 
     private static LinkedHashMap<ColourQuickSelect, Color> quickSelectColours = new LinkedHashMap<>();
     public Color color;
@@ -54,6 +55,7 @@ public enum ColourQuickSelect {
             case PINK:
             case CYAN:
             case GRAY:
+          //  case BATMAN:
                 button.setPreferredSize(new Dimension(20,20));
                 break;
         }
