@@ -10,6 +10,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * Contains all data to be displayed to be displayed on the window. Extends Canvas.
@@ -88,7 +89,11 @@ public class VectorCanvas extends JPanel {
     }
 
     public void undo() {
-        shapes.removeLast();
+        try {
+            shapes.removeLast();
+        } catch (NoSuchElementException e) {
+            System.out.println("No more undoes");
+        }
         repaint();
     }
 
