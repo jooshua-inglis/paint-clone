@@ -1,7 +1,4 @@
-<project name="MyProject" default="dist" basedir=".">
-    <description>
-        simple example build file
-    </description>
+<project name="Vector Artist" default="dist" basedir=".">
     <!-- set global properties for this build -->
     <property name="src" location="src"/>
     <property name="build" location="build"/>
@@ -15,9 +12,10 @@
     </target>
 
     <target name="compile" depends="init"
-            description="compile the source">
+            description="compile the source" >
         <!-- Compile the Java code from ${src} into ${build} -->
-        <javac srcdir="${src}" destdir="${build}">
+
+        <javac srcdir="${src}" destdir="${build}" includeantruntime="false">
             <classpath>
                 <pathelement path="lib/junit-jupiter-api-5.5.0-M1.jar"/>
             </classpath>
@@ -30,7 +28,7 @@
         <mkdir dir="${dist}/lib"/>
 
         <!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
-        <jar jarfile="${dist}/lib/MyProject-${DSTAMP}.jar" basedir="${build}">
+        <jar jarfile="${dist}/lib/VectorArtists-ver1.0.jar" basedir="${build}">
             <manifest>
                 <attribute name="Main-Class" value="vector.Main"/>
             </manifest>
