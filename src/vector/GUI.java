@@ -1,5 +1,6 @@
 package vector;
 
+import vector.exception.VecFileException;
 import vector.util.*;
 
 import javax.swing.*;
@@ -9,7 +10,10 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.*;
+import java.nio.file.Files;
 import java.util.LinkedHashMap;
+import java.util.List;
+
 import static java.awt.Color.*;
 
 /**
