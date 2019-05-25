@@ -5,6 +5,8 @@ import vector.shape.VectorShape;
 import vector.util.CanvasKeys;
 import vector.util.VectorColor;
 
+import javax.swing.*;
+
 public class Main {
     private static void test(GUI gui) {
         try {
@@ -18,7 +20,8 @@ public class Main {
 
     }
     public static void main(String[] args) {
-        GUI gui = new GUI();
+        SwingUtilities.invokeLater(() -> new GUI());
+
 //        test(gui);
     }
 }

@@ -1,6 +1,6 @@
 package vector;
 
-import vector.shape.VectorShape;
+import vector.exception.VecFileException;
 import vector.util.*;
 
 import javax.swing.*;
@@ -10,8 +10,9 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.*;
+import java.nio.file.Files;
 import java.util.LinkedHashMap;
-import java.util.concurrent.CancellationException;
+import java.util.List;
 
 import static java.awt.Color.*;
 import static vector.util.ColourTools.*;
@@ -55,6 +56,27 @@ public class GUI  {
         JFileChooser fileChooser = new JFileChooser();
         if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
+            try {
+                List<String> a = Files.readAllLines(file.toPath());;
+                canvas.copyShapes(FileIO.parseString(a));
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(
+                        frame,
+                        "Could not load file (Unknown IO Error)",
+                        "Open error!",
+                        JOptionPane.ERROR_MESSAGE
+                );
+                System.err.println("could not open file");
+            } catch (VecFileException e) {
+                JOptionPane.showMessageDialog(
+                        frame,
+                        "Not a valid vec file",
+                        "Open error",
+                        JOptionPane.ERROR_MESSAGE
+                );
+                System.err.println("Corrupted file " + e.getMessage()) ;
+            }
+            canvas.repaint();
             System.out.println(file.toString());
         }
     }
@@ -382,7 +404,7 @@ public class GUI  {
         canvas.setPreferredSize(new Dimension(500, 500));
         canvas.setSize(500, 500);
 
-        mainPanel = new JPanel(null);
+        mainPanel = new JPanel();
         mainPanel.setPreferredSize(new Dimension(500, 500));
         mainPanel.add(canvas);
 

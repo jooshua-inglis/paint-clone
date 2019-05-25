@@ -44,7 +44,7 @@ public class Line extends VectorShape{
 
     @Override
     public int getMaxPoints() {
-        return 0;
+        return 2;
     }
 
     public String getName() { return "LINE"; }

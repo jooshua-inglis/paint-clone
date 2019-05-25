@@ -83,6 +83,9 @@ public abstract class VectorShape  {
 
 
     public void addPoints(List<VectorPoint> points) {
+        if ( getMaxPoints() != 0 && points.size() + getVectorPoints().size() > getMaxPoints()) {
+            throw new IllegalArgumentException("Too many points");
+        }
         for (vector.util.Point point: points ) {
             addPoint(point);
         }
@@ -229,7 +232,7 @@ public abstract class VectorShape  {
      * @throws IllegalStateException
      */
     public String getVec(boolean includePenColor, boolean includeFillColor) throws IllegalStateException {
-        if (vectorPoints.size() != getMaxPoints()) {
+        if ( getMaxPoints() != 0 && vectorPoints.size() != getMaxPoints()) {
             throw new IllegalStateException("Invalid number of VectorPoints");
         }
         StringBuilder output = new StringBuilder();

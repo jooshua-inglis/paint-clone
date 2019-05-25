@@ -12,6 +12,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 public class Polygon extends VectorShape {
 
@@ -26,11 +27,13 @@ public class Polygon extends VectorShape {
         super(startingPoint, penColor, fillColor);
     }
 
+    public Polygon(List<VectorPoint> points) {
+        super(points);
+    }
 
     @Override
     public void drag(VectorCanvas canvas) {
         CanvasMouse mouseListener = canvas.getMouseListener();
-        polygonPoints.add(this.getPoint(0));
         finished = false;
         while(!finished) {
             mouseListener.shapeCreating=true;
@@ -56,8 +59,7 @@ public class Polygon extends VectorShape {
             if(!finished) {
                 VectorPoint point = new VectorPoint(this.getPoint(1).getX(), this.getPoint(1).getY());
                 System.out.println(point);
-                polygonPoints.add(point);
-                System.out.println(polygonPoints);
+                addPoint(point);
             }
         }
         mouseListener.shapeCreating = false;
@@ -68,23 +70,23 @@ public class Polygon extends VectorShape {
     public void draw(Graphics g, int size) {
 
 //        if(finished){
-            int nPoints = polygonPoints.size();
+            int nPoints = getVectorPoints().size();
             int xPoints[]=new int[nPoints];
             int yPoints[]=new int[nPoints];
             for(int i=0; i<nPoints;i++){
-                Point point = polygonPoints.get(i).getAbsPoint(size);
+                Point point = getVectorPoints().get(i).getAbsPoint(size);
                 xPoints[i] = point.x;
                 yPoints[i] = point.y;
             }
             java.awt.Polygon polygon = new java.awt.Polygon(xPoints,yPoints,nPoints);
 
-        if (getPen().isActive()) {
-            g.setColor(getPen().asColor());
-            g.drawPolygon(polygon);
-        }
         if(getFill().isActive()){
             g.setColor(getFill().asColor());
             g.fillPolygon(polygon);
+        }
+        if (getPen().isActive()) {
+            g.setColor(getPen().asColor());
+            g.drawPolygon(polygon);
         }
 
     }

@@ -1,6 +1,7 @@
 package vector.util;
 
-import java.awt.Color;
+import java.awt.*;
+import java.util.List;
 
 public class VectorColor {
     private boolean active;
@@ -36,7 +37,15 @@ public class VectorColor {
     }
 
     public void setRgb(String rgb) {
-        setRgb(Integer.parseInt(rgb.split("#")[0]));
+        if (!rgb.startsWith("#")) {
+            throw new IllegalArgumentException();
+        }
+        String[] num = rgb.split("#");
+        if (num.length != 2) {
+            throw new IllegalArgumentException();
+        }
+
+        setRgb(Integer.parseInt(num[1], 16));
     }
 
     public Color asColor() {
