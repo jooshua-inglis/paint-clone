@@ -2,7 +2,6 @@ package vector;
 
 import vector.exception.VecFileException;
 import vector.util.*;
-
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -13,7 +12,6 @@ import java.io.*;
 import java.nio.file.Files;
 import java.util.LinkedHashMap;
 import java.util.List;
-
 import static java.awt.Color.*;
 import static vector.util.ColourTools.*;
 
@@ -21,17 +19,13 @@ import static vector.util.ColourTools.*;
  * GUI class controls the what is output to the window. It contains one canvas object that is read to
  * determine what is printed to the window.
  */
-public class GUI  {
+class GUI  {
 
-    JFrame frame;
-    JPanel mainPanel;
-    JPanel pallet;
-    JPanel shapePallet;
-    JPanel toolPallet;
-    JPanel colourPallet;
+    private JFrame frame;
+    private JPanel canvasPanel;
+    private boolean penPressed = false;
+    private boolean fillPressed = false;
     VectorCanvas canvas;
-    boolean penPressed = false;
-    boolean fillPressed = false;
 
 
     GUI() {
@@ -41,11 +35,9 @@ public class GUI  {
         frame.setPreferredSize(new Dimension(700+20, 900));
         frame.setLocation(970,50);
         frame.getContentPane().setLayout(new BorderLayout());
-
         showMenuBar();
-        showToolPalette();
+        showSidebar();
         showCanvas();
-
         frame.pack();
         frame.setVisible(true);
     }
@@ -57,7 +49,7 @@ public class GUI  {
         if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
             try {
-                List<String> a = Files.readAllLines(file.toPath());;
+                List<String> a = Files.readAllLines(file.toPath());
                 canvas.copyShapes(FileIO.parseString(a));
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(
@@ -135,13 +127,11 @@ public class GUI  {
     private void showMenuBar() {
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
-
         fileMenu.add(createMenuItem("New", (event) -> newFile()));
         fileMenu.add(createMenuItem("Open", (event) -> open()));
         fileMenu.add(createMenuItem("Save", (event) -> save()));
         fileMenu.add(createMenuItem("Save As...", (event) -> saveAs()));
         fileMenu.add(createMenuItem("Export", (event) -> export()));
-
         menuBar.add(fileMenu);
         frame.setJMenuBar(menuBar);
     }
@@ -152,33 +142,33 @@ public class GUI  {
 
     private void zoom(int amount) {
         canvas.zoom(amount);
-        mainPanel.setPreferredSize(canvas.getSize());
+        canvasPanel.setPreferredSize(canvas.getSize());
         frame.pack();
+        System.out.println(canvas.getSize());
     }
 
-
-    private void toolPanelFunctions(Tool tool){
+    private void addToolFunctionality(Tool tool){
         canvas.selectTool(tool);
     }
-    private LinkedHashMap<Tool, JToggleButton> toolPanel(){
+    private LinkedHashMap<Tool, JToggleButton> initializeTools(){
         LinkedHashMap<Tool, JToggleButton> toolButtonMap = new LinkedHashMap<>();
-        ButtonGroup group = new ButtonGroup();
+        ButtonGroup toolGroup = new ButtonGroup();
         for (Tool tool : Tool.values()) {
-            JToggleButton toolButton = new JToggleButton(tool.getImage());
-            group.add(toolButton);
-            tool.setSize(toolButton);
-
-            toolButton.setFocusPainted(false);
-            toolButton.setBorderPainted(true);
-            toolButton.setRolloverEnabled(true);
-            toolButton.setContentAreaFilled(true);
-            toolButton.setRequestFocusEnabled(true);
-            toolButton.addActionListener((event) -> toolPanelFunctions(tool));
-            toolButtonMap.put(tool, toolButton);
+            JToggleButton toggleButton = new JToggleButton(tool.getImage());
+            toolGroup.add(toggleButton);
+            tool.setSize(toggleButton);
+            toggleButton.setFocusPainted(false);
+            toggleButton.setBorderPainted(true);
+            toggleButton.setRolloverEnabled(true);
+            toggleButton.setContentAreaFilled(true);
+            toggleButton.setRequestFocusEnabled(true);
+            toggleButton.addActionListener((event) -> addToolFunctionality(tool));
+            toolButtonMap.put(tool, toggleButton);
         }
         return toolButtonMap;
     }
-    private void utilityPanelFunctions(JButton button, Utilities utility) {
+    
+    private void addUtilityFunctionality(JButton button, Utilities utility) {
         switch (utility) {
             case ZOOM_IN:
                 addListener(button, (event) -> zoom(100));
@@ -189,71 +179,28 @@ public class GUI  {
             case UNDO:
                 addListener(button, (event) -> canvas.undo());
                 break;
+            default:
         }
     }
-    private LinkedHashMap<Utilities, JButton> utilityPanel(){
-        LinkedHashMap<Utilities, JButton> utilityButtonMap = new LinkedHashMap<>();
+    private LinkedHashMap<Utilities, JButton> initializeUtilities(){
+        LinkedHashMap<Utilities, JButton> utilityMap = new LinkedHashMap<>();
         for(Utilities utility : Utilities.values()){
-            JButton utilityButton = new JButton(utility.getImage());
-            utility.setSize(utilityButton);
-            utilityPanelFunctions(utilityButton, utility);
-            utilityButtonMap.put(utility,utilityButton);
+            JButton button = new JButton(utility.getImage());
+            utility.setSize(button);
+            button.setFocusPainted(false);
+            button.setBorderPainted(true);
+            button.setRolloverEnabled(true);
+            button.setContentAreaFilled(true);
+            button.setRequestFocusEnabled(true);
+            addUtilityFunctionality(button, utility);
+            utilityMap.put(utility,button);
         }
-        return utilityButtonMap;
+        return utilityMap;
     }
-    private int ColortoInt(Color colour){
-        int r = colour.getRed();
-        int g = colour.getGreen();
-        int b = colour.getBlue();
-        return (r*65536)+(g*256)+b;
-    }
-    private void colourPanelTools(LinkedHashMap<ColourTools, AbstractButton> colourPanelButtons){
-        ButtonGroup toggleGroup = new ButtonGroup();
-
-        for(ColourTools colourTools : vector.util.ColourTools.values()){
-           if (colourTools.equals(PEN) || colourTools.equals(FILL) || colourTools.equals(FILL_OFF)) {
-               JToggleButton colourToolToggleButton = new JToggleButton(colourTools.getImage());
-               colourToolToggleButton.setName(colourTools.name());
-               colourTools.setSize(colourToolToggleButton);
-               toggleGroup.add(colourToolToggleButton);
-               colourPanelButtons.put(colourTools,colourToolToggleButton);
-           }
-           else{
-               JButton colourToolButton = new JButton(colourTools.getImage());
-               colourToolButton.setName(colourTools.name());
-               colourTools.setSize(colourToolButton);
-               colourPanelButtons.put(colourTools,colourToolButton);
-           }
-
-       }
-      // return colourPanelButtons; // return type ArrayList<JToggleButton>
-    }
-    private void colourPanelQuickSelect(LinkedHashMap<ColourQuickSelect, AbstractButton> colourPanelButtons){
-        for(ColourQuickSelect quickSelect : ColourQuickSelect.values()){
-            JButton button = new JButton();
-            button.setName(quickSelect.name());
-            quickSelect.setSize(button);
-            button.setBackground(quickSelect.getValue(quickSelect.getEnum(button)));
-
-           colourPanelButtons.put(quickSelect,button);
-        }
-       // return colourPanelButtons; // return type ArrayList<JToggleButton>
-    }
-    private void combineToolsandQuickSelect( LinkedHashMap<Object, AbstractButton> combinedMap, LinkedHashMap<ColourTools, AbstractButton> toolsMap, LinkedHashMap<ColourQuickSelect, AbstractButton> quickSelectMap){
-        combinedMap.putAll(toolsMap);
-        combinedMap.putAll(quickSelectMap);
-    }
-    private void colourPanelPressed( LinkedHashMap<Object, AbstractButton> colourPanelButtons){
-        for (AbstractButton button : colourPanelButtons.values()){
-            // remove to make these buttons functional
-            if(!button.getName().equals(PEN_COLOUR.toString()) || !button.getName().equals(FILL_COLOUR.toString())){
-                addListener(button, (event) -> colourPanelFunctions(button, colourPanelButtons));
-            }
-        }
-    }
+    
     private Color selectColor(AbstractButton button){
-        Color colour;
-        if(button.getName().equals("PICKER") && penPressed || button.getName().equals("PICKER") && fillPressed){
+        Color selectedColour;
+        if(button.getName().equals(PICKER.toString()) && penPressed || button.getName().equals(PICKER.toString()) && fillPressed){
             Color previousColor;
             if(penPressed){
                 previousColor = canvas.getSelectedPenColor().asColor();
@@ -261,21 +208,66 @@ public class GUI  {
             else{
                 previousColor = canvas.getSelectedFillColor().asColor();
             }
-            colour = JColorChooser.showDialog(null, "Choose a Color", Color.black);
-            if(colour == null){
-                colour = previousColor;
+            selectedColour = JColorChooser.showDialog(null, "Choose a Color", Color.black);
+            if(selectedColour == null){
+                selectedColour = previousColor;
             }
         }
         else{
-            colour = button.getBackground();
+            selectedColour = button.getBackground();
         }
-        return colour;
+        return selectedColour;
     }
-    private void colourPanelFunctions(AbstractButton button, LinkedHashMap<Object, AbstractButton>colourPanelButtons){
-        Color colour;
+    private int colorToRGB(Color colour){
+        int r = colour.getRed();
+        int g = colour.getGreen();
+        int b = colour.getBlue();
+        return (r*65536)+(g*256)+b;
+    }
+    private void addColourTools(LinkedHashMap<ColourTools, AbstractButton> colourToolsMap){
+        ButtonGroup colourToolGroup = new ButtonGroup();
+        for(ColourTools colourTool : ColourTools.values()){
+           if (colourTool.equals(PEN) || colourTool.equals(FILL) || colourTool.equals(FILL_OFF)) {
+               JToggleButton toggleButton = new JToggleButton(colourTool.getImage());
+               toggleButton.setName(colourTool.name());
+               colourTool.setSize(toggleButton);
+               colourToolGroup.add(toggleButton);
+               colourToolsMap.put(colourTool,toggleButton);
+           }
+           else{
+               JButton button = new JButton(colourTool.getImage());
+               button.setName(colourTool.name());
+               colourTool.setSize(button);
+               colourToolsMap.put(colourTool,button);
+           }
+       }
+    }
+    private void addColourQuickSelect(LinkedHashMap<ColourQuickSelect, AbstractButton> colourQuickSelectMap){
+        for(ColourQuickSelect colourQuickSelect : ColourQuickSelect.values()){
+            JButton button = new JButton();
+            button.setName(colourQuickSelect.name());
+            colourQuickSelect.setSize(button);
+            button.setBackground(colourQuickSelect.getValue(colourQuickSelect.getEnum(button)));
+            colourQuickSelectMap.put(colourQuickSelect,button);
+        }
+       // return colourPanelButtons; // return type ArrayList<JToggleButton>
+    }
+    private void combineColourToolsAndQuickSelect(LinkedHashMap<Object, AbstractButton> colourMap, LinkedHashMap<ColourTools, AbstractButton> colourToolsMap, LinkedHashMap<ColourQuickSelect, AbstractButton> colourQuickSelectMap){
+        colourMap.putAll(colourToolsMap);
+        colourMap.putAll(colourQuickSelectMap);
+    }
+    private void addColourActionListeners(LinkedHashMap<Object, AbstractButton> colourMap){
+        for (AbstractButton button : colourMap.values()){
+            // remove to make these buttons functional
+            if(!button.getName().equals(PEN_COLOUR.toString()) || !button.getName().equals(FILL_COLOUR.toString())){
+                addListener(button, (event) -> addColourFunctionality(button, colourMap));
+            }
+        }
+    }
+    private void addColourFunctionality(AbstractButton button, LinkedHashMap<Object, AbstractButton>colourMap){
         boolean fillOffPressed = false;
-        Color blankColour  = colourPanelButtons.get(FILL_OFF).getBackground();
-
+        Color selectedColour;
+        Color fillOffColour  = colourMap.get(FILL_OFF).getBackground();
 
         if(button.getName().equals(PEN.toString())){
             penPressed = true;
@@ -295,105 +287,93 @@ public class GUI  {
         else{
             // error message to till user to click pen or fill first
         }
-
-        colour = selectColor(button);
-        int rgb = ColortoInt(colour);
+        selectedColour = selectColor(button);
+        int rgb = colorToRGB(selectedColour);
 
         if(!button.getName().equals(FILL.toString()) && !button.getName().equals(PEN.toString()) && !fillPressed && penPressed){
             canvas.setSelectedPenColor(new VectorColor(rgb));
-            colourPanelButtons.get(PEN_COLOUR).setBackground(colour);
+            colourMap.get(PEN_COLOUR).setBackground(selectedColour);
         }
         else if(!button.getName().equals(PEN.toString()) && !button.getName().equals(FILL.toString()) && !penPressed && fillPressed){
             canvas.setSelectedFillColor(new VectorColor(rgb));
-            colourPanelButtons.get(FILL_COLOUR).setBackground(colour);
+            colourMap.get(FILL_COLOUR).setBackground(selectedColour);
         }
         else if (fillOffPressed){
             canvas.setSelectedFillColor(new VectorColor(rgb, false));
-            colourPanelButtons.get(FILL_COLOUR).setBackground(blankColour);
+            colourMap.get(FILL_COLOUR).setBackground(fillOffColour);
         }
     }
-    private LinkedHashMap<Object, AbstractButton> colourPanel(){
+    private LinkedHashMap<Object, AbstractButton> initializeColours(){
         LinkedHashMap<ColourTools, AbstractButton> colourToolsMap = new LinkedHashMap<>();
-        LinkedHashMap<ColourQuickSelect, AbstractButton> quickSelectMap = new LinkedHashMap<>();
-        LinkedHashMap<Object, AbstractButton> combinedMap = new LinkedHashMap<>();
-
-        colourPanelTools(colourToolsMap);
-        colourPanelQuickSelect(quickSelectMap);
-        combineToolsandQuickSelect(combinedMap, colourToolsMap, quickSelectMap);
-        colourPanelPressed(combinedMap);
-        return combinedMap;
+        LinkedHashMap<ColourQuickSelect, AbstractButton> colourQuickSelectMap = new LinkedHashMap<>();
+        LinkedHashMap<Object, AbstractButton> colourMap = new LinkedHashMap<>();
+        addColourTools(colourToolsMap);
+        addColourQuickSelect(colourQuickSelectMap);
+        combineColourToolsAndQuickSelect(colourMap, colourToolsMap, colourQuickSelectMap);
+        addColourActionListeners(colourMap);
+        return colourMap;
     }
 
-    private int palletHeight(int palletSize){
-    int parity = palletSize % 2;
-    int height;
-    int buffer = 70;
-    if(parity == 0){
-        height = (palletSize /2) * 20;
-    }
-    else {
-        height = (((palletSize - 1)/2) *20 ) + 20;
-    }
-    return height + buffer;
-}
-    private int toolH(int palletSize, Dimension preferredSize){
-        int buffer = 55;
-        return palletSize*preferredSize.height + buffer;
-    }
-
-    private void showToolPalette(){
-        JPanel basePallet = new JPanel();
-        basePallet.setBackground(lightGray);
-
-        pallet = new JPanel();
-
-        BoxLayout boxLayoutPallet = new BoxLayout(pallet, BoxLayout.Y_AXIS);
-        pallet.setLayout(boxLayoutPallet);
-
-        pallet.setPreferredSize(new Dimension(65,800));
-
-        shapePallet = new JPanel();
-        shapePallet.setMinimumSize(new Dimension(65,250));
-        shapePallet.setMaximumSize(new Dimension(65,toolH(toolPanel().size(), toolPanel().get(Tool.RECTANGLE).getPreferredSize())));
-
-        toolPallet = new JPanel();
-        toolPallet.setMinimumSize(new Dimension(65, 170));
-        toolPallet.setMaximumSize(new Dimension(65,toolH(utilityPanel().size(), utilityPanel().get(Utilities.ZOOM_IN).getPreferredSize())));
-
-        colourPallet = new JPanel();
-        colourPallet.setMinimumSize(new Dimension(65, 230));
-        colourPallet.setMaximumSize(new Dimension(65,palletHeight(colourPanel().size())));
-
-
-        pallet.setBackground(lightGray);
-
-        shapePallet.setBackground(lightGray);
-        shapePallet.setBorder(BorderFactory.createTitledBorder("Tools"));
-
-        toolPallet.setBackground(lightGray);
-        toolPallet.setBorder(BorderFactory.createTitledBorder("Utilities"));
-
-        colourPallet.setBackground(lightGray);
-        colourPallet.setBorder(BorderFactory.createTitledBorder("Colours"));
-
-
-        for(JToggleButton button : toolPanel().values()){
-            shapePallet.add(button);
+    private int setPanelHeight(int numButtons, int buttonPreferredHeight) {
+        int parity = numButtons % 2;
+        int buffer;
+        if (buttonPreferredHeight == 20){
+            buffer = 70;
+            if (parity == 0) {
+                return (numButtons / 2) * buttonPreferredHeight + buffer;
+            } else {
+                return (((numButtons - 1) / 2) * buttonPreferredHeight) + buttonPreferredHeight + buffer;
+            }
+        } else {
+            buffer = 55;
+            return numButtons * buttonPreferredHeight + buffer;
         }
-        for(JButton button : utilityPanel().values()){
-            toolPallet.add(button);
+    }
+
+    private void showSidebar(){
+        JPanel sidebarPanel = new JPanel();
+        JPanel sidebar = new JPanel();
+        JPanel sidebarTools = new JPanel();
+        JPanel sidebarUtilities = new JPanel();
+        JPanel sidebarColours = new JPanel();
+
+        BoxLayout sidebarBoxLayout = new BoxLayout(sidebar, BoxLayout.Y_AXIS);
+        sidebar.setLayout(sidebarBoxLayout);
+
+        sidebarPanel.setBackground(lightGray);
+        sidebar.setBackground(lightGray);
+        sidebarTools.setBackground(lightGray);
+        sidebarUtilities.setBackground(lightGray);
+        sidebarColours.setBackground(lightGray);
+
+        sidebarTools.setBorder(BorderFactory.createTitledBorder("Tools"));
+        sidebarUtilities.setBorder(BorderFactory.createTitledBorder("Utilities"));
+        sidebarColours.setBorder(BorderFactory.createTitledBorder("Colours"));
+
+        sidebar.setPreferredSize(new Dimension(65,800));
+        sidebarTools.setMinimumSize(new Dimension(65,250));
+        sidebarTools.setMaximumSize(new Dimension(65, setPanelHeight(initializeTools().size(), initializeTools().get(Tool.RECTANGLE).getPreferredSize().height)));
+        sidebarUtilities.setMinimumSize(new Dimension(65, 170));
+        sidebarUtilities.setMaximumSize(new Dimension(65, setPanelHeight(initializeUtilities().size(), initializeUtilities().get(Utilities.ZOOM_IN).getPreferredSize().height)));
+        sidebarColours.setMinimumSize(new Dimension(65, 230));
+        sidebarColours.setMaximumSize(new Dimension(65, setPanelHeight(initializeColours().size(), initializeColours().get(ColourQuickSelect.BLACK).getPreferredSize().height)));
+
+        for(JToggleButton toggleButton : initializeTools().values()){
+            sidebarTools.add(toggleButton);
         }
-        for (AbstractButton button : colourPanel().values()){
-            colourPallet.add(button);
+        for(JButton button : initializeUtilities().values()){
+            sidebarUtilities.add(button);
+        }
+        for (AbstractButton button : initializeColours().values()){
+            sidebarColours.add(button);
         }
 
-        pallet.add(shapePallet);
-        pallet.add(toolPallet);
-        pallet.add(colourPallet);
-        basePallet.add(pallet);
+        sidebar.add(sidebarTools);
+        sidebar.add(sidebarUtilities);
+        sidebar.add(sidebarColours);
+        sidebarPanel.add(sidebar);
 
-        frame.getContentPane().add(basePallet, BorderLayout.LINE_START);
-
+        frame.getContentPane().add(sidebarPanel, BorderLayout.LINE_START);
     }
 
 
@@ -404,11 +384,19 @@ public class GUI  {
         canvas.setPreferredSize(new Dimension(500, 500));
         canvas.setSize(500, 500);
 
-        mainPanel = new JPanel();
-        mainPanel.setPreferredSize(new Dimension(500, 500));
-        mainPanel.add(canvas);
+        canvasPanel = new JPanel();
+        canvasPanel.setPreferredSize(new Dimension(500, 500));
+        canvasPanel.add(canvas);
 
-        JScrollPane scrPane = new JScrollPane(mainPanel);
+        JScrollPane scrPane = new JScrollPane(canvasPanel);
         frame.getContentPane().add(scrPane);
     }
+
+
+
+
+
+
+
+
 }

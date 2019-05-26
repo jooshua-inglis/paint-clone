@@ -17,7 +17,7 @@ public enum ColourQuickSelect {
     PINK (pink),
     CYAN (cyan),
     GRAY (gray);
-   // BATMAN (black);
+
 
     private static LinkedHashMap<ColourQuickSelect, Color> quickSelectColours = new LinkedHashMap<>();
     public Color color;
@@ -27,8 +27,8 @@ public enum ColourQuickSelect {
     }
 
     static {
-        for (ColourQuickSelect option : ColourQuickSelect.values()) {
-            quickSelectColours.put(option, option.color);
+        for (ColourQuickSelect quickSelect : ColourQuickSelect.values()) {
+            quickSelectColours.put(quickSelect, quickSelect.color);
         }
     }
 
@@ -36,9 +36,9 @@ public enum ColourQuickSelect {
         return quickSelectColours.get(enumColour);
     }
     public ColourQuickSelect getEnum (AbstractButton button){
-        for(ColourQuickSelect Enum : ColourQuickSelect.values()){
-            if(Enum.toString().equals(button.getName())){
-                return Enum;
+        for(ColourQuickSelect quickSelect : ColourQuickSelect.values()){
+            if(quickSelect.toString().equals(button.getName())){
+                return quickSelect;
             }
         }
         return null;
@@ -55,7 +55,6 @@ public enum ColourQuickSelect {
             case PINK:
             case CYAN:
             case GRAY:
-          //  case BATMAN:
                 button.setPreferredSize(new Dimension(20,20));
                 break;
         }
