@@ -88,13 +88,15 @@ public class VectorCanvas extends JPanel {
         return s;
     }
 
-    public void undo() {
+    public boolean undo() {
         try {
             shapes.removeLast();
+            repaint();
+            return true;
         } catch (NoSuchElementException e) {
             System.out.println("No more undoes");
+            return false;
         }
-        repaint();
     }
 
     public void zoom(int amount) {

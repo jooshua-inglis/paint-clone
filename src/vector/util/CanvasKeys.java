@@ -1,5 +1,6 @@
 package vector.util;
 
+import vector.GUI;
 import vector.VectorCanvas;
 import vector.shape.VectorShape;
 
@@ -34,7 +35,7 @@ public class CanvasKeys implements KeyListener {
 
        // if(key == KeyEvent.CTRL_DOWN_MASK)
             if((e.getKeyCode() == KeyEvent.VK_Z) && e.isControlDown()) {
-                VectorCanvas.undo();
+                GUI.undo();
             }
 
     }

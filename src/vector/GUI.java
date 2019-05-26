@@ -19,13 +19,13 @@ import static vector.util.ColourTools.*;
  * GUI class controls the what is output to the window. It contains one canvas object that is read to
  * determine what is printed to the window.
  */
-class GUI  {
+public class GUI  {
 
-    private JFrame frame;
+    private static JFrame frame;
     private JPanel canvasPanel;
     private boolean penPressed = false;
     private boolean fillPressed = false;
-    VectorCanvas canvas;
+    static VectorCanvas canvas;
 
 
     GUI() {
@@ -141,10 +141,32 @@ class GUI  {
     }
 
     private void zoom(int amount) {
+        int zoomOutError;
         canvas.zoom(amount);
         canvasPanel.setPreferredSize(canvas.getSize());
         frame.pack();
-        System.out.println(canvas.getSize());
+
+        Object[] zoomOutErrorOptions = {"Yes, please", "No, thanks"};
+        if (canvas.getSize().equals(new Dimension(0, 0))){
+             zoomOutError = JOptionPane.showOptionDialog(frame,
+                    "You've zoomed out too far and now your BEAUTIFUL artwork is not visible!" +
+                            " Would you like to zoom in?", "Zoom Out Error",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.ERROR_MESSAGE,
+                    null,
+                    zoomOutErrorOptions,
+                    zoomOutErrorOptions[0]);
+
+            if (zoomOutError == 0){
+                zoom(100);
+            }
+        }
+    }
+
+    public static void undo(){
+        if (!canvas.undo()){
+            JOptionPane.showMessageDialog(frame, "There are no more shapes to undo!", "Undo Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void addToolFunctionality(Tool tool){
@@ -177,7 +199,7 @@ class GUI  {
                 addListener(button, (event) -> zoom(-100));
                 break;
             case UNDO:
-                addListener(button, (event) -> canvas.undo());
+                addListener(button, (event) -> undo());
                 break;
             default:
         }
