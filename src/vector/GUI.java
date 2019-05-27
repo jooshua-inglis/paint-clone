@@ -10,10 +10,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.*;
 import java.nio.file.Files;
-import java.util.LinkedHashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
+
 
 import static java.awt.Color.*;
 import static vector.util.ColourTools.*;
@@ -30,7 +29,7 @@ public class GUI  {
     private boolean fillPressed = false;
     private boolean fillOffPressed = false;
     static VectorCanvas canvas;
-
+    private AbstractButton currentSelectedTool = new JToggleButton();
 
     GUI() {
         JFrame.setDefaultLookAndFeelDecorated(false);
@@ -145,24 +144,12 @@ public class GUI  {
     }
 
     private void zoom(int amount) {
-        int zoomOutError;
-        canvas.zoom(amount);
-        canvasPanel.setPreferredSize(canvas.getSize());
-        frame.pack();
-
-        Object[] zoomOutErrorOptions = {"Yes, please", "No, thanks"};
-        if (canvas.getSize().equals(new Dimension(0, 0))){
-             zoomOutError = JOptionPane.showOptionDialog(frame,
-                    "You've zoomed out too far and now your BEAUTIFUL artwork is not visible!" +
-                            " Would you like to zoom in?", "Zoom Out Error",
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.ERROR_MESSAGE,
-                    null,
-                    zoomOutErrorOptions,
-                    zoomOutErrorOptions[0]);
-            if (zoomOutError == 0){
-                zoom(100);
-            }
+        if (canvas.getSize().equals(new Dimension(100, 100)) && amount == -100){
+            JOptionPane.showMessageDialog(frame, "Canvas is at minimum size. It cannot be zoomed out any further!", "Zooming out too far", JOptionPane.ERROR_MESSAGE);
+        } else {
+            canvas.zoom(amount);
+            canvasPanel.setPreferredSize(canvas.getSize());
+            frame.pack();
         }
     }
 
@@ -172,14 +159,36 @@ public class GUI  {
         }
     }
 
-    private void addToolFunctionality(Tool tool){
-        canvas.selectTool(tool);
+    private void addToolFunctionality(Tool tool, ButtonGroup toolGroup){
+        Enumeration toolGroupElements = toolGroup.getElements();
+        boolean showDialog = false;
+        while (toolGroupElements.hasMoreElements()) {
+            AbstractButton button = (AbstractButton)toolGroupElements.nextElement();
+            if (button.isSelected() && canvas.isShapeCreating()) {
+                button.setSelected(false);
+                Enumeration toolGroupElementsCopy = toolGroup.getElements();
+                while (toolGroupElementsCopy.hasMoreElements()) {
+                    AbstractButton button2 = (AbstractButton) toolGroupElementsCopy.nextElement();
+                    if (button2.getName().equals(currentSelectedTool.getName())){
+                        button2.setSelected(true);
+                    }
+                }
+                if (!showDialog) {
+                    JOptionPane.showMessageDialog(frame, "You must finish the current selected shape!", "Shape not completed", JOptionPane.ERROR_MESSAGE);
+                    showDialog = true;
+                }
+            } else if (button.isSelected() && !canvas.isShapeCreating()){
+                canvas.selectTool(tool);
+                currentSelectedTool = button;
+            }
+        }
     }
     private LinkedHashMap<Tool, JToggleButton> initializeTools(){
         LinkedHashMap<Tool, JToggleButton> toolButtonMap = new LinkedHashMap<>();
         ButtonGroup toolGroup = new ButtonGroup();
         for (Tool tool : Tool.values()) {
             JToggleButton toggleButton = new JToggleButton(tool.getImage());
+            toggleButton.setName(tool.toString());
             toolGroup.add(toggleButton);
             tool.setSize(toggleButton);
             toggleButton.setFocusPainted(false);
@@ -187,7 +196,7 @@ public class GUI  {
             toggleButton.setRolloverEnabled(true);
             toggleButton.setContentAreaFilled(true);
             toggleButton.setRequestFocusEnabled(true);
-            toggleButton.addActionListener((event) -> addToolFunctionality(tool));
+            toggleButton.addActionListener((event) -> addToolFunctionality(tool,toolGroup));
             toolButtonMap.put(tool, toggleButton);
         }
         return toolButtonMap;
@@ -297,20 +306,18 @@ public class GUI  {
             penPressed = true;
             fillPressed = false;
             fillOffPressed = false;
-        }
-        else if(button.getName().equals(FILL.toString())){
+        } else if(button.getName().equals(FILL.toString())){
             fillPressed = true;
             fillOffPressed = false;
             penPressed = false;
-        }
-        else if (button.getName().equals(FILL_OFF.toString())){
+        } else if (button.getName().equals(FILL_OFF.toString())){
             fillOffPressed = true;
             penPressed = false;
             fillPressed = false;
+        } else if (!fillPressed && !fillOffPressed && !penPressed){
+            JOptionPane.showMessageDialog(frame, "You must select Pen or Fill before choosing a colour!", "Colour not selected", JOptionPane.WARNING_MESSAGE);
         }
-        else{
-            // error message to till user to click pen or fill first
-        }
+
         selectedColour = selectColor(button);
         int rgb = colorToRGB(selectedColour);
 

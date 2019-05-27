@@ -43,6 +43,10 @@ public class CanvasMouse implements MouseListener, MouseMotionListener, Point {
         System.out.println("Creating: " + vectorCanvas.getselectTool().name());
     }
 
+    public boolean getShapeCreating(){
+        return this.shapeCreating;
+    }
+
     public void mouseReleased(MouseEvent mouseEvent) { }
 
     public void mouseEntered(MouseEvent mouseEvent) { }

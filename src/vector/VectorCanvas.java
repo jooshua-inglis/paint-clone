@@ -160,6 +160,11 @@ public class VectorCanvas extends JPanel {
         return mouseListener;
     }
 
+    public boolean isShapeCreating(){
+        return mouseListener.shapeCreating;
+    }
+
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof VectorCanvas) {
