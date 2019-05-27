@@ -82,6 +82,7 @@ public abstract class VectorShape  {
             this.getPoint(1).update(mouseListener);
             canvas.repaint();
         }
+        mouseListener.clicked = false;
         System.out.println("Done");
     }
 

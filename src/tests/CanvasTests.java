@@ -3,6 +3,7 @@ package tests;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import vector.VectorCanvas;
+import vector.exception.CanvasException;
 import vector.exception.VecFileException;
 import vector.shape.Ellipse;
 import vector.shape.Rectangle;
@@ -26,7 +27,11 @@ class CanvasTests {
         VectorCanvas subject = new VectorCanvas();
         subject.selectTool(Tool.RECTANGLE);
         assertEquals(subject.getSelectedTool(),Tool.RECTANGLE);
-        assertEquals(subject.createShape().getClass(), Rectangle.class);
+        try {
+            assertEquals(subject.createShape().getClass(), Rectangle.class);
+        } catch (CanvasException e) {
+            fail();
+        }
     }
 
 
@@ -76,9 +81,13 @@ class CanvasTests {
         VectorCanvas subject = new VectorCanvas();
         subject.selectTool(Tool.RECTANGLE);
         //tool to be changed after more shapes are implemented
-        subject.createShape();
-        subject.createShape();
-        subject.createShape();
+        try {
+            subject.createShape();
+            subject.createShape();
+            subject.createShape();
+        } catch (CanvasException e){
+            fail();
+        }
 
 
         assertEquals(3, subject.getShapes().size());

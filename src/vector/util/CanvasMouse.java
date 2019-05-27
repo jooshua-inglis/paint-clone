@@ -16,6 +16,7 @@ public class CanvasMouse implements MouseListener, MouseMotionListener, Point {
     private VectorCanvas vectorCanvas;
     public boolean shapeCreating = false;
     public boolean polygon = false;
+    public boolean clicked = false;
     private int x;
     private int y;
 
@@ -26,6 +27,7 @@ public class CanvasMouse implements MouseListener, MouseMotionListener, Point {
     public void mouseClicked(MouseEvent mouseEvent) { }
 
     public void mousePressed(MouseEvent mouseEvent) {
+        clicked = true;
 
         if (!shapeCreating) {
             if(!polygon){
