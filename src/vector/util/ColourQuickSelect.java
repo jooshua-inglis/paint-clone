@@ -21,7 +21,9 @@ public enum ColourQuickSelect {
 
     private static LinkedHashMap<ColourQuickSelect, Color> quickSelectColours = new LinkedHashMap<>();
     public Color color;
+    ColourQuickSelect(){
 
+    }
     ColourQuickSelect(Color color) {
         this.color = color;
     }
@@ -31,6 +33,7 @@ public enum ColourQuickSelect {
             quickSelectColours.put(quickSelect, quickSelect.color);
         }
     }
+
 
     public Color getValue(ColourQuickSelect enumColour) {
         return quickSelectColours.get(enumColour);
@@ -59,6 +62,12 @@ public enum ColourQuickSelect {
                 break;
         }
     }
+
+    public Class<? extends ColourQuickSelect> getType(){
+        return ColourQuickSelect.values()[0].getClass();
+    }
+
+
 }
 
 

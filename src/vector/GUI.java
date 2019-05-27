@@ -12,6 +12,9 @@ import java.io.*;
 import java.nio.file.Files;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import static java.awt.Color.*;
 import static vector.util.ColourTools.*;
 
@@ -25,6 +28,7 @@ public class GUI  {
     private JPanel canvasPanel;
     private boolean penPressed = false;
     private boolean fillPressed = false;
+    private boolean fillOffPressed = false;
     static VectorCanvas canvas;
 
 
@@ -156,7 +160,6 @@ public class GUI  {
                     null,
                     zoomOutErrorOptions,
                     zoomOutErrorOptions[0]);
-
             if (zoomOutError == 0){
                 zoom(100);
             }
@@ -287,7 +290,6 @@ public class GUI  {
         }
     }
     private void addColourFunctionality(AbstractButton button, LinkedHashMap<Object, AbstractButton>colourMap){
-        boolean fillOffPressed = false;
         Color selectedColour;
         Color fillOffColour  = colourMap.get(FILL_OFF).getBackground();
 
@@ -321,6 +323,13 @@ public class GUI  {
             colourMap.get(FILL_COLOUR).setBackground(selectedColour);
         }
         else if (fillOffPressed){
+            for (ColourQuickSelect quickSelect : ColourQuickSelect.values()){
+                if (button.getName().equals(quickSelect.name()) || button.getName().equals(PICKER.toString())){
+                    JOptionPane.showMessageDialog(frame, "You must select Pen or Fill before choosing a colour!", "Colour not selected", JOptionPane.WARNING_MESSAGE);
+                    break;
+                }
+            }
+
             canvas.setSelectedFillColor(new VectorColor(rgb, false));
             colourMap.get(FILL_COLOUR).setBackground(fillOffColour);
         }
