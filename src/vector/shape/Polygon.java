@@ -52,7 +52,7 @@ public class Polygon extends VectorShape {
                     canvas.repaint();
                     return;
                 }
-                this.getPoint(1).update(mouseListener);
+                this.getVectorPoints().getLast().update(mouseListener);
 
                 canvas.repaint();
                 if(canvas.keysListener.key == KeyEvent.VK_ENTER) {
@@ -89,11 +89,12 @@ public class Polygon extends VectorShape {
 
         if(getFill().isActive()){
             g.setColor(getFill().asColor());
-            g.fillPolygon(polygon);
+            if (finished) {g.fillPolygon(xPoints, yPoints, nPoints); }
         }
         if (getPen().isActive()) {
             g.setColor(getPen().asColor());
-            g.drawPolygon(polygon);
+            if (finished) { g.drawPolygon(xPoints, yPoints, nPoints); }
+            else { g.drawPolyline(xPoints, yPoints, nPoints); }
         }
 
     }

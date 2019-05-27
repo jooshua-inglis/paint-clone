@@ -153,7 +153,7 @@ public abstract class VectorShape  {
      * VectorPoints getter
      * @return ArrayList of VectorPoints
      */
-    public List<VectorPoint> getVectorPoints() {
+    public LinkedList<VectorPoint> getVectorPoints() {
         return this.vectorPoints;
     }
 
