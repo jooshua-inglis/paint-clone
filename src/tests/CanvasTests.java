@@ -13,8 +13,6 @@ import vector.util.VectorColor;
 import vector.util.VectorPoint;
 
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -27,7 +25,7 @@ class CanvasTests {
     void testRectangle() {
         VectorCanvas subject = new VectorCanvas();
         subject.selectTool(Tool.RECTANGLE);
-        assertEquals(subject.getselectTool(),Tool.RECTANGLE);
+        assertEquals(subject.getSelectedTool(),Tool.RECTANGLE);
         assertEquals(subject.createShape().getClass(), Rectangle.class);
     }
 
@@ -38,37 +36,37 @@ class CanvasTests {
     void testEllipse(){
         VectorCanvas subject = new VectorCanvas();
         subject.selectTool(Tool.ELLIPSE);
-        assertEquals(subject.getselectTool(),Tool.ELLIPSE);
+        assertEquals(subject.getSelectedTool(),Tool.ELLIPSE);
         //assertEquals(subject.createShape().getClass(), Rectangle.class);
     }
     @Test
     void testPolygon(){
         VectorCanvas subject = new VectorCanvas();
         subject.selectTool(Tool.POLYGON);
-        assertEquals(subject.getselectTool(),Tool.POLYGON);
+        assertEquals(subject.getSelectedTool(),Tool.POLYGON);
         //assertEquals(subject.createShape().getClass(), Rectangle.class);
     }
     @Test
     void testLine(){
         VectorCanvas subject = new VectorCanvas();
         subject.selectTool(Tool.LINE);
-        assertEquals(subject.getselectTool(),Tool.LINE);
+        assertEquals(subject.getSelectedTool(),Tool.LINE);
         //assertEquals(subject.createShape().getClass(), Rectangle.class);
     }
     @Test
     void testPlot(){
         VectorCanvas subject = new VectorCanvas();
         subject.selectTool(Tool.PLOT);
-        assertEquals(subject.getselectTool(),Tool.PLOT);
+        assertEquals(subject.getSelectedTool(),Tool.PLOT);
         //assertEquals(subject.createShape().getClass(), Plot.class);
     }
     @Test
     void testMultipleTools(){
         VectorCanvas subject = new VectorCanvas();
         subject.selectTool(Tool.PLOT);
-        assertEquals(subject.getselectTool(),Tool.PLOT);
+        assertEquals(subject.getSelectedTool(),Tool.PLOT);
         subject.selectTool(Tool.LINE);
-        assertEquals(subject.getselectTool(),Tool.LINE);
+        assertEquals(subject.getSelectedTool(),Tool.LINE);
         //assertEquals(subject.createShape().getClass(), Plot.class);
     }
 

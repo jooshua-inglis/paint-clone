@@ -61,6 +61,10 @@ public abstract class VectorShape  {
      */
     public abstract void draw(Graphics g, int size);
 
+
+    public abstract void initialise(Point point, VectorColor penColor, VectorColor fillColor);
+
+
  /** Function to find second vectorPoint of shape
   * @param canvas relevant canvas to be used
   * */
@@ -98,7 +102,7 @@ public abstract class VectorShape  {
     }
 
     public void addPoint(vector.util.Point vectorPoint) throws IllegalStateException {
-        if (getMaxPoints() != 0 && vectorPoints.size() > getMaxPoints() ) {
+        if (getMaxPoints() != 0 && vectorPoints.size() >= getMaxPoints() ) {
             throw new IllegalStateException("Exceeded max VectorPoints");
         }
 

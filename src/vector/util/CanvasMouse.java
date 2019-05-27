@@ -1,8 +1,10 @@
 package vector.util;
 
 import vector.VectorCanvas;
+import vector.exception.CanvasException;
 import vector.shape.VectorShape;
 
+import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -24,23 +26,27 @@ public class CanvasMouse implements MouseListener, MouseMotionListener, Point {
     public void mouseClicked(MouseEvent mouseEvent) { }
 
     public void mousePressed(MouseEvent mouseEvent) {
-        System.out.println("Clicked on " + this.getX());
-        System.out.println("Clicked on " + this.getY());
 
         if (!shapeCreating) {
             if(!polygon){
-                VectorShape s = vectorCanvas.createShape();
-                s.addPoint(new VectorPoint(this));
-                s.addPoint(new VectorPoint(this));
-                shapeCreating = true;
-                vectorCanvas.repaint();
-                Thread createShape = new Thread(() -> s.drag(vectorCanvas));
-                createShape.start();
+                try {
+                    VectorShape s = vectorCanvas.createShape();
+                    shapeCreating = true;
+                    vectorCanvas.repaint();
+                    Thread createShape = new Thread(() -> s.drag(vectorCanvas));
+                    createShape.start();
+                } catch (CanvasException e) {
+                    JOptionPane.showMessageDialog(null,
+                            "An error has occurred",
+                            "Unhandled error",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
             }
         } else {
             shapeCreating = false;
         }
-        System.out.println("Creating: " + vectorCanvas.getselectTool().name());
+        System.out.println("Creating: " + vectorCanvas.getSelectedTool().name());
     }
 
     public boolean getShapeCreating(){

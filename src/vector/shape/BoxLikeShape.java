@@ -24,7 +24,13 @@ public abstract class BoxLikeShape extends VectorShape {
 
     public int getMaxPoints() { return 2; }
 
-    
+    public void initialise(Point point, VectorColor penColor, VectorColor fillColor) {
+        addPoint(point);
+        addPoint(point);
+        setPen(penColor);
+        setFill(fillColor);
+    }
+
 
     /**
      * Draws the shape outline to g
@@ -58,6 +64,7 @@ public abstract class BoxLikeShape extends VectorShape {
 
         int width = Math.abs(p2.x - p1.x);
         int height = Math.abs(p2.y - p1.y);
+
 
         if (getFill().isActive()) {
             g.setColor(getFill().asColor());

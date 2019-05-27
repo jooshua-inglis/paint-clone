@@ -1,13 +1,11 @@
 package vector;
 
+import vector.exception.CanvasException;
 import vector.shape.VectorShape;
 import vector.util.*;
 
 import javax.swing.*;
-import javax.swing.plaf.InternalFrameUI;
-import javax.swing.plaf.basic.BasicTreeUI;
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -80,10 +78,9 @@ public class VectorCanvas extends JPanel {
     /**
      * Creates a shape given the value of {@link Tool selectedTool} and adds it to the canvas
      */
-    public VectorShape createShape() {
+    public VectorShape createShape() throws CanvasException {
         VectorShape s = selectedTool.getCls();
-        s.setPen(selectedPenColor);
-        s.setFill(selectedFillColor);
+        s.initialise(mouseListener, selectedPenColor, selectedFillColor);
         addShape(s);
         return s;
     }
@@ -152,7 +149,7 @@ public class VectorCanvas extends JPanel {
      */
     public void selectTool(Tool tool) { selectedTool = tool;}
 
-    public Tool getselectTool(){
+    public Tool getSelectedTool(){
         return selectedTool;
     }
 

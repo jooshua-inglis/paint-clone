@@ -31,6 +31,13 @@ public class Polygon extends VectorShape {
         super(points);
     }
 
+    public void initialise(vector.util.Point point, VectorColor penColor, VectorColor fillColor) {
+        addPoint(point);
+        addPoint(point);
+        setPen(penColor);
+        setFill(fillColor);
+    }
+
     @Override
     public void drag(VectorCanvas canvas) {
         CanvasMouse mouseListener = canvas.getMouseListener();

@@ -1,5 +1,6 @@
 package vector.util;
 
+import vector.exception.CanvasException;
 import vector.shape.*;
 import vector.shape.Polygon;
 import vector.shape.Rectangle;
@@ -52,7 +53,7 @@ public enum Tool {
 
 
 
-    public VectorShape getCls() {
+    public VectorShape getCls() throws CanvasException {
         switch (this) {
             case RECTANGLE:
                 return new Rectangle();
@@ -65,8 +66,8 @@ public enum Tool {
            case PLOT:
                return new Plot();
             default:
-                assert (true);
-                return null;
+                throw new CanvasException("Cannot create shape");
+
         }
     }
 }

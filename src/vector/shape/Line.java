@@ -22,6 +22,13 @@ public class Line extends VectorShape{
         super(points);
     }
 
+    public void initialise(Point point, VectorColor penColor, VectorColor fillColor) {
+        addPoint(point);
+        addPoint(point);
+        setPen(penColor);
+        setFill(fillColor);
+    }
+
     public void lineMaker(Graphics g, java.awt.Point p1, java.awt.Point p2) {
         int startX = p1.x;
         int startY = p1.y;

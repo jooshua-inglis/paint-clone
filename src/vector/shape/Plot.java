@@ -30,6 +30,12 @@ public class Plot extends VectorShape {
         g.fillOval(startX, startY,width, height);
     }
 
+    public void initialise(vector.util.Point point, VectorColor penColor, VectorColor fillColor) {
+        addPoint(point);
+        setPen(penColor);
+        setFill(fillColor);
+    }
+
 
     public void drag(VectorCanvas canvas){
         System.out.println("yeehaw");
