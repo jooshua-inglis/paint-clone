@@ -98,7 +98,7 @@ public abstract class VectorShape  {
     }
 
     public void addPoint(vector.util.Point vectorPoint) throws IllegalStateException {
-        if (getMaxPoints() != 0 && vectorPoints.size() >= getMaxPoints() ) {
+        if (getMaxPoints() != 0 && vectorPoints.size() > getMaxPoints() ) {
             throw new IllegalStateException("Exceeded max VectorPoints");
         }
 
