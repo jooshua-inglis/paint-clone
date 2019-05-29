@@ -219,7 +219,7 @@ public class GUI  {
             }
         }
     }
-    public LinkedHashMap<Tool, JToggleButton> initializeTools(){
+    private LinkedHashMap<Tool, JToggleButton> initializeTools(){
         LinkedHashMap<Tool, JToggleButton> toolButtonMap = new LinkedHashMap<>();
         ButtonGroup toolGroup = new ButtonGroup();
         for (Tool tool : Tool.values()) {
@@ -322,7 +322,6 @@ public class GUI  {
             button.setBackground(colourQuickSelect.getValue(colourQuickSelect.getEnum(button)));
             colourQuickSelectMap.put(colourQuickSelect,button);
         }
-       // return colourPanelButtons; // return type ArrayList<JToggleButton>
     }
     private void combineColourToolsAndQuickSelect(LinkedHashMap<Object, AbstractButton> colourMap, LinkedHashMap<ColourTools, AbstractButton> colourToolsMap, LinkedHashMap<ColourQuickSelect, AbstractButton> colourQuickSelectMap){
         colourMap.putAll(colourToolsMap);
@@ -390,48 +389,19 @@ public class GUI  {
         return colourMap;
     }
 
-
-//    private int setPanelHeight(int numButtons, int buttonPreferredHeight) {
-//        int parity = numButtons % 2;
-//        int buffer;
-//        if (buttonPreferredHeight == 20){
-//            buffer = 70;
-//            if (parity == 0) {
-//                return (numButtons / 2) * buttonPreferredHeight + buffer;
-//            } else {
-//                return (((numButtons - 1) / 2) * buttonPreferredHeight) + buttonPreferredHeight + buffer;
-//            }
-//        } else {
-//            buffer = 55;
-//            return numButtons * buttonPreferredHeight + buffer;
-//        }
-//    }
     private void showSidebar(){
         JPanel sidebarPanel = new JPanel();
         JPanel sidebar = new JPanel();
-//        JPanel sidebarTools = new JPanel();
-//        JPanel sidebarUtilities = new JPanel();
-//        JPanel sidebarColours = new JPanel();
 
         BoxLayout sidebarBoxLayout = new BoxLayout(sidebar, BoxLayout.Y_AXIS);
         sidebar.setLayout(sidebarBoxLayout);
 
         sidebarPanel.setBackground(lightGray);
         sidebar.setBackground(lightGray);
-//        sidebarTools.setBackground(lightGray);
-//        sidebarUtilities.setBackground(lightGray);
-//        sidebarColours.setBackground(lightGray);
-
-//        sidebarTools.setBorder(BorderFactory.createTitledBorder("Tools"));
-//        sidebarUtilities.setBorder(BorderFactory.createTitledBorder("Utilities"));
-//        sidebarColours.setBorder(BorderFactory.createTitledBorder("Colours"));
 
         sidebar.setPreferredSize(new Dimension(65,800));
         sidebar.setMinimumSize(new Dimension(65,700));
-//        sidebarTools.setMaximumSize(new Dimension(65, setPanelHeight(initializeTools().size(), initializeTools().get(Tool.RECTANGLE).getPreferredSize().height)));
-//        sidebarUtilities.setMaximumSize(new Dimension(65, setPanelHeight(initializeUtilities().size(), initializeUtilities().get(Utilities.ZOOM_IN).getPreferredSize().height)));
-//        sidebarColours.setMaximumSize(new Dimension(65, setPanelHeight(initializeColours().size(), initializeColours().get(ColourQuickSelect.BLACK).getPreferredSize().height)));
-//
+
         for (SidebarPanels sidebarPanels : SidebarPanels.values()){
             JPanel panel = new JPanel();
             sidebarPanels.getButtons(initializeTools(), initializeUtilities(), initializeColours());
@@ -443,44 +413,9 @@ public class GUI  {
             sidebar.add(panel);
         }
 
-//        for(JToggleButton toggleButton : initializeTools().values()){
-//            sidebarTools.add(toggleButton);
-//        }
-//        for(JButton button : initializeUtilities().values()){
-//            sidebarUtilities.add(button);
-//        }
-//        for (AbstractButton button : initializeColours().values()){
-//            sidebarColours.add(button);
-//        }
-
-//        sidebar.add(sidebarTools);
-//        sidebar.add(sidebarUtilities);
-//        sidebar.add(sidebarColours);
         sidebarPanel.add(sidebar);
-
         frame.getContentPane().add(sidebarPanel, BorderLayout.LINE_START);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
-
 
     private void showCanvas() {
         canvas = new VectorCanvas();

@@ -3,11 +3,8 @@ package vector;
 import vector.util.ColourQuickSelect;
 import vector.util.Tool;
 import vector.util.Utilities;
-
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 
 public enum SidebarPanels {
@@ -24,14 +21,17 @@ public enum SidebarPanels {
         this.utilityButtons = utilityButtons;
         this.colourButtons = colourButtons;
     }
+
     public void setBackground(JPanel panel){
         panel.setBackground(Color.lightGray);
     }
+
     public void setBorder(JPanel panel){
         String name = panel.getName();
         name = name.substring(0,1).toUpperCase() + name.substring(1).toLowerCase();
         panel.setBorder(BorderFactory.createTitledBorder(name));
     }
+
     public void setMaximumSize(JPanel panel){
         switch (this){
             case TOOLS:
