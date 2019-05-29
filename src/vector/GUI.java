@@ -15,11 +15,17 @@ import java.util.List;
 
 
 import static java.awt.Color.*;
+import static vector.SidebarPanels.*;
 import static vector.util.ColourTools.*;
 
 /**
- * GUI class controls the what is output to the window. It contains one canvas object that is read to
- * determine what is printed to the window.
+ * GUI class controls the what is output to the window. It contains one JFrame that holds multiple JPanels to present
+ * various information and functionality. The interface is differentiated into two sections, a sidebar containing
+ * drawing tools and a canvas were the drawing occurs. There is also a menubar which provides file functionality.
+ *
+ * @author Joshua Inglis, Jonathan Salazar, Jordan Garland, Mikhayla Stephenson-Binstead
+ * @version 59.0
+ * @since 30/4/19
  */
 public class GUI  {
 
@@ -31,18 +37,24 @@ public class GUI  {
     static VectorCanvas canvas;
     private AbstractButton currentSelectedTool = new JToggleButton();
 
+    /**
+     * This constructor is used to build and initialize the graphical interface. It contains various methods each
+     * implementing a certain functionality for the interface.
+     */
     GUI() {
-        JFrame.setDefaultLookAndFeelDecorated(false);
-        frame = new JFrame("VectorTool");
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setPreferredSize(new Dimension(700+20, 900));
-        frame.setLocation(970,50);
-        frame.getContentPane().setLayout(new BorderLayout());
+        showFrame();
         showMenuBar();
         showSidebar();
         showCanvas();
-        frame.pack();
-        frame.setVisible(true);
+    }
+
+    private void showFrame(){
+        JFrame.setDefaultLookAndFeelDecorated(true);
+        frame = new JFrame("VectorTool");
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setPreferredSize(new Dimension(720, 800));
+        frame.setLocation(0,0);
+        frame.getContentPane().setLayout(new BorderLayout());
     }
 
     //Opens File Chooser - Open Dialog
@@ -173,7 +185,6 @@ public class GUI  {
             frame.pack();
         }
     }
-
     public static void undo(){
         if (!canvas.undo()){
             JOptionPane.showMessageDialog(frame, "There are no more shapes to undo!", "Undo Error", JOptionPane.ERROR_MESSAGE);
@@ -208,7 +219,7 @@ public class GUI  {
             }
         }
     }
-    private LinkedHashMap<Tool, JToggleButton> initializeTools(){
+    public LinkedHashMap<Tool, JToggleButton> initializeTools(){
         LinkedHashMap<Tool, JToggleButton> toolButtonMap = new LinkedHashMap<>();
         ButtonGroup toolGroup = new ButtonGroup();
         for (Tool tool : Tool.values()) {
@@ -379,66 +390,95 @@ public class GUI  {
         return colourMap;
     }
 
-    private int setPanelHeight(int numButtons, int buttonPreferredHeight) {
-        int parity = numButtons % 2;
-        int buffer;
-        if (buttonPreferredHeight == 20){
-            buffer = 70;
-            if (parity == 0) {
-                return (numButtons / 2) * buttonPreferredHeight + buffer;
-            } else {
-                return (((numButtons - 1) / 2) * buttonPreferredHeight) + buttonPreferredHeight + buffer;
-            }
-        } else {
-            buffer = 55;
-            return numButtons * buttonPreferredHeight + buffer;
-        }
-    }
 
+//    private int setPanelHeight(int numButtons, int buttonPreferredHeight) {
+//        int parity = numButtons % 2;
+//        int buffer;
+//        if (buttonPreferredHeight == 20){
+//            buffer = 70;
+//            if (parity == 0) {
+//                return (numButtons / 2) * buttonPreferredHeight + buffer;
+//            } else {
+//                return (((numButtons - 1) / 2) * buttonPreferredHeight) + buttonPreferredHeight + buffer;
+//            }
+//        } else {
+//            buffer = 55;
+//            return numButtons * buttonPreferredHeight + buffer;
+//        }
+//    }
     private void showSidebar(){
         JPanel sidebarPanel = new JPanel();
         JPanel sidebar = new JPanel();
-        JPanel sidebarTools = new JPanel();
-        JPanel sidebarUtilities = new JPanel();
-        JPanel sidebarColours = new JPanel();
+//        JPanel sidebarTools = new JPanel();
+//        JPanel sidebarUtilities = new JPanel();
+//        JPanel sidebarColours = new JPanel();
 
         BoxLayout sidebarBoxLayout = new BoxLayout(sidebar, BoxLayout.Y_AXIS);
         sidebar.setLayout(sidebarBoxLayout);
 
         sidebarPanel.setBackground(lightGray);
         sidebar.setBackground(lightGray);
-        sidebarTools.setBackground(lightGray);
-        sidebarUtilities.setBackground(lightGray);
-        sidebarColours.setBackground(lightGray);
+//        sidebarTools.setBackground(lightGray);
+//        sidebarUtilities.setBackground(lightGray);
+//        sidebarColours.setBackground(lightGray);
 
-        sidebarTools.setBorder(BorderFactory.createTitledBorder("Tools"));
-        sidebarUtilities.setBorder(BorderFactory.createTitledBorder("Utilities"));
-        sidebarColours.setBorder(BorderFactory.createTitledBorder("Colours"));
+//        sidebarTools.setBorder(BorderFactory.createTitledBorder("Tools"));
+//        sidebarUtilities.setBorder(BorderFactory.createTitledBorder("Utilities"));
+//        sidebarColours.setBorder(BorderFactory.createTitledBorder("Colours"));
 
         sidebar.setPreferredSize(new Dimension(65,800));
-        sidebarTools.setMinimumSize(new Dimension(65,250));
-        sidebarTools.setMaximumSize(new Dimension(65, setPanelHeight(initializeTools().size(), initializeTools().get(Tool.RECTANGLE).getPreferredSize().height)));
-        sidebarUtilities.setMinimumSize(new Dimension(65, 170));
-        sidebarUtilities.setMaximumSize(new Dimension(65, setPanelHeight(initializeUtilities().size(), initializeUtilities().get(Utilities.ZOOM_IN).getPreferredSize().height)));
-        sidebarColours.setMinimumSize(new Dimension(65, 230));
-        sidebarColours.setMaximumSize(new Dimension(65, setPanelHeight(initializeColours().size(), initializeColours().get(ColourQuickSelect.BLACK).getPreferredSize().height)));
+        sidebar.setMinimumSize(new Dimension(65,700));
+//        sidebarTools.setMaximumSize(new Dimension(65, setPanelHeight(initializeTools().size(), initializeTools().get(Tool.RECTANGLE).getPreferredSize().height)));
+//        sidebarUtilities.setMaximumSize(new Dimension(65, setPanelHeight(initializeUtilities().size(), initializeUtilities().get(Utilities.ZOOM_IN).getPreferredSize().height)));
+//        sidebarColours.setMaximumSize(new Dimension(65, setPanelHeight(initializeColours().size(), initializeColours().get(ColourQuickSelect.BLACK).getPreferredSize().height)));
+//
+        for (SidebarPanels sidebarPanels : SidebarPanels.values()){
+            JPanel panel = new JPanel();
+            sidebarPanels.getButtons(initializeTools(), initializeUtilities(), initializeColours());
+            panel.setName(sidebarPanels.name());
+            sidebarPanels.setBackground(panel);
+            sidebarPanels.setBorder(panel);
+            sidebarPanels.setMaximumSize(panel);
+            sidebarPanels.setButtons(panel);
+            sidebar.add(panel);
+        }
 
-        for(JToggleButton toggleButton : initializeTools().values()){
-            sidebarTools.add(toggleButton);
-        }
-        for(JButton button : initializeUtilities().values()){
-            sidebarUtilities.add(button);
-        }
-        for (AbstractButton button : initializeColours().values()){
-            sidebarColours.add(button);
-        }
+//        for(JToggleButton toggleButton : initializeTools().values()){
+//            sidebarTools.add(toggleButton);
+//        }
+//        for(JButton button : initializeUtilities().values()){
+//            sidebarUtilities.add(button);
+//        }
+//        for (AbstractButton button : initializeColours().values()){
+//            sidebarColours.add(button);
+//        }
 
-        sidebar.add(sidebarTools);
-        sidebar.add(sidebarUtilities);
-        sidebar.add(sidebarColours);
+//        sidebar.add(sidebarTools);
+//        sidebar.add(sidebarUtilities);
+//        sidebar.add(sidebarColours);
         sidebarPanel.add(sidebar);
 
         frame.getContentPane().add(sidebarPanel, BorderLayout.LINE_START);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
 
@@ -455,13 +495,7 @@ public class GUI  {
 
         JScrollPane scrPane = new JScrollPane(canvasPanel);
         frame.getContentPane().add(scrPane);
+        frame.pack();
+        frame.setVisible(true);
     }
-
-
-
-
-
-
-
-
 }

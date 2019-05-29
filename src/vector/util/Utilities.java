@@ -29,12 +29,11 @@ public enum Utilities {
             case ZOOM_IN:
             case ZOOM_OUT:
             case GRID:
-                button.setPreferredSize(new Dimension(50,40));
-                break;
             case UNDO:
                 button.setPreferredSize(new Dimension(50,40));
                 break;
+            default:
+                button.setPreferredSize(new Dimension(50,40));
         }
     }
-
 }
