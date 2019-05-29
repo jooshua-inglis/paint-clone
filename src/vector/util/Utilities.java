@@ -15,7 +15,7 @@ public enum Utilities {
             case ZOOM_OUT:
                 return new ImageIcon("src/vector/util/UtilImages/zoomOut.png");
             case GRID:
-                return new ImageIcon("src/vector/util/UtilImages/zoomOut.png");
+                return new ImageIcon("src/vector/util/UtilImages/grid.png");
             case UNDO:
                 return new ImageIcon("src/vector/util/UtilImages/undo.png");
             default:
@@ -28,6 +28,9 @@ public enum Utilities {
         switch (this){
             case ZOOM_IN:
             case ZOOM_OUT:
+            case GRID:
+                button.setPreferredSize(new Dimension(50,40));
+                break;
             case UNDO:
                 button.setPreferredSize(new Dimension(50,40));
                 break;

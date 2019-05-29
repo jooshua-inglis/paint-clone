@@ -36,7 +36,6 @@ public class Plot extends VectorShape {
     }
 
     public void drag(VectorCanvas canvas){
-        System.out.println("yeehaw");
         CanvasMouse mouseListener = canvas.getMouseListener();
         mouseListener.shapeCreating =false;
     }
