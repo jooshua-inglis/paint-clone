@@ -15,10 +15,13 @@ import vector.util.FileIO;
 import vector.util.Tool;
 import vector.util.VectorColor;
 import vector.util.VectorPoint;
+import vector.GUI;
 
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -99,25 +102,80 @@ class CanvasTests {
         }
     }
 
-
-    @Test
-    void testMultipleShapes(){
-        VectorCanvas subject = new VectorCanvas();
-        subject.selectTool(Tool.RECTANGLE);
-        //tool to be changed after more shapes are implemented
-        try {
-            subject.createShape();
-            subject.createShape();
-            subject.createShape();
-        } catch (CanvasException e){
-            fail();
-        }
-
-
-        assertEquals(3, subject.getShapes().size());
-
+    /**
+     * Tests to test multiple add shape to canvas cases
+     */
+    void addShapes(VectorCanvas subject){
+        Rectangle shape1 =  new Rectangle();
+        shape1.addPoint(0.2,0.6);
+        shape1.addPoint(0.8,0.7);
+        subject.addShape(shape1);
+        Ellipse shape2 = new Ellipse();
+        shape2.addPoint(0.2,0.6);
+        shape2.addPoint(0.8,0.7);
+        subject.addShape(shape2);
+        Plot shape3 = new Plot();
+        shape3.addPoint(0.2,0.6);
+        subject.addShape(shape3);
+        Polygon shape4 = new Polygon();
+        shape4.addPoint(0.2,0.6);
+        shape4.addPoint(0.8,0.7);
+        shape4.addPoint(0.9,0.6);
+        subject.addShape(shape4);
+        Line shape5 = new Line();
+        shape5.addPoint(0.2,0.6);
+        shape5.addPoint(0.8,0.7);
+        subject.addShape(shape5);
     }
-
+    @Test
+    void addMultipleShapes(){
+        VectorCanvas subject = new VectorCanvas();
+        subject.gridToggle =false;
+         addShapes(subject);
+        String helper = "RECTANGLE 0.20 0.60 0.80 0.70\nELLIPSE 0.20 0.60 0.80 0.70\nPLOT 0.20 0.60\nPOLYGON 0.20 0.60 0.80 0.70 0.90 0.60\nLINE 0.20 0.60 0.80 0.70\n";
+        assertEquals(helper, FileIO.getString(subject));
+    }
+    @Test
+    void removeShapes(){
+        VectorCanvas subject = new VectorCanvas();
+        subject.gridToggle =false;
+        addShapes(subject);
+        String helper = "RECTANGLE 0.20 0.60 0.80 0.70\nELLIPSE 0.20 0.60 0.80 0.70\nPLOT 0.20 0.60\nPOLYGON 0.20 0.60 0.80 0.70 0.90 0.60\nLINE 0.20 0.60 0.80 0.70\n";
+        assertEquals(helper, FileIO.getString(subject));
+        subject.undo();
+        helper = "RECTANGLE 0.20 0.60 0.80 0.70\nELLIPSE 0.20 0.60 0.80 0.70\nPLOT 0.20 0.60\nPOLYGON 0.20 0.60 0.80 0.70 0.90 0.60\n";
+        assertEquals(helper, FileIO.getString(subject));
+        subject.undo();
+        helper = "RECTANGLE 0.20 0.60 0.80 0.70\nELLIPSE 0.20 0.60 0.80 0.70\nPLOT 0.20 0.60\n";
+        assertEquals(helper, FileIO.getString(subject));
+        subject.undo();
+        helper = "RECTANGLE 0.20 0.60 0.80 0.70\nELLIPSE 0.20 0.60 0.80 0.70\n";
+        assertEquals(helper, FileIO.getString(subject));
+        subject.undo();
+        helper = "RECTANGLE 0.20 0.60 0.80 0.70\n";
+        assertEquals(helper, FileIO.getString(subject));
+        subject.undo();
+        helper = "";
+        assertEquals(helper, FileIO.getString(subject));
+    }
+    @Test
+    void undoFailed(){
+        VectorCanvas subject = new VectorCanvas();
+        subject.gridToggle =false;
+        assertEquals(false,subject.undo());
+    }
+    @Test
+    void edgeCaseAdd(){
+        VectorCanvas subject = new VectorCanvas();
+        subject.gridToggle =false;
+        String helper = "RECTANGLE 0.20 0.60 0.80 0.70\nELLIPSE 0.20 0.60 0.80 0.70\nPLOT 0.20 0.60\nPOLYGON 0.20 0.60 0.80 0.70 0.90 0.60\nLINE 0.20 0.60 0.80 0.70\n";
+        String checker="";
+        for(int i=0;i<1000;i++){
+            addShapes(subject);
+            checker= checker + helper;
+        }
+        assertEquals(checker, FileIO.getString(subject));
+    }
 
     VectorCanvas createEqualCanvas() {
 

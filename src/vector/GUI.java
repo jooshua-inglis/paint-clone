@@ -179,7 +179,7 @@ public class GUI  {
             JOptionPane.showMessageDialog(frame, "There are no more shapes to undo!", "Undo Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    private void toggleGrid(){
+    public void toggleGrid(){
         canvas.gridToggle = !canvas.gridToggle;
         canvas.repaint();
     }

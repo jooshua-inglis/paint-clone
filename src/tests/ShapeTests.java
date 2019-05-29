@@ -3,6 +3,9 @@ package tests;
 import org.junit.jupiter.api.Test;
 import vector.shape.Polygon;
 import vector.shape.Rectangle;
+import vector.shape.Plot;
+import vector.shape.Line;
+import vector.shape.Ellipse;
 import vector.shape.VectorShape;
 import vector.util.VectorColor;
 import vector.util.VectorPoint;
@@ -43,7 +46,7 @@ class ShapeTests {
         subject1.addPoint(0.2,0.6);
         subject1.addPoint(0.8,0.7);
         subject1.addPoint(0.3,0.6);
-        Rectangle subject2 = new Rectangle();
+        Polygon subject2 = new Polygon();
         subject1.addPoint(0.2,0.6);
         subject1.addPoint(0.8,0.7);
         subject1.addPoint(0.3,0.6);
@@ -51,22 +54,30 @@ class ShapeTests {
     }
     @Test
     void equalsTestEllipse() {
-        Rectangle subject1 = new Rectangle();
+        Ellipse subject1 = new Ellipse();
         subject1.addPoint(0.2,0.6);
         subject1.addPoint(0.8,0.7);
-        Rectangle subject2 = new Rectangle();
+        Ellipse subject2 = new Ellipse();
+        subject2.addPoint(0.2,0.6);
+        subject2.addPoint(0.8,0.7);
+        assertEquals(subject1, subject2);
+    }
+    @Test
+    void equalsTestLine() {
+        Line subject1 = new Line();
+        subject1.addPoint(0.2,0.6);
+        subject1.addPoint(0.8,0.7);
+        Line subject2 = new Line();
         subject2.addPoint(0.2,0.6);
         subject2.addPoint(0.8,0.7);
         assertEquals(subject1, subject2);
     }
     @Test
     void equalsTestPlot() {
-        Rectangle subject1 = new Rectangle();
+        Plot subject1 = new Plot();
         subject1.addPoint(0.2,0.6);
-        subject1.addPoint(0.8,0.7);
-        Rectangle subject2 = new Rectangle();
+        Plot subject2 = new Plot();
         subject2.addPoint(0.2,0.6);
-        subject2.addPoint(0.8,0.7);
         assertEquals(subject1, subject2);
     }
 
