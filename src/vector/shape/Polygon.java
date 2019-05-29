@@ -76,7 +76,6 @@ public class Polygon extends VectorShape {
     @Override
     public void draw(Graphics g, int size) {
 
-//        if(finished){
             int nPoints = getVectorPoints().size();
             int xPoints[]=new int[nPoints];
             int yPoints[]=new int[nPoints];

@@ -99,10 +99,31 @@ public class GUI  {
     //Opens File Chooser - Save Dialog
     //Currently allows the user to insert a file name then prints out the directory path
     private void saveAs() {
+//        JFileChooser fileChooser = new JFileChooser();
+//        if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+//            File file = fileChooser.getSelectedFile();
+//            System.out.println(file.toString());
+//        }
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Vector", "vec");
         JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileFilter(filter);
+
+        fileChooser.setSelectedFile(new File("untitled.vec"));
+
         if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
             System.out.println(file.toString());
+            String content = FileIO.getString(canvas);
+            try {
+                FileWriter myWriter = new FileWriter(file);
+
+                myWriter.write(content);
+                myWriter.close();
+                System.out.println("Successfully wrote to the file." + content);
+            } catch (IOException e) {
+                System.out.println("An error occurred.");
+                e.printStackTrace();
+            }
         }
 
     }
@@ -157,6 +178,10 @@ public class GUI  {
         if (!canvas.undo()){
             JOptionPane.showMessageDialog(frame, "There are no more shapes to undo!", "Undo Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
+    private void toggleGrid(){
+        canvas.gridToggle = !canvas.gridToggle;
+        canvas.repaint();
     }
 
     private void addToolFunctionality(Tool tool, ButtonGroup toolGroup){
@@ -213,6 +238,8 @@ public class GUI  {
             case UNDO:
                 addListener(button, (event) -> undo());
                 break;
+            case GRID:
+                addListener(button, (event) -> toggleGrid());
             default:
         }
     }

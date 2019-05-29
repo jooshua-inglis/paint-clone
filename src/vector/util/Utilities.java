@@ -5,6 +5,7 @@ import java.awt.*;
 public enum Utilities {
     ZOOM_IN,
     ZOOM_OUT,
+    GRID,
     UNDO;
 
     public Icon getImage(){
@@ -12,6 +13,8 @@ public enum Utilities {
             case ZOOM_IN:
                 return new ImageIcon("src/vector/util/UtilImages/zoomIn.png");
             case ZOOM_OUT:
+                return new ImageIcon("src/vector/util/UtilImages/zoomOut.png");
+            case GRID:
                 return new ImageIcon("src/vector/util/UtilImages/zoomOut.png");
             case UNDO:
                 return new ImageIcon("src/vector/util/UtilImages/undo.png");

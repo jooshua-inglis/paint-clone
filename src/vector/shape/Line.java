@@ -8,11 +8,6 @@ import vector.util.Point;
 
 public class Line extends VectorShape{
 
-//    public int startX;
-//    public int startY;
-//    public int endX;
-//    public int endY;
-
     public Line() { }
 
     public Line(Point startingPoint, VectorColor penColor, VectorColor fillColor) {

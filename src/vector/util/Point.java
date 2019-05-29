@@ -19,5 +19,6 @@ public interface Point {
     double getY();
 
     List<Double> asList();
+
     java.awt.Point getAbsPoint(int canvasSideLength);
 }

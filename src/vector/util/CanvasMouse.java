@@ -2,12 +2,14 @@ package vector.util;
 
 import vector.VectorCanvas;
 import vector.exception.CanvasException;
+import vector.shape.Line;
 import vector.shape.VectorShape;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,7 +30,6 @@ public class CanvasMouse implements MouseListener, MouseMotionListener, Point {
 
     public void mousePressed(MouseEvent mouseEvent) {
         clicked = true;
-
         if (!shapeCreating) {
             if(!polygon){
                 try {
@@ -68,13 +69,44 @@ public class CanvasMouse implements MouseListener, MouseMotionListener, Point {
     public double getX() {
         try { x = vectorCanvas.getMousePosition().x; }
         catch (NullPointerException e) { }
-        return (double) x / vectorCanvas.getWidth();
+        if(vectorCanvas.gridToggle){
+            return mouseSnap((double) x / vectorCanvas.getHeight());
+        }
+        else {
+            return (double) x / vectorCanvas.getWidth();
+        }
+    }
+
+    public double mouseSnap(double snap){
+        double buffer = 1.0/vectorCanvas.nLines;
+        double snapRight =  snap + buffer;
+        double snapLeft = snap - buffer;
+        double snapPosition = 1;
+        for (Line line : vectorCanvas.Grid) {
+            double position = line.getPoint(1).getX();
+            if(position<snapRight && position>snapLeft){
+                double test = (snap-position);
+                if(test<0){
+                    test = test*(-1);
+                }
+                if (test < snapPosition) {
+                    snapPosition = position;
+                }
+            }
+        }
+        return  snapPosition;
     }
     public double getY() {
         try {y = vectorCanvas.getMousePosition().y; }
         catch (NullPointerException e) { }
-        return (double) y / vectorCanvas.getHeight();
+        if(vectorCanvas.gridToggle){
+           return mouseSnap((double) y / vectorCanvas.getHeight());
+        }
+        else {
+            return (double) y / vectorCanvas.getHeight();
+        }
     }
+
     public List<Double> asList() {
         return Arrays.asList(getX(), getY());
     }

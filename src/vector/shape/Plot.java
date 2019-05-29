@@ -23,7 +23,6 @@ public class Plot extends VectorShape {
         int startX = (p1.x)-(width/2);
         int startY = p1.y-(height/2);
 
-
         if (getPen().isActive()) {
             g.setColor(getPen().asColor());
         }
@@ -35,7 +34,6 @@ public class Plot extends VectorShape {
         setPen(penColor);
         setFill(fillColor);
     }
-
 
     public void drag(VectorCanvas canvas){
         System.out.println("yeehaw");

@@ -7,6 +7,9 @@ import vector.exception.CanvasException;
 import vector.exception.VecFileException;
 import vector.shape.Ellipse;
 import vector.shape.Rectangle;
+import vector.shape.Plot;
+import vector.shape.Polygon;
+import vector.shape.Line;
 import vector.shape.VectorShape;
 import vector.util.FileIO;
 import vector.util.Tool;
@@ -42,28 +45,45 @@ class CanvasTests {
         VectorCanvas subject = new VectorCanvas();
         subject.selectTool(Tool.ELLIPSE);
         assertEquals(subject.getSelectedTool(),Tool.ELLIPSE);
-        //assertEquals(subject.createShape().getClass(), Rectangle.class);
+        try {
+            assertEquals(subject.createShape().getClass(), Ellipse.class);
+        } catch (CanvasException e) {
+            fail();
+        }
+
     }
     @Test
-    void testPolygon(){
+    void testPolygon() throws CanvasException {
         VectorCanvas subject = new VectorCanvas();
         subject.selectTool(Tool.POLYGON);
         assertEquals(subject.getSelectedTool(),Tool.POLYGON);
-        //assertEquals(subject.createShape().getClass(), Rectangle.class);
+        try {
+            assertEquals(subject.createShape().getClass(), Polygon.class);
+        } catch (CanvasException e) {
+            fail();
+        }
     }
     @Test
     void testLine(){
         VectorCanvas subject = new VectorCanvas();
         subject.selectTool(Tool.LINE);
         assertEquals(subject.getSelectedTool(),Tool.LINE);
-        //assertEquals(subject.createShape().getClass(), Rectangle.class);
+        try {
+            assertEquals(subject.createShape().getClass(), Line.class);
+        } catch (CanvasException e) {
+            fail();
+        }
     }
     @Test
     void testPlot(){
         VectorCanvas subject = new VectorCanvas();
         subject.selectTool(Tool.PLOT);
         assertEquals(subject.getSelectedTool(),Tool.PLOT);
-        //assertEquals(subject.createShape().getClass(), Plot.class);
+        try {
+            assertEquals(subject.createShape().getClass(), Plot.class);
+        } catch (CanvasException e) {
+            fail();
+        }
     }
     @Test
     void testMultipleTools(){
@@ -72,7 +92,11 @@ class CanvasTests {
         assertEquals(subject.getSelectedTool(),Tool.PLOT);
         subject.selectTool(Tool.LINE);
         assertEquals(subject.getSelectedTool(),Tool.LINE);
-        //assertEquals(subject.createShape().getClass(), Plot.class);
+        try {
+            assertEquals(subject.createShape().getClass(), Rectangle.class);
+        } catch (CanvasException e) {
+            fail();
+        }
     }
 
 

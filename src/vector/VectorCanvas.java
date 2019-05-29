@@ -1,11 +1,15 @@
 package vector;
 
 import vector.exception.CanvasException;
+import vector.shape.Rectangle;
+import vector.shape.Line;
 import vector.shape.VectorShape;
+import vector.util.Point;
 import vector.util.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -25,6 +29,9 @@ import java.util.NoSuchElementException;
 public class VectorCanvas extends JPanel {
     /** List of all shapes */
     private LinkedList<VectorShape> shapes;
+    public List<Line> Grid;
+    public boolean gridToggle;
+    public double nLines = 30;
     private Tool selectedTool;
     private VectorColor selectedPenColor, selectedFillColor;
     private CanvasMouse mouseListener;
@@ -35,27 +42,58 @@ public class VectorCanvas extends JPanel {
      * Method required by Canvas class to be able to be printed to the window
      * @param g Graphic
      */
+
+    public List grid(){
+        List<Line> Grid = new ArrayList<>();
+        double buffer =1.0/nLines;
+        double coordinate = 0;
+        for(double i= 0; i<nLines;i++) {
+            List<VectorPoint> horizontal = new ArrayList<>();
+            List<VectorPoint> vertical = new ArrayList<>();
+            for(int j=0;j<2;j++) {
+                VectorPoint p1 = new VectorPoint(j, coordinate);
+                horizontal.add(p1);
+                VectorPoint p3 = new VectorPoint(coordinate, j);
+                vertical.add(p3);
+            }
+            Line xLine = new Line(horizontal);
+            Line yLine = new Line(vertical);
+            VectorColor color = new VectorColor(0xCECECE);
+            xLine.setPen(color);
+            yLine.setPen(color);
+            Grid.add(xLine);
+            Grid.add(yLine);
+            coordinate+=buffer;
+        }
+        return Grid;
+    }
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         super.paintBorder(g);
         // Set keyboard focus to a component
         this.setFocusable(true);
-//        System.out.println(this.isFocusable());
         this.requestFocusInWindow();
-//        System.out.println(this.isFocusOwner());
         int num = 0;
+        if(gridToggle) {
+            Grid = grid();
+            //System.out.println(Grid);
+            for (Line line : Grid) {
+                line.draw(g, getWidth());
+            }
+        }
         for (VectorShape shape : shapes) {
-//            System.out.println("Drawing:" + shape.getName() + num);
-//            System.out.println(getWidth());
+
             shape.draw(g, getWidth());
             num++;
         }
         g.dispose();
+
     }
 
     public VectorCanvas() {
         selectedFillColor = new VectorColor(0xfffff, false);
         selectedPenColor = new VectorColor(0);
+        gridToggle =true;
         shapes = new LinkedList<>();
         selectedTool = Tool.LINE;
         mouseListener = new CanvasMouse();

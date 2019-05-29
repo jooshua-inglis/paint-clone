@@ -1,6 +1,7 @@
 package tests;
 
 import org.junit.jupiter.api.Test;
+import vector.shape.Polygon;
 import vector.shape.Rectangle;
 import vector.shape.VectorShape;
 import vector.util.VectorColor;
@@ -27,7 +28,39 @@ class ShapeTests {
     }
 
     @Test
-    void equalsTest() {
+    void equalsTestRectangle() {
+        Rectangle subject1 = new Rectangle();
+        subject1.addPoint(0.2,0.6);
+        subject1.addPoint(0.8,0.7);
+        Rectangle subject2 = new Rectangle();
+        subject2.addPoint(0.2,0.6);
+        subject2.addPoint(0.8,0.7);
+        assertEquals(subject1, subject2);
+    }
+    @Test
+    void equalsTestPolygon() {
+        Polygon subject1 = new Polygon();
+        subject1.addPoint(0.2,0.6);
+        subject1.addPoint(0.8,0.7);
+        subject1.addPoint(0.3,0.6);
+        Rectangle subject2 = new Rectangle();
+        subject1.addPoint(0.2,0.6);
+        subject1.addPoint(0.8,0.7);
+        subject1.addPoint(0.3,0.6);
+        assertEquals(subject1, subject2);
+    }
+    @Test
+    void equalsTestEllipse() {
+        Rectangle subject1 = new Rectangle();
+        subject1.addPoint(0.2,0.6);
+        subject1.addPoint(0.8,0.7);
+        Rectangle subject2 = new Rectangle();
+        subject2.addPoint(0.2,0.6);
+        subject2.addPoint(0.8,0.7);
+        assertEquals(subject1, subject2);
+    }
+    @Test
+    void equalsTestPlot() {
         Rectangle subject1 = new Rectangle();
         subject1.addPoint(0.2,0.6);
         subject1.addPoint(0.8,0.7);
