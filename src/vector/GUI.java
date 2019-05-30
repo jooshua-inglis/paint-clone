@@ -27,10 +27,11 @@ import static vector.util.ColourTools.*;
  * @version 59.0
  * @since 30/4/19
  */
-public class GUI  {
+public class GUI {
 
     private static JFrame frame;
     private JPanel canvasPanel;
+    JScrollPane scrPane;
     private boolean penPressed = false;
     private boolean fillPressed = false;
     private boolean fillOffPressed = false;
@@ -55,6 +56,8 @@ public class GUI  {
         frame.setPreferredSize(new Dimension(720, 800));
         frame.setLocation(0,0);
         frame.getContentPane().setLayout(new BorderLayout());
+
+
     }
 
     //Opens File Chooser - Open Dialog
@@ -176,12 +179,19 @@ public class GUI  {
         button.addActionListener(e);
     }
 
-    private void zoom(int amount) {
+    public void updateCanvasSize() {
+        double sideLength = canvas.getScale() * Math.min(frame.getHeight(), frame.getWidth());
+        canvas.setPreferredSize(new Dimension((int) sideLength, (int) sideLength));
+        canvas.setSize(new Dimension((int) sideLength, (int) sideLength));
+        canvasPanel.setPreferredSize(canvas.getSize());
+    }
+
+    private void zoom(double amount) {
         if (canvas.getSize().equals(new Dimension(100, 100)) && amount == -100){
             JOptionPane.showMessageDialog(frame, "Canvas is at minimum size. It cannot be zoomed out any further!", "Zooming out too far", JOptionPane.ERROR_MESSAGE);
         } else {
             canvas.zoom(amount);
-            canvasPanel.setPreferredSize(canvas.getSize());
+            updateCanvasSize();
             frame.pack();
         }
     }
@@ -241,10 +251,10 @@ public class GUI  {
     private void addUtilityFunctionality(JButton button, Utilities utility) {
         switch (utility) {
             case ZOOM_IN:
-                addListener(button, (event) -> zoom(100));
+                addListener(button, (event) -> zoom(0.2));
                 break;
             case ZOOM_OUT:
-                addListener(button, (event) -> zoom(-100));
+                addListener(button, (event) -> zoom(-0.2));
                 break;
             case UNDO:
                 addListener(button, (event) -> undo());
@@ -428,9 +438,24 @@ public class GUI  {
         canvasPanel.setPreferredSize(new Dimension(500, 500));
         canvasPanel.add(canvas);
 
-        JScrollPane scrPane = new JScrollPane(canvasPanel);
+        scrPane = new JScrollPane(canvasPanel);
         frame.getContentPane().add(scrPane);
         frame.pack();
         frame.setVisible(true);
+
+        FrameResize resize = new FrameResize(this);
+        frame.addComponentListener(resize);
+    }
+
+    public JScrollPane getScrPane() {
+        return scrPane;
+    }
+
+    public static VectorCanvas getCanvas() {
+        return canvas;
+    }
+
+    public JPanel getCanvasPanel() {
+        return canvasPanel;
     }
 }

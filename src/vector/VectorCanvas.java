@@ -37,11 +37,9 @@ public class VectorCanvas extends JPanel {
     private CanvasMouse mouseListener;
     public CanvasKeys keysListener;
     private int sideWidth;
+    private double scale;
 
-    /**
-     * Method required by Canvas class to be able to be printed to the window
-     * @param g Graphic
-     */
+
 
     public List grid(){
         List<Line> Grid = new ArrayList<>();
@@ -103,6 +101,7 @@ public class VectorCanvas extends JPanel {
         keysListener = new CanvasKeys();
         keysListener.attachCanvas(this);
         this.addKeyListener(keysListener);
+        this.scale = 0.5;
     }
 
     public int getSideWith() {
@@ -134,12 +133,8 @@ public class VectorCanvas extends JPanel {
         }
     }
 
-    public void zoom(int amount) {
-        Dimension d = getPreferredSize();
-        d.width += amount;
-        d.height += amount;
-        setPreferredSize(d);
-        setSize(d);
+    public void zoom(double amount) {
+        scale += amount;
     }
 
     /**
@@ -198,6 +193,8 @@ public class VectorCanvas extends JPanel {
     public boolean isShapeCreating(){
         return mouseListener.shapeCreating;
     }
+
+    public double getScale() { return scale; }
 
 
     @Override
