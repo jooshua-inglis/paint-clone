@@ -1,9 +1,10 @@
 package vector.shape;
 
-import vector.VectorCanvas;
-import vector.util.*;
+import vector.util.Point;
+import vector.util.VectorColor;
+import vector.util.VectorPoint;
 
-import java.awt.Graphics;
+import java.awt.*;
 import java.util.List;
 
 /** An extension of {@link VectorShape} with 2 points

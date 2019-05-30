@@ -1,22 +1,28 @@
 package vector;
 
+import vector.eventHandlers.FrameResize;
 import vector.exception.VecFileException;
-import vector.util.*;
+import vector.uiComponents.*;
+import vector.util.FileIO;
+import vector.util.Utilities;
+import vector.util.VectorColor;
+
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
-import java.util.*;
+import java.util.Enumeration;
+import java.util.LinkedHashMap;
 import java.util.List;
 
-
 import static java.awt.Color.*;
-import static vector.SidebarPanels.*;
-import static vector.util.ColourTools.*;
+import static vector.uiComponents.ColourTools.*;
 
 /**
  * GUI class controls the what is output to the window. It contains one JFrame that holds multiple JPanels to present
@@ -31,7 +37,7 @@ public class GUI {
 
     private static JFrame frame;
     private JPanel canvasPanel;
-    JScrollPane scrPane;
+    private JScrollPane scrPane;
     private boolean penPressed = false;
     private boolean fillPressed = false;
     private boolean fillOffPressed = false;
@@ -42,7 +48,7 @@ public class GUI {
      * This constructor is used to build and initialize the graphical interface. It contains various methods each
      * implementing a certain functionality for the interface.
      */
-    GUI() {
+    public GUI() {
         showFrame();
         showMenuBar();
         showSidebar();

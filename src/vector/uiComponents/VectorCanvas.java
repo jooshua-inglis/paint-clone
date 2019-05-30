@@ -1,11 +1,12 @@
-package vector;
+package vector.uiComponents;
 
+import vector.eventHandlers.CanvasKeys;
+import vector.eventHandlers.CanvasMouse;
 import vector.exception.CanvasException;
-import vector.shape.Rectangle;
 import vector.shape.Line;
 import vector.shape.VectorShape;
-import vector.util.Point;
-import vector.util.*;
+import vector.util.VectorColor;
+import vector.util.VectorPoint;
 
 import javax.swing.*;
 import java.awt.*;

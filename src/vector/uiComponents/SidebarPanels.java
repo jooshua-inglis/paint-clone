@@ -1,8 +1,7 @@
-package vector;
+package vector.uiComponents;
 
-import vector.util.ColourQuickSelect;
-import vector.util.Tool;
 import vector.util.Utilities;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.LinkedHashMap;

@@ -1,7 +1,7 @@
 package JonathanDraft;
 
-import vector.util.ColourQuickSelect;
-import vector.util.ColourTools;
+import vector.uiComponents.ColourQuickSelect;
+import vector.uiComponents.ColourTools;
 
 import javax.swing.*;
 import java.util.LinkedHashMap;

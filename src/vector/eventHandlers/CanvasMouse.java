@@ -1,15 +1,15 @@
-package vector.util;
+package vector.eventHandlers;
 
-import vector.VectorCanvas;
 import vector.exception.CanvasException;
 import vector.shape.Line;
 import vector.shape.VectorShape;
+import vector.uiComponents.VectorCanvas;
+import vector.util.Point;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

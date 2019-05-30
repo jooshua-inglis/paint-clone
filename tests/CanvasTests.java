@@ -2,7 +2,7 @@ package tests;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import vector.VectorCanvas;
+import vector.uiComponents.VectorCanvas;
 import vector.exception.CanvasException;
 import vector.exception.VecFileException;
 import vector.shape.Ellipse;
@@ -12,16 +12,13 @@ import vector.shape.Polygon;
 import vector.shape.Line;
 import vector.shape.VectorShape;
 import vector.util.FileIO;
-import vector.util.Tool;
+import vector.uiComponents.Tool;
 import vector.util.VectorColor;
 import vector.util.VectorPoint;
-import vector.GUI;
 
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 

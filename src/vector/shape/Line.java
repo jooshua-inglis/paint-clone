@@ -1,10 +1,11 @@
 package vector.shape;
 
-import vector.VectorCanvas;
-import vector.util.*;
-import java.awt.Graphics;
-import java.util.List;
 import vector.util.Point;
+import vector.util.VectorColor;
+import vector.util.VectorPoint;
+
+import java.awt.*;
+import java.util.List;
 
 public class Line extends VectorShape{
 

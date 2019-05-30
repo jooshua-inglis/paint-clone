@@ -1,7 +1,7 @@
 package vector.shape;
 
-import vector.VectorCanvas;
-import vector.util.CanvasMouse;
+import vector.eventHandlers.CanvasMouse;
+import vector.uiComponents.VectorCanvas;
 import vector.util.VectorColor;
 
 import java.awt.*;

@@ -1,10 +1,10 @@
 package vector.util;
 
-import vector.VectorCanvas;
 import vector.exception.VecFileException;
-import vector.shape.*;
 import vector.shape.Polygon;
 import vector.shape.Rectangle;
+import vector.shape.*;
+import vector.uiComponents.VectorCanvas;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

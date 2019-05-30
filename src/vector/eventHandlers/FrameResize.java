@@ -1,4 +1,4 @@
-package vector.util;
+package vector.eventHandlers;
 
 import vector.GUI;
 

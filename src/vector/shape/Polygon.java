@@ -1,16 +1,12 @@
 package vector.shape;
 
-import vector.VectorCanvas;
-import vector.util.CanvasKeys;
-import vector.util.CanvasMouse;
+import vector.eventHandlers.CanvasMouse;
+import vector.uiComponents.VectorCanvas;
 import vector.util.VectorColor;
-
 import vector.util.VectorPoint;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 

@@ -1,16 +1,14 @@
-package vector.util;
+package vector.uiComponents;
 
 import vector.exception.CanvasException;
-import vector.shape.*;
 import vector.shape.Polygon;
 import vector.shape.Rectangle;
-import vector.shape.Ellipse;
-import vector.shape.Line;
+import vector.shape.*;
 
-
-//import javax.sound.sampled.Line;
 import javax.swing.*;
 import java.awt.*;
+
+//import javax.sound.sampled.Line;
 
 public enum Tool {
     RECTANGLE,
@@ -48,10 +46,6 @@ public enum Tool {
                 break;
         }
     }
-
-
-
-
 
     public VectorShape getCls() throws CanvasException {
         switch (this) {

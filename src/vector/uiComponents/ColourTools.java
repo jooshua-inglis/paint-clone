@@ -1,11 +1,6 @@
-package vector.util;
-import javax.imageio.ImageIO;
+package vector.uiComponents;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.nio.Buffer;
-import java.io.File;
 
 public enum ColourTools {
     PEN,

@@ -1,8 +1,7 @@
-package vector.util;
+package vector.eventHandlers;
 
 import vector.GUI;
-import vector.VectorCanvas;
-import vector.shape.VectorShape;
+import vector.uiComponents.VectorCanvas;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
