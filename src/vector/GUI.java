@@ -4,7 +4,7 @@ import vector.eventHandlers.FrameResize;
 import vector.exception.VecFileException;
 import vector.uiComponents.*;
 import vector.util.FileIO;
-import vector.util.Utilities;
+import vector.uiComponents.Utilities;
 import vector.util.VectorColor;
 
 import javax.swing.*;
@@ -34,14 +34,21 @@ import static vector.uiComponents.ColourTools.*;
  * @since 30/4/19
  */
 public class GUI {
-
+    /** Top-level window */
     private static JFrame frame;
+    /** Panel to hold the canvas*/
     private JPanel canvasPanel;
+    /** Scroll pane view for canvas */
     private JScrollPane scrPane;
+    /** Check if PEN tool is pressed */
     private boolean penPressed = false;
+    /** Check if FILL tool is pressed */
     private boolean fillPressed = false;
+    /** Check if FILL_OFF tool is pressed */
     private boolean fillOffPressed = false;
+    /** Canvas that will be drawn on  */
     static VectorCanvas canvas;
+    /** Check if PEN tool is pressed */
     private AbstractButton currentSelectedTool = new JToggleButton();
 
     /**
@@ -55,6 +62,9 @@ public class GUI {
         showCanvas();
     }
 
+    /**
+     * Used to initialize the frame
+     */
     private void showFrame(){
         JFrame.setDefaultLookAndFeelDecorated(true);
         frame = new JFrame("VectorTool");
@@ -181,10 +191,19 @@ public class GUI {
         frame.setJMenuBar(menuBar);
     }
 
+    /**
+     * This method is used to add an ActionListener to an AbstractButton
+     * @param button This is the button that will hold the ActionListener
+     * @param e This is the ActionListener
+     */
     private void addListener(AbstractButton button, ActionListener e){
         button.addActionListener(e);
     }
 
+    /**
+     * This function is used to resize the canvas by changing the size of the
+     * VectorCanvas object 'canvas'
+     */
     public void updateCanvasSize() {
         double sideLength = canvas.getScale() * Math.min(frame.getHeight(), frame.getWidth());
         canvas.setPreferredSize(new Dimension((int) sideLength, (int) sideLength));
@@ -192,8 +211,19 @@ public class GUI {
         canvasPanel.setPreferredSize(canvas.getSize());
     }
 
+    /**
+     * This method is used to control the {@link VectorCanvas zoom} of the drawing canvas. It calls
+     * updateCanvasSize() to resize the canvasPanel.
+     * A dialog box is opened if the canvas is no longer visible on the frame.
+     * @param amount This is the amount that the canvas will be zoomed in or out
+     */
     private void zoom(double amount) {
+        /*
+        if-statement to determine when the canvas can be resized. A dialog box will be presented if the next zoom will
+        make the canvas non-visible.
+         */
         if (canvas.getSize().equals(new Dimension(100, 100)) && amount == -100){
+            // Display dialog box
             JOptionPane.showMessageDialog(frame, "Canvas is at minimum size. It cannot be zoomed out any further!", "Zooming out too far", JOptionPane.ERROR_MESSAGE);
         } else {
             canvas.zoom(amount);
@@ -201,17 +231,33 @@ public class GUI {
             frame.pack();
         }
     }
-    public static void undo(){
-        if (!canvas.undo()){
+
+    /**
+     * This method is used to {@link VectorCanvas undo} the last shape drawn on the canvas.
+     * A dialog box is presented if the method is called but there are no shapes to undo.
+     */
+    public static void undo() {
+        /*
+        Calling the undo() from VectorCanvas will return a boolean. It will return false when there are no more
+        shapes to be undone, and a dialog box will inform the user.
+        */
+        if (!canvas.undo()) {
             JOptionPane.showMessageDialog(frame, "There are no more shapes to undo!", "Undo Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    public void toggleGrid(){
+    public void toggleGrid() {
         canvas.gridToggle = !canvas.gridToggle;
         canvas.repaint();
     }
 
-    private void addToolFunctionality(Tool tool, ButtonGroup toolGroup){
+    /**
+     * This method is used to select the type of {@link Tool tool} that will be used. A dialog box is presented if the
+     * user attempts to select a shape without completing the currently selected shape. Nested if-statements and
+     * while-statements are used to ensure the button of the current shape tool is selected.
+     * @param tool This is the tool which will draw a certain shape
+     * @param toolGroup This holds the group of buttons that will select a certain shape tool.
+     */
+    private void addToolFunctionality(Tool tool, ButtonGroup toolGroup) {
         Enumeration toolGroupElements = toolGroup.getElements();
         boolean showDialog = false;
         while (toolGroupElements.hasMoreElements()) {
@@ -235,7 +281,13 @@ public class GUI {
             }
         }
     }
-    private LinkedHashMap<Tool, JToggleButton> initializeTools(){
+
+    /**
+     * This method is used to initialize the toggle buttons used for the Tools panel on the Sidebar panel. Each button
+     * is added to a LinkedHashMap, with a {@link Tool tool} as the Key and the toggle button as the Value.
+     * @return returns the LinkedHashMap of buttons and Tool
+     */
+    private LinkedHashMap<Tool, JToggleButton> initializeTools() {
         LinkedHashMap<Tool, JToggleButton> toolButtonMap = new LinkedHashMap<>();
         ButtonGroup toolGroup = new ButtonGroup();
         for (Tool tool : Tool.values()) {
@@ -253,7 +305,14 @@ public class GUI {
         }
         return toolButtonMap;
     }
-    
+
+    /**
+     * This function is used to add an {@link ActionListener} to a {@link Utilities Utilities} type button. The method
+     * addListener(), adds the ActionListener and points to a method to be run in an event. A switch-statement
+     * determines which event method is assigned to which button.
+     * @param button a button that executes a method based on its Utilities functionality
+     * @param utility an Enum of {@link Utilities Utilities}
+     */
     private void addUtilityFunctionality(JButton button, Utilities utility) {
         switch (utility) {
             case ZOOM_IN:
@@ -270,7 +329,14 @@ public class GUI {
             default:
         }
     }
-    private LinkedHashMap<Utilities, JButton> initializeUtilities(){
+
+    /**
+     * This method is used to initialize all the buttons used for the Utility panel on the Sidebar.
+     * Each button is added to a LinkedHashMap, with a {@link Tool tool} as the Key and the toggle
+     * button as the Value
+     * @return the LinkedHashMap of buttons and Utilities
+     */
+    private LinkedHashMap<Utilities, JButton> initializeUtilities() {
         LinkedHashMap<Utilities, JButton> utilityMap = new LinkedHashMap<>();
         for(Utilities utility : Utilities.values()){
             JButton button = new JButton(utility.getImage());
@@ -285,8 +351,15 @@ public class GUI {
         }
         return utilityMap;
     }
-    
-    private Color selectColor(AbstractButton button){
+
+    /**
+     * This method is used to select a {@link Color colour} for the PEN or FILL tool.
+     * Colours are determined via buttons on the Sidebar, which hold colours from
+     * {@link ColourQuickSelect}. Colours can also be selected via a {@link JColorChooser colour chooser}
+     * @param button used to determine if FILL or PEN button is selected
+     * @return the colour selected
+     */
+    private Color selectColor(AbstractButton button) {
         Color selectedColour;
         if(button.getName().equals(PICKER.toString()) && penPressed || button.getName().equals(PICKER.toString()) && fillPressed){
             Color previousColor;
@@ -306,13 +379,26 @@ public class GUI {
         }
         return selectedColour;
     }
-    private int colorToRGB(Color colour){
+
+    /**
+     * Used to convert {@link Color} to RGB
+     * @param colour Color being converted
+     * @return Color in RGB
+     */
+    private int colorToRGB(Color colour) {
         int r = colour.getRed();
         int g = colour.getGreen();
         int b = colour.getBlue();
         return (r*65536)+(g*256)+b;
     }
-    private void addColourTools(LinkedHashMap<ColourTools, AbstractButton> colourToolsMap){
+
+    /**
+     * Used to add both buttons and toggle buttons to colourToolsMap.
+     * Buttons are {@link ColourTools colour tools} located on the Colour panel.
+     * @param colourToolsMap LinkedHashMap containing buttons for the Colour panel
+     * on the Sidebar.
+     */
+    private void addColourTools(LinkedHashMap<ColourTools, AbstractButton> colourToolsMap) {
         ButtonGroup colourToolGroup = new ButtonGroup();
         for(ColourTools colourTool : ColourTools.values()){
            if (colourTool.equals(PEN) || colourTool.equals(FILL) || colourTool.equals(FILL_OFF)) {
@@ -330,7 +416,13 @@ public class GUI {
            }
        }
     }
-    private void addColourQuickSelect(LinkedHashMap<ColourQuickSelect, AbstractButton> colourQuickSelectMap){
+
+    /**
+     * Used to add buttons to a LinkedHashMap containing quick select colour buttons
+     * for the Colour panel on the Sidebar
+     * @param colourQuickSelectMap LinkedHashMap containing quick select colour buttons
+     */
+    private void addColourQuickSelect(LinkedHashMap<ColourQuickSelect, AbstractButton> colourQuickSelectMap) {
         for(ColourQuickSelect colourQuickSelect : ColourQuickSelect.values()){
             JButton button = new JButton();
             button.setName(colourQuickSelect.name());
@@ -339,11 +431,23 @@ public class GUI {
             colourQuickSelectMap.put(colourQuickSelect,button);
         }
     }
-    private void combineColourToolsAndQuickSelect(LinkedHashMap<Object, AbstractButton> colourMap, LinkedHashMap<ColourTools, AbstractButton> colourToolsMap, LinkedHashMap<ColourQuickSelect, AbstractButton> colourQuickSelectMap){
+
+    /**
+     * Used to combine two LinkedHashMaps together.
+     * @param colourMap result of combined LinkedHashMaps
+     * @param colourToolsMap LinkedHashMap of Colour panel tools
+     * @param colourQuickSelectMap LinkedHashMap of Colour panel quick select colours
+     */
+    private void combineColourToolsAndQuickSelect(LinkedHashMap<Object, AbstractButton> colourMap, LinkedHashMap<ColourTools, AbstractButton> colourToolsMap, LinkedHashMap<ColourQuickSelect, AbstractButton> colourQuickSelectMap) {
         colourMap.putAll(colourToolsMap);
         colourMap.putAll(colourQuickSelectMap);
     }
-    private void addColourActionListeners(LinkedHashMap<Object, AbstractButton> colourMap){
+
+    /**
+     * Used to add {@link ActionListener} and event method to each button in colourMap.
+     * @param colourMap LinkedHashMap containing buttons for the Colour panel in the Sidebar
+     */
+    private void addColourActionListeners(LinkedHashMap<Object, AbstractButton> colourMap) {
         for (AbstractButton button : colourMap.values()){
             // remove to make these buttons functional
             if(!button.getName().equals(PEN_COLOUR.toString()) || !button.getName().equals(FILL_COLOUR.toString())){
@@ -351,7 +455,13 @@ public class GUI {
             }
         }
     }
-    private void addColourFunctionality(AbstractButton button, LinkedHashMap<Object, AbstractButton>colourMap){
+
+    /**
+     * Used to execute the functionality of the buttons on the Color panel.
+     * @param button the current button that was selected by the user
+     * @param colourMap LinkedHashMap containing all the buttons on the Colour panel
+     */
+    private void addColourFunctionality(AbstractButton button, LinkedHashMap<Object, AbstractButton>colourMap) {
         Color selectedColour;
         Color fillOffColour  = colourMap.get(FILL_OFF).getBackground();
 
@@ -394,7 +504,12 @@ public class GUI {
             colourMap.get(FILL_COLOUR).setBackground(fillOffColour);
         }
     }
-    private LinkedHashMap<Object, AbstractButton> initializeColours(){
+
+    /**
+     * Used to initialise the buttons on the Colour panel.
+     * @return LinkedHashMap containing all the buttons on the Colour panel
+     */
+    private LinkedHashMap<Object, AbstractButton> initializeColours() {
         LinkedHashMap<ColourTools, AbstractButton> colourToolsMap = new LinkedHashMap<>();
         LinkedHashMap<ColourQuickSelect, AbstractButton> colourQuickSelectMap = new LinkedHashMap<>();
         LinkedHashMap<Object, AbstractButton> colourMap = new LinkedHashMap<>();
@@ -405,7 +520,12 @@ public class GUI {
         return colourMap;
     }
 
-    private void showSidebar(){
+    /**
+     * Used to initialize the Sidebar panel. This involves initializing
+     * sub-panels outlined in {@link SidebarPanels} which provides the
+     * drawing functionality of the applicaiton.
+     */
+    private void showSidebar() {
         JPanel sidebarPanel = new JPanel();
         JPanel sidebar = new JPanel();
 
@@ -433,6 +553,10 @@ public class GUI {
         frame.getContentPane().add(sidebarPanel, BorderLayout.LINE_START);
     }
 
+    /**
+     * Used to initialize the {@link VectorCanvas canvas} where the drawing will
+     * be done.
+     */
     private void showCanvas() {
         canvas = new VectorCanvas();
         canvas.setBackground(WHITE);

@@ -1,7 +1,5 @@
 package vector.uiComponents;
 
-import vector.util.Utilities;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.LinkedHashMap;
