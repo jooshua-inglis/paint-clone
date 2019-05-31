@@ -108,12 +108,12 @@ public class AnotherFourPanelLayout {
         StringBuilder sb = new StringBuilder();
 
         sb.append("<html><table>");
-        sb.append(addRowToTable("Grid X", gbc.gridx));
-        sb.append(addRowToTable("Grid Y", gbc.gridy));
+        sb.append(addRowToTable("grid X", gbc.gridx));
+        sb.append(addRowToTable("grid Y", gbc.gridy));
         sb.append(addRowToTable("Weight X", gbc.weightx));
         sb.append(addRowToTable("Weight Y", gbc.weighty));
-        sb.append(addRowToTable("Grid Width", gbc.gridwidth));
-        sb.append(addRowToTable("Grid Height", gbc.gridheight));
+        sb.append(addRowToTable("grid Width", gbc.gridwidth));
+        sb.append(addRowToTable("grid Height", gbc.gridheight));
 
         return sb.toString();
     }

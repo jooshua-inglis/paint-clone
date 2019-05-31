@@ -82,7 +82,7 @@ public class CanvasMouse implements MouseListener, MouseMotionListener, Point {
         double snapRight =  snap + buffer;
         double snapLeft = snap - buffer;
         double snapPosition = 1;
-        for (Line line : vectorCanvas.Grid) {
+        for (Line line : vectorCanvas.grid) {
             double position = line.getPoint(1).getX();
             if(position<snapRight && position>snapLeft){
                 double test = (snap-position);

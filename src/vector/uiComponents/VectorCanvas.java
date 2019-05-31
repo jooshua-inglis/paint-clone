@@ -30,7 +30,7 @@ import java.util.NoSuchElementException;
 public class VectorCanvas extends JPanel {
     /** List of all shapes */
     private LinkedList<VectorShape> shapes;
-    public List<Line> Grid;
+    public List<Line> grid;
     public boolean gridToggle;
     public double nLines = 30;
     private Tool selectedTool;
@@ -42,7 +42,7 @@ public class VectorCanvas extends JPanel {
 
 
 
-    public List grid(){
+    private List<Line> createGrid(){
         List<Line> Grid = new ArrayList<>();
         double buffer =1.0/nLines;
         double coordinate = 0;
@@ -74,9 +74,9 @@ public class VectorCanvas extends JPanel {
         this.requestFocusInWindow();
         int num = 0;
         if(gridToggle) {
-            Grid = grid();
-            //System.out.println(Grid);
-            for (Line line : Grid) {
+            grid = createGrid();
+            //System.out.println(grid);
+            for (Line line : grid) {
                 line.draw(g, getWidth());
             }
         }
