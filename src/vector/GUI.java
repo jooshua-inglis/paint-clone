@@ -258,26 +258,47 @@ public class GUI {
      * @param toolGroup This holds the group of buttons that will select a certain shape tool.
      */
     private void addToolFunctionality(Tool tool, ButtonGroup toolGroup) {
+        // Variable to store elements of toolGroup
         Enumeration toolGroupElements = toolGroup.getElements();
+        // check if dialog box is shown
         boolean showDialog = false;
+        // loop through toolGroupElements
         while (toolGroupElements.hasMoreElements()) {
-            AbstractButton button = (AbstractButton)toolGroupElements.nextElement();
-            if (button.isSelected() && canvas.isShapeCreating()) {
-                button.setSelected(false);
+            // Initiate an AbstractButton set to the next element of toolGroupElements
+            AbstractButton selectedButton = (AbstractButton)toolGroupElements.nextElement();
+            /*
+            if-else statement to determine whether a tool should be selected.
+            If a tool is selected, but there is already a current tool being used -> toggle the selected tool OFF and
+            then loop through all the buttons in toolGroup until the current tool found. Toggle that button ON and show
+            a dialog box. Otherwise -> set the selected tool and store it as the current tool.
+             */
+            if (selectedButton.isSelected() && canvas.isShapeCreating()) {
+                // Toggle button OFF
+                selectedButton.setSelected(false);
+                // Variable to store toolGroup elements
                 Enumeration toolGroupElementsCopy = toolGroup.getElements();
+                // Loop through toolGroupElementsCopy
                 while (toolGroupElementsCopy.hasMoreElements()) {
-                    AbstractButton button2 = (AbstractButton) toolGroupElementsCopy.nextElement();
-                    if (button2.getName().equals(currentSelectedTool.getName())){
-                        button2.setSelected(true);
+                    // Abstract button set to the next element of toolGroupElementsCopy
+                    AbstractButton currentTool = (AbstractButton) toolGroupElementsCopy.nextElement();
+                    // Check if element is the current tool
+                    if (currentTool.getName().equals(currentSelectedTool.getName())){
+                        // toggle element ON
+                        currentTool.setSelected(true);
                     }
                 }
+                // Show dialog box if it isn't currently shown
                 if (!showDialog) {
+                    // Dialog box
                     JOptionPane.showMessageDialog(frame, "You must finish the current selected shape!", "Shape not completed", JOptionPane.ERROR_MESSAGE);
+                    // Dialog box is shown
                     showDialog = true;
                 }
-            } else if (button.isSelected() && !canvas.isShapeCreating()){
+            } else if (selectedButton.isSelected() && !canvas.isShapeCreating()){
+                // Set selected tool
                 canvas.selectTool(tool);
-                currentSelectedTool = button;
+                // Store selected tool
+                currentSelectedTool = selectedButton;
             }
         }
     }
@@ -288,21 +309,28 @@ public class GUI {
      * @return returns the LinkedHashMap of buttons and Tool
      */
     private LinkedHashMap<Tool, JToggleButton> initializeTools() {
+        // LinkedHashMap to store Tool panel buttons
         LinkedHashMap<Tool, JToggleButton> toolButtonMap = new LinkedHashMap<>();
+        // Variable to group toggle buttons
         ButtonGroup toolGroup = new ButtonGroup();
+        // Loop through each value of Tool enum class
         for (Tool tool : Tool.values()) {
+            // Initialize a toggle button and set corresponding icon from Tool enum class
             JToggleButton toggleButton = new JToggleButton(tool.getImage());
+            // Set toggle button name to Tool name
             toggleButton.setName(tool.toString());
+            // Add toggle button to button group
             toolGroup.add(toggleButton);
+            // Set dimension of toggle button
             tool.setSize(toggleButton);
+            // Hide outline of image icon
             toggleButton.setFocusPainted(false);
-            toggleButton.setBorderPainted(true);
-            toggleButton.setRolloverEnabled(true);
-            toggleButton.setContentAreaFilled(true);
-            toggleButton.setRequestFocusEnabled(true);
-            toggleButton.addActionListener((event) -> addToolFunctionality(tool,toolGroup));
+            // Add Actionlistener and event method to toggle button
+            addListener(toggleButton, (event) -> addToolFunctionality(tool,toolGroup));
+            // Add Tool value and toggle button into LinkedHashMap
             toolButtonMap.put(tool, toggleButton);
         }
+        // Return LinkedHashMap
         return toolButtonMap;
     }
 
@@ -314,17 +342,22 @@ public class GUI {
      * @param utility an Enum of {@link Utilities Utilities}
      */
     private void addUtilityFunctionality(JButton button, Utilities utility) {
+        // switch-statement to add ActionListeners
         switch (utility) {
             case ZOOM_IN:
+                // event method is zoom()
                 addListener(button, (event) -> zoom(0.2));
                 break;
             case ZOOM_OUT:
+                // event method is zoom()
                 addListener(button, (event) -> zoom(-0.2));
                 break;
             case UNDO:
+                // event method is undo()
                 addListener(button, (event) -> undo());
                 break;
             case GRID:
+                // event method is toggleGrid()
                 addListener(button, (event) -> toggleGrid());
             default:
         }
@@ -337,18 +370,22 @@ public class GUI {
      * @return the LinkedHashMap of buttons and Utilities
      */
     private LinkedHashMap<Utilities, JButton> initializeUtilities() {
+        // LinkedHashMap to store buttons on Utility panel
         LinkedHashMap<Utilities, JButton> utilityMap = new LinkedHashMap<>();
+        // Loop through all values of Utilities enum class
         for(Utilities utility : Utilities.values()){
+            // Create new button and add icon from Utilities
             JButton button = new JButton(utility.getImage());
+            // Set button size
             utility.setSize(button);
+            // Hide icon image outline
             button.setFocusPainted(false);
-            button.setBorderPainted(true);
-            button.setRolloverEnabled(true);
-            button.setContentAreaFilled(true);
-            button.setRequestFocusEnabled(true);
+            // Call method to add ActionListeners
             addUtilityFunctionality(button, utility);
+            // Add Utility value and button to LinkedHashMap
             utilityMap.put(utility,button);
         }
+        // return LinkedHashMap
         return utilityMap;
     }
 
@@ -360,23 +397,38 @@ public class GUI {
      * @return the colour selected
      */
     private Color selectColor(AbstractButton button) {
+        // Variable to store selected colour
         Color selectedColour;
-        if(button.getName().equals(PICKER.toString()) && penPressed || button.getName().equals(PICKER.toString()) && fillPressed){
+        /*
+        if-else statement to check if quick select or picker button was selected and return colour
+        If PEN OR FILL colour tool is selected and so is the PICKER -> set current colour to previous colour and display
+        colour picker, to select new colour. Otherwise, get the background colour of the button and set that as the new
+        colour.
+         */
+        if (button.getName().equals(PICKER.toString()) && penPressed || button.getName().equals(PICKER.toString()) && fillPressed){
+            // Variable to store previous colour
             Color previousColor;
-            if(penPressed){
+            /* If PEN tool is pressed, set previousColour to current PEN colour. Otherwise set previousColour to
+            current FILL colour.
+            */
+            if (penPressed){
+                // Set previousColour to current PEN colour
                 previousColor = canvas.getSelectedPenColor().asColor();
-            }
-            else{
+            } else {
+                // Set previousColour to current FILL colour
                 previousColor = canvas.getSelectedFillColor().asColor();
             }
+            // Set selectedColour from colour picker
             selectedColour = JColorChooser.showDialog(null, "Choose a Color", Color.black);
-            if(selectedColour == null){
+            // If colour picker was cancelled then set colour to previous colour
+            if (selectedColour == null){
                 selectedColour = previousColor;
             }
-        }
-        else{
+        } else {
+            // Set selectedColour to background colour of the button
             selectedColour = button.getBackground();
         }
+        // Returned selectedColour
         return selectedColour;
     }
 
@@ -386,10 +438,14 @@ public class GUI {
      * @return Color in RGB
      */
     private int colorToRGB(Color colour) {
-        int r = colour.getRed();
-        int g = colour.getGreen();
-        int b = colour.getBlue();
-        return (r*65536)+(g*256)+b;
+        // Variable to store red component of colour
+        int R = colour.getRed();
+        // Variable to store green component of colour
+        int G = colour.getGreen();
+        // Variable to store blue component of colour
+        int B = colour.getBlue();
+        // Return RGB value of colour
+        return (R*65536)+(G*256)+B;
     }
 
     /**
@@ -399,19 +455,35 @@ public class GUI {
      * on the Sidebar.
      */
     private void addColourTools(LinkedHashMap<ColourTools, AbstractButton> colourToolsMap) {
+        // ButtonGroup to group buttons
         ButtonGroup colourToolGroup = new ButtonGroup();
+        /*
+        for-loop to loop through ColourTools values and initialize buttons based on those values. Button with PEN,FILL
+        and FILL_OFF functionality will be toggle buttons and the rest will be regular buttons. These each type of
+        button will be added to the colourToolsMap with there ColourTools value and button.
+         */
         for(ColourTools colourTool : ColourTools.values()){
+            // If colourTool is PEN, FILL or FILL_OFF create toggle button representations
            if (colourTool.equals(PEN) || colourTool.equals(FILL) || colourTool.equals(FILL_OFF)) {
+               // Create new toggle button and add icon image form ColourTools
                JToggleButton toggleButton = new JToggleButton(colourTool.getImage());
+               // Set name of button to current ColourTools enum
                toggleButton.setName(colourTool.name());
+               // Set size of button
                colourTool.setSize(toggleButton);
+               // Add toggle button to colourToolGroup button group
                colourToolGroup.add(toggleButton);
+               // Added toggle button and ColourTools value to colourToolsMap
                colourToolsMap.put(colourTool,toggleButton);
            }
            else{
+               // Create new button and add icon image from ColourTools
                JButton button = new JButton(colourTool.getImage());
+               // Set name of button to current ColourTools enum
                button.setName(colourTool.name());
+               // Set size of button
                colourTool.setSize(button);
+               // Added button and ColourTools value to colourToolsMap
                colourToolsMap.put(colourTool,button);
            }
        }
@@ -423,11 +495,17 @@ public class GUI {
      * @param colourQuickSelectMap LinkedHashMap containing quick select colour buttons
      */
     private void addColourQuickSelect(LinkedHashMap<ColourQuickSelect, AbstractButton> colourQuickSelectMap) {
+        // Loop through values of ColourQuickSelect and create buttons bases on these values
         for(ColourQuickSelect colourQuickSelect : ColourQuickSelect.values()){
+            // Create a new button
             JButton button = new JButton();
+            // Set name of button to ColourQuickSelect value
             button.setName(colourQuickSelect.name());
+            // Set size of button
             colourQuickSelect.setSize(button);
+            // Set background to Color value of ColourQuickSelect enum value
             button.setBackground(colourQuickSelect.getValue(colourQuickSelect.getEnum(button)));
+            // Add button and ColourQuickSelect value to colourQuickSelectMap
             colourQuickSelectMap.put(colourQuickSelect,button);
         }
     }
@@ -439,7 +517,9 @@ public class GUI {
      * @param colourQuickSelectMap LinkedHashMap of Colour panel quick select colours
      */
     private void combineColourToolsAndQuickSelect(LinkedHashMap<Object, AbstractButton> colourMap, LinkedHashMap<ColourTools, AbstractButton> colourToolsMap, LinkedHashMap<ColourQuickSelect, AbstractButton> colourQuickSelectMap) {
+        // Add contents of colourToolMap into colourMap
         colourMap.putAll(colourToolsMap);
+        // Add contents of colourQuickSelectMap into colourMap
         colourMap.putAll(colourQuickSelectMap);
     }
 
@@ -448,23 +528,27 @@ public class GUI {
      * @param colourMap LinkedHashMap containing buttons for the Colour panel in the Sidebar
      */
     private void addColourActionListeners(LinkedHashMap<Object, AbstractButton> colourMap) {
+        // Loop through all values of colourMap
         for (AbstractButton button : colourMap.values()){
-            // remove to make these buttons functional
+            // Add ActionListeners to all buttons except PEN_COLOUR and FILL_COLOUR
             if(!button.getName().equals(PEN_COLOUR.toString()) || !button.getName().equals(FILL_COLOUR.toString())){
+                // Use method addListener() to add ActionListener and point to event method addColourFunctionality()
                 addListener(button, (event) -> addColourFunctionality(button, colourMap));
             }
         }
     }
 
     /**
-     * Used to execute the functionality of the buttons on the Color panel.
-     * @param button the current button that was selected by the user
-     * @param colourMap LinkedHashMap containing all the buttons on the Colour panel
+     * This method is used to determine which colour tool has been selected via a set of boolean variables. This will
+     * determine which tool will used the selected colour
+     * @param button button that is selected
      */
-    private void addColourFunctionality(AbstractButton button, LinkedHashMap<Object, AbstractButton>colourMap) {
-        Color selectedColour;
-        Color fillOffColour  = colourMap.get(FILL_OFF).getBackground();
-
+    private void isColourToolSelected(AbstractButton button){
+        /*
+        if-else statements to determine if PEN, FILL or FILL_OFF buttons are selected -> the corresponding boolean
+        check is set to true and all other booleans are set to false. If none of the colour tools are pressed, display
+         a dialog box
+         */
         if(button.getName().equals(PEN.toString())){
             penPressed = true;
             fillPressed = false;
@@ -478,31 +562,71 @@ public class GUI {
             penPressed = false;
             fillPressed = false;
         } else if (!fillPressed && !fillOffPressed && !penPressed){
+            // Dialog box
             JOptionPane.showMessageDialog(frame, "You must select Pen or Fill before choosing a colour!", "Colour not selected", JOptionPane.WARNING_MESSAGE);
         }
+    }
 
-        selectedColour = selectColor(button);
-        int rgb = colorToRGB(selectedColour);
-
+    /**
+     * This method is used set the selected colour with the selected tool. Methods from {@link VectorCanvas} will be
+     * used to set the colour of the tool. The selected colour will be displayed on a button that's associated with
+     * each tool. If the FILL_OFF tool is selected, a dialog box is displayed if the user tries to select a colour.
+     * @param button button that is currently selected
+     * @param colourMap LinkedHashMap that contains all the buttons on the Colour panel
+     * @param selectedColour the current selected colour
+     * @param fillOffColour the colour that a button will be set to when the FILL_OFF button is pressed
+     * @param rgb RGB representation of the selectedColour
+     */
+    private void addColourToolFunctionaliy(AbstractButton button, LinkedHashMap<Object, AbstractButton>colourMap, Color selectedColour, Color fillOffColour, int rgb){
+        // if-else statement to check which colour button is selected.
         if(!button.getName().equals(FILL.toString()) && !button.getName().equals(PEN.toString()) && !fillPressed && penPressed){
+            // Call method from VectorCanvas to set the colour of the tool
             canvas.setSelectedPenColor(new VectorColor(rgb));
+            // Change the colour of the chosen colour button with the selected colour
             colourMap.get(PEN_COLOUR).setBackground(selectedColour);
         }
         else if(!button.getName().equals(PEN.toString()) && !button.getName().equals(FILL.toString()) && !penPressed && fillPressed){
+            // Call method from VectorCanvas to set the colour of the tool
             canvas.setSelectedFillColor(new VectorColor(rgb));
+            // Change the colour of the chosen colour button with the selected colour
             colourMap.get(FILL_COLOUR).setBackground(selectedColour);
+
         }
         else if (fillOffPressed){
+            // Loop through all values of ColourQuickSelect and display a dialog box is selected button is not a colour tool
             for (ColourQuickSelect quickSelect : ColourQuickSelect.values()){
                 if (button.getName().equals(quickSelect.name()) || button.getName().equals(PICKER.toString())){
                     JOptionPane.showMessageDialog(frame, "You must select Pen or Fill before choosing a colour!", "Colour not selected", JOptionPane.WARNING_MESSAGE);
                     break;
                 }
             }
-
+            // Call method from VectorCanvas to clear the fill colour
             canvas.setSelectedFillColor(new VectorColor(rgb, false));
+            // Change the colour of the chosen colour button with the selected colour
             colourMap.get(FILL_COLOUR).setBackground(fillOffColour);
         }
+    }
+
+
+    /**
+     * Used to execute the functionality of the buttons on the Color panel.
+     * @param button the current button that was selected by the user
+     * @param colourMap LinkedHashMap containing all the buttons on the Colour panel
+     */
+    private void addColourFunctionality(AbstractButton button, LinkedHashMap<Object, AbstractButton>colourMap) {
+        // Variable to store selected colour
+        Color selectedColour;
+        // Variable to store blank colour
+        Color fillOffColour  = colourMap.get(FILL_OFF).getBackground();
+        // Check which colour tool is selected
+        isColourToolSelected(button);
+        // Set selectedColour to Color returned from method selectColour()
+        selectedColour = selectColor(button);
+        // set rbg to int returned from method colourToRGB()
+        int rgb = colorToRGB(selectedColour);
+        //
+        addColourToolFunctionaliy(button,colourMap,selectedColour,fillOffColour,rgb);
+
     }
 
     /**
