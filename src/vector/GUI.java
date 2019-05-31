@@ -6,7 +6,6 @@ import vector.uiComponents.*;
 import vector.util.FileIO;
 import vector.uiComponents.Utilities;
 import vector.util.VectorColor;
-
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -60,20 +59,6 @@ public class GUI {
         showMenuBar();
         showSidebar();
         showCanvas();
-    }
-
-    /**
-     * Used to initialize the frame
-     */
-    private void showFrame(){
-        JFrame.setDefaultLookAndFeelDecorated(true);
-        frame = new JFrame("VectorTool");
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setPreferredSize(new Dimension(720, 800));
-        frame.setLocation(0,0);
-        frame.getContentPane().setLayout(new BorderLayout());
-
-
     }
 
     //Opens File Chooser - Open Dialog
@@ -201,56 +186,6 @@ public class GUI {
     }
 
     /**
-     * This function is used to resize the canvas by changing the size of the
-     * VectorCanvas object 'canvas'
-     */
-    public void updateCanvasSize() {
-        double sideLength = canvas.getScale() * Math.min(frame.getHeight(), frame.getWidth());
-        canvas.setPreferredSize(new Dimension((int) sideLength, (int) sideLength));
-        canvas.setSize(new Dimension((int) sideLength, (int) sideLength));
-        canvasPanel.setPreferredSize(canvas.getSize());
-    }
-
-    /**
-     * This method is used to control the {@link VectorCanvas zoom} of the drawing canvas. It calls
-     * updateCanvasSize() to resize the canvasPanel.
-     * A dialog box is opened if the canvas is no longer visible on the frame.
-     * @param amount This is the amount that the canvas will be zoomed in or out
-     */
-    private void zoom(double amount) {
-        /*
-        if-statement to determine when the canvas can be resized. A dialog box will be presented if the next zoom will
-        make the canvas non-visible.
-         */
-        if (canvas.getSize().equals(new Dimension(100, 100)) && amount == -100){
-            // Display dialog box
-            JOptionPane.showMessageDialog(frame, "Canvas is at minimum size. It cannot be zoomed out any further!", "Zooming out too far", JOptionPane.ERROR_MESSAGE);
-        } else {
-            canvas.zoom(amount);
-            updateCanvasSize();
-            frame.pack();
-        }
-    }
-
-    /**
-     * This method is used to {@link VectorCanvas undo} the last shape drawn on the canvas.
-     * A dialog box is presented if the method is called but there are no shapes to undo.
-     */
-    public static void undo() {
-        /*
-        Calling the undo() from VectorCanvas will return a boolean. It will return false when there are no more
-        shapes to be undone, and a dialog box will inform the user.
-        */
-        if (!canvas.undo()) {
-            JOptionPane.showMessageDialog(frame, "There are no more shapes to undo!", "Undo Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-    public void toggleGrid() {
-        canvas.gridToggle = !canvas.gridToggle;
-        canvas.repaint();
-    }
-
-    /**
      * This method is used to select the type of {@link Tool tool} that will be used. A dialog box is presented if the
      * user attempts to select a shape without completing the currently selected shape. Nested if-statements and
      * while-statements are used to ensure the button of the current shape tool is selected.
@@ -334,6 +269,68 @@ public class GUI {
         return toolButtonMap;
     }
 
+
+    /**
+     * This function is used to resize the canvas by changing the size of the
+     * VectorCanvas object 'canvas'
+     */
+    public void updateCanvasSize() {
+        double sideLength = canvas.getScale() * Math.min(frame.getHeight(), frame.getWidth());
+        canvas.setPreferredSize(new Dimension((int) sideLength, (int) sideLength));
+        canvas.setSize(new Dimension((int) sideLength, (int) sideLength));
+        canvasPanel.setPreferredSize(canvas.getSize());
+    }
+
+    /**
+     * This method is used to control the {@link VectorCanvas zoom} of the drawing canvas. It calls
+     * updateCanvasSize() to resize the canvasPanel.
+     * A dialog box is opened if the canvas is no longer visible on the frame.
+     * @param amount This is the amount that the canvas will be zoomed in or out relative to screen size
+     */
+    private void zoom(double amount) {
+        // Call VectorCanvas to zoom canvas
+        canvas.zoom(amount);
+        // Update the canvas size
+        updateCanvasSize();
+        // Pack contents of frame
+        frame.pack();
+        /*
+        if-statement to check if the canvas is visible. If it isn't, a dialog box will be presented and the canvas will
+        be zoomed back in
+         */
+        if (canvas.getSize().height <=0 && canvas.getSize().width <= 0){
+            // Zoom back out to make canvas visible again
+            zoom(0.2);
+            // Display dialog box
+            JOptionPane.showMessageDialog(frame, "Canvas is at minimum size. It cannot be zoomed out any further!", "Zooming out too far", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    /**
+     * This method is used to display a grid on the canvas. Drawing operations will snap to this grid. See {@link VectorCanvas}
+     * for specification
+     */
+    private void toggleGrid() {
+        // Set the grid to its opposite state.
+        canvas.gridToggle = !canvas.gridToggle;
+        // Repaint grid
+        canvas.repaint();
+    }
+
+    /**
+     * This method is used to {@link VectorCanvas undo} the last shape drawn on the canvas.
+     * A dialog box is presented if the method is called but there are no shapes to undo.
+     */
+    public static void undo() {
+        /*
+        Calling the undo() from VectorCanvas will return a boolean. It will return false when there are no more
+        shapes to be undone, and a dialog box will inform the user.
+        */
+        if (!canvas.undo()) {
+            JOptionPane.showMessageDialog(frame, "There are no more shapes to undo!", "Undo Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     /**
      * This function is used to add an {@link ActionListener} to a {@link Utilities Utilities} type button. The method
      * addListener(), adds the ActionListener and points to a method to be run in an event. A switch-statement
@@ -388,6 +385,7 @@ public class GUI {
         // return LinkedHashMap
         return utilityMap;
     }
+
 
     /**
      * This method is used to select a {@link Color colour} for the PEN or FILL tool.
@@ -577,7 +575,7 @@ public class GUI {
      * @param fillOffColour the colour that a button will be set to when the FILL_OFF button is pressed
      * @param rgb RGB representation of the selectedColour
      */
-    private void addColourToolFunctionaliy(AbstractButton button, LinkedHashMap<Object, AbstractButton>colourMap, Color selectedColour, Color fillOffColour, int rgb){
+    private void addColourToolFunctionality(AbstractButton button, LinkedHashMap<Object, AbstractButton>colourMap, Color selectedColour, Color fillOffColour, int rgb){
         // if-else statement to check which colour button is selected.
         if(!button.getName().equals(FILL.toString()) && !button.getName().equals(PEN.toString()) && !fillPressed && penPressed){
             // Call method from VectorCanvas to set the colour of the tool
@@ -607,7 +605,6 @@ public class GUI {
         }
     }
 
-
     /**
      * Used to execute the functionality of the buttons on the Color panel.
      * @param button the current button that was selected by the user
@@ -622,54 +619,87 @@ public class GUI {
         isColourToolSelected(button);
         // Set selectedColour to Color returned from method selectColour()
         selectedColour = selectColor(button);
-        // set rbg to int returned from method colourToRGB()
+        // Set rbg to int returned from method colourToRGB()
         int rgb = colorToRGB(selectedColour);
-        //
-        addColourToolFunctionaliy(button,colourMap,selectedColour,fillOffColour,rgb);
-
+        // Method to give buttons functionality
+        addColourToolFunctionality(button,colourMap,selectedColour,fillOffColour,rgb);
     }
 
     /**
-     * Used to initialise the buttons on the Colour panel.
+     * Used to initialise the buttons on the Colour panel. Buttons are stored in LinkedHashMaps
      * @return LinkedHashMap containing all the buttons on the Colour panel
      */
     private LinkedHashMap<Object, AbstractButton> initializeColours() {
+        // LinkedHashMap for colour tool buttons
         LinkedHashMap<ColourTools, AbstractButton> colourToolsMap = new LinkedHashMap<>();
+        // LinkedHashMap for quick select colour buttons
         LinkedHashMap<ColourQuickSelect, AbstractButton> colourQuickSelectMap = new LinkedHashMap<>();
+        // LinkedHashMap to contain both colour tools and quick select buttons
         LinkedHashMap<Object, AbstractButton> colourMap = new LinkedHashMap<>();
+        // Method to initialize colour tool buttons and store into colourToolsMap
         addColourTools(colourToolsMap);
+        // Method to initialize quick select buttons and store into colourQuickSelectMap
         addColourQuickSelect(colourQuickSelectMap);
+        // Method to store both colourToolsMap and colourQuickSelectMap into colourMap
         combineColourToolsAndQuickSelect(colourMap, colourToolsMap, colourQuickSelectMap);
+        // Method to add ActionListeners to all buttons in colourMap
         addColourActionListeners(colourMap);
+        // Return colourMap
         return colourMap;
     }
 
     /**
-     * Used to initialize the Sidebar panel. This involves initializing
-     * sub-panels outlined in {@link SidebarPanels} which provides the
-     * drawing functionality of the applicaiton.
+     * Used to initialize the frame
+     */
+    private void showFrame(){
+        JFrame.setDefaultLookAndFeelDecorated(true);
+        frame = new JFrame("VectorTool");
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setPreferredSize(new Dimension(720, 800));
+        frame.setLocation(0,0);
+        frame.getContentPane().setLayout(new BorderLayout());
+
+
+    }
+
+    /**
+     * Used to initialize the Sidebar panel. This involves initializing sub-panels outlined in {@link SidebarPanels}
+     * and adding various buttons to add drawing the functionality of the application.
      */
     private void showSidebar() {
+        // Panel to hold the side bar
         JPanel sidebarPanel = new JPanel();
+        // Sidebar panel which holds the panels and buttons for drawing on canvas
         JPanel sidebar = new JPanel();
-
+        // Initialize BoxLayout for sidebar
         BoxLayout sidebarBoxLayout = new BoxLayout(sidebar, BoxLayout.Y_AXIS);
+        // Setting BoxLayout layout to sidebar
         sidebar.setLayout(sidebarBoxLayout);
-
+        // Set background of sidebarPanel to lightGray
         sidebarPanel.setBackground(lightGray);
+        // Set background of sidebar to lightGray
         sidebar.setBackground(lightGray);
-
+        // Set sidebar preferred size
         sidebar.setPreferredSize(new Dimension(65,800));
+        // Set sidebar minimum size
         sidebar.setMinimumSize(new Dimension(65,700));
-
+        // Loop through values of SidebarPanels and create panels based on these values
         for (SidebarPanels sidebarPanels : SidebarPanels.values()){
+            // Initialize new panel
             JPanel panel = new JPanel();
+            // Send all buttons to SidebarPanels enum class
             sidebarPanels.getButtons(initializeTools(), initializeUtilities(), initializeColours());
+            // Set the name of the panel to the current SidebarPanels value
             panel.setName(sidebarPanels.name());
+            // Set background colour
             sidebarPanels.setBackground(panel);
+            // Set border
             sidebarPanels.setBorder(panel);
+            // Set maximum size
             sidebarPanels.setMaximumSize(panel);
-            sidebarPanels.setButtons(panel);
+            // Add buttons to panel
+            sidebarPanels.addButtons(panel);
+            // Add panel to sidebar
             sidebar.add(panel);
         }
 
@@ -682,22 +712,33 @@ public class GUI {
      * be done.
      */
     private void showCanvas() {
+        // Initialize a new VectorCanvas
         canvas = new VectorCanvas();
+        // Set background to white
         canvas.setBackground(WHITE);
+        // Set border colour to black
         canvas.setBorder(new LineBorder(BLACK));
+        // Set preferred size
         canvas.setPreferredSize(new Dimension(500, 500));
+        // Set size
         canvas.setSize(500, 500);
-
+        // Create panel to hold canvas
         canvasPanel = new JPanel();
+        // Set preferred size
         canvasPanel.setPreferredSize(new Dimension(500, 500));
+        // Add canvas to panel
         canvasPanel.add(canvas);
-
+        // Create new scrPane instance
         scrPane = new JScrollPane(canvasPanel);
+        // Add scrPane to frame
         frame.getContentPane().add(scrPane);
+        // Pack contents
         frame.pack();
+        // Show frame
         frame.setVisible(true);
-
+        // Create new instance of FrameResize
         FrameResize resize = new FrameResize(this);
+        // Add component resize as frame component listener
         frame.addComponentListener(resize);
     }
 

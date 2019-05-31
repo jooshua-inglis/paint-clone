@@ -10,8 +10,8 @@ public enum ColourTools {
     FILL_OFF,
     PICKER;
 
-    public Icon getImage(){
-        switch (this){
+    public Icon getImage() {
+        switch (this) {
             case PEN:
                 return new ImageIcon("src/vector/util/UtilImages/pen.png");
             case FILL:
@@ -25,8 +25,8 @@ public enum ColourTools {
                 return null;
         }
     }
-    public void setSize(AbstractButton button){
-        switch (this){
+    public void setSize(AbstractButton button) {
+        switch (this) {
             case PEN:
             case PEN_COLOUR:
             case FILL:

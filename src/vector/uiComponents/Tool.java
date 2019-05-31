@@ -8,8 +8,6 @@ import vector.shape.*;
 import javax.swing.*;
 import java.awt.*;
 
-//import javax.sound.sampled.Line;
-
 public enum Tool {
     RECTANGLE,
     ELLIPSE,
@@ -18,8 +16,8 @@ public enum Tool {
     PLOT;
 
 
-    public Icon getImage(){
-        switch (this){
+    public Icon getImage() {
+        switch (this) {
             case RECTANGLE:
                 return new ImageIcon("src/vector/shape/ShapeImages/rectangle.png");
             case ELLIPSE:
@@ -35,8 +33,8 @@ public enum Tool {
                 return null;
         }
     }
-    public void setSize(AbstractButton button){
-        switch (this){
+    public void setSize(AbstractButton button) {
+        switch (this) {
             case RECTANGLE:
             case ELLIPSE:
             case POLYGON:
@@ -59,7 +57,7 @@ public enum Tool {
                return new Line();
            case PLOT:
                return new Plot();
-            default:
+           default:
                 throw new CanvasException("Cannot create shape");
 
         }

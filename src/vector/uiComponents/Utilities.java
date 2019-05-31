@@ -8,8 +8,8 @@ public enum Utilities {
     GRID,
     UNDO;
 
-    public Icon getImage(){
-        switch (this){
+    public Icon getImage() {
+        switch (this) {
             case ZOOM_IN:
                 return new ImageIcon("src/vector/util/UtilImages/zoomIn.png");
             case ZOOM_OUT:
@@ -24,8 +24,8 @@ public enum Utilities {
         }
     }
 
-    public void setSize(AbstractButton button){
-        switch (this){
+    public void setSize(AbstractButton button) {
+        switch (this) {
             case ZOOM_IN:
             case ZOOM_OUT:
             case GRID:

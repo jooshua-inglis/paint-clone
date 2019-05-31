@@ -13,7 +13,7 @@ public enum SidebarPanels {
     private LinkedHashMap<Utilities, JButton> utilityButtons = new LinkedHashMap<>();
     private LinkedHashMap<Object, AbstractButton> colourButtons = new LinkedHashMap<>();
 
-    public void getButtons(LinkedHashMap<Tool, JToggleButton> toolButtons, LinkedHashMap<Utilities, JButton> utilityButtons, LinkedHashMap<Object, AbstractButton> colourButtons){
+    public void getButtons(LinkedHashMap<Tool, JToggleButton> toolButtons, LinkedHashMap<Utilities, JButton> utilityButtons, LinkedHashMap<Object, AbstractButton> colourButtons) {
         this.toolButtons = toolButtons;
         this.utilityButtons = utilityButtons;
         this.colourButtons = colourButtons;
@@ -23,14 +23,14 @@ public enum SidebarPanels {
         panel.setBackground(Color.lightGray);
     }
 
-    public void setBorder(JPanel panel){
+    public void setBorder(JPanel panel) {
         String name = panel.getName();
         name = name.substring(0,1).toUpperCase() + name.substring(1).toLowerCase();
         panel.setBorder(BorderFactory.createTitledBorder(name));
     }
 
-    public void setMaximumSize(JPanel panel){
-        switch (this){
+    public void setMaximumSize(JPanel panel) {
+        switch (this) {
             case TOOLS:
                 panel.setMaximumSize(new Dimension(65, setPanelHeight(toolButtons.size(), toolButtons.get(Tool.RECTANGLE).getPreferredSize().height)));
                 break;
@@ -47,7 +47,7 @@ public enum SidebarPanels {
     private int setPanelHeight(int numButtons, int buttonPreferredHeight) {
         int parity = numButtons % 2;
         int buffer;
-        if (buttonPreferredHeight == 20){
+        if (buttonPreferredHeight == 20) {
             buffer = 70;
             if (parity == 0) {
                 return (numButtons / 2) * buttonPreferredHeight + buffer;
@@ -60,8 +60,8 @@ public enum SidebarPanels {
         }
     }
 
-    public void setButtons(JPanel panel){
-        switch (this){
+    public void addButtons(JPanel panel) {
+        switch (this) {
             case TOOLS:
                 for(JToggleButton toggleButton : toolButtons.values()){
                     panel.add(toggleButton);
@@ -79,19 +79,5 @@ public enum SidebarPanels {
                 break;
             default:
         }
-
-
-
-
-
     }
-
-
-
-
-
-
-
-
-
 }
