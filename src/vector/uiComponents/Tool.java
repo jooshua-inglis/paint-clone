@@ -64,7 +64,17 @@ public enum Tool {
         }
     }
 
-
+    /**
+     * This method is used to execute the drawing method corresponding to the current enum value. The drawing methods
+     * are located in the 'shape' package
+     * @return a method of type VectorShape. The method contains drawing methods for the tool
+     * @throws CanvasException exception no shape function is found
+     */
+    public VectorShape getCls() throws ShapeException {
+        /*
+         switch-statement to determine which enum button representation is being resized. Can be used to change the
+         size of specific buttons
+        */
         switch (this) {
             case RECTANGLE:
                 return new Rectangle();
