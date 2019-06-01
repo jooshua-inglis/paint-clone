@@ -3,7 +3,7 @@ package vector.shape;
 import vector.util.*;
 import java.awt.Graphics;
 import java.util.List;
-import vector.util.Point;
+import vector.util.Coordinate;
 
 /**
  * A {@link VectorShape}
@@ -12,8 +12,8 @@ public class Rectangle extends BoxLikeShape {
 
     public Rectangle() { }
 
-    public Rectangle(Point startingPoint, VectorColor penColor, VectorColor fillColor) {
-        super(startingPoint, penColor, fillColor);
+    public Rectangle(Coordinate startingCoordinate, VectorColor penColor, VectorColor fillColor) {
+        super(startingCoordinate, penColor, fillColor);
     }
 
     public Rectangle(List<VectorPoint> points) {

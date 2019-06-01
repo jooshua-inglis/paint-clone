@@ -1,6 +1,6 @@
 package vector.shape;
 
-import vector.util.Point;
+import vector.util.Coordinate;
 import vector.util.VectorColor;
 import vector.util.VectorPoint;
 
@@ -15,8 +15,8 @@ public abstract class BoxLikeShape extends VectorShape {
     BoxLikeShape() {
     }
 
-    BoxLikeShape(vector.util.Point startingPoint, VectorColor penColor, VectorColor fillColor) {
-        super(startingPoint, penColor, fillColor);
+    BoxLikeShape(Coordinate startingCoordinate, VectorColor penColor, VectorColor fillColor) {
+        super(startingCoordinate, penColor, fillColor);
     }
 
     public BoxLikeShape(List<VectorPoint> points) {
@@ -25,9 +25,9 @@ public abstract class BoxLikeShape extends VectorShape {
 
     public int getMaxPoints() { return 2; }
 
-    public void initialise(Point point, VectorColor penColor, VectorColor fillColor) {
-        addPoint(point);
-        addPoint(point);
+    public void initialise(Coordinate coordinate, VectorColor penColor, VectorColor fillColor) {
+        addPoint(coordinate);
+        addPoint(coordinate);
         setPen(penColor);
         setFill(fillColor);
     }

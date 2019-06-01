@@ -3,6 +3,7 @@ package vector.util;
 import java.awt.*;
 import java.util.List;
 
+
 public class VectorColor {
     private boolean active;
     private int rgb;

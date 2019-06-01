@@ -2,6 +2,7 @@ package vector.shape;
 
 import vector.eventHandlers.CanvasMouse;
 import vector.uiComponents.VectorCanvas;
+import vector.util.Coordinate;
 import vector.util.VectorColor;
 import vector.util.VectorPoint;
 
@@ -19,17 +20,17 @@ public class Polygon extends VectorShape {
         this.finished = false;
     }
 
-    public Polygon(vector.util.Point startingPoint, VectorColor penColor, VectorColor fillColor) {
-        super(startingPoint, penColor, fillColor);
+    public Polygon(Coordinate startingCoordinate, VectorColor penColor, VectorColor fillColor) {
+        super(startingCoordinate, penColor, fillColor);
     }
 
     public Polygon(List<VectorPoint> points) {
         super(points);
     }
 
-    public void initialise(vector.util.Point point, VectorColor penColor, VectorColor fillColor) {
-        addPoint(point);
-        addPoint(point);
+    public void initialise(Coordinate coordinate, VectorColor penColor, VectorColor fillColor) {
+        addPoint(coordinate);
+        addPoint(coordinate);
         setPen(penColor);
         setFill(fillColor);
     }

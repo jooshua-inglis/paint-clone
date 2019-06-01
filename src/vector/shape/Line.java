@@ -1,6 +1,6 @@
 package vector.shape;
 
-import vector.util.Point;
+import vector.util.Coordinate;
 import vector.util.VectorColor;
 import vector.util.VectorPoint;
 
@@ -11,16 +11,16 @@ public class Line extends VectorShape{
 
     public Line() { }
 
-    public Line(Point startingPoint, VectorColor penColor, VectorColor fillColor) {
-        super(startingPoint, penColor, fillColor);
+    public Line(Coordinate startingCoordinate, VectorColor penColor, VectorColor fillColor) {
+        super(startingCoordinate, penColor, fillColor);
     }
     public Line(List<VectorPoint> points) {
         super(points);
     }
 
-    public void initialise(Point point, VectorColor penColor, VectorColor fillColor) {
-        addPoint(point);
-        addPoint(point);
+    public void initialise(Coordinate coordinate, VectorColor penColor, VectorColor fillColor) {
+        addPoint(coordinate);
+        addPoint(coordinate);
         setPen(penColor);
         setFill(fillColor);
     }

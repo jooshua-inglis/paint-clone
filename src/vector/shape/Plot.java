@@ -2,6 +2,7 @@ package vector.shape;
 
 import vector.eventHandlers.CanvasMouse;
 import vector.uiComponents.VectorCanvas;
+import vector.util.Coordinate;
 import vector.util.VectorColor;
 
 import java.awt.*;
@@ -11,8 +12,8 @@ public class Plot extends VectorShape {
     public Plot() {
     }
 
-    public Plot(vector.util.Point startingPoint, VectorColor penColor, VectorColor fillColor) {
-        super(startingPoint, penColor, fillColor);
+    public Plot(Coordinate startingCoordinate, VectorColor penColor, VectorColor fillColor) {
+        super(startingCoordinate, penColor, fillColor);
     }
 
     @Override
@@ -29,8 +30,8 @@ public class Plot extends VectorShape {
         g.fillOval(startX, startY,width, height);
     }
 
-    public void initialise(vector.util.Point point, VectorColor penColor, VectorColor fillColor) {
-        addPoint(point);
+    public void initialise(Coordinate coordinate, VectorColor penColor, VectorColor fillColor) {
+        addPoint(coordinate);
         setPen(penColor);
         setFill(fillColor);
     }

@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Implemented to classes that can map to a coordinate on the window.
  */
-public interface Point {
+public interface Coordinate {
     /**
      *
      * @return Value between 0 and 1

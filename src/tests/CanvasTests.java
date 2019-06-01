@@ -3,7 +3,7 @@ package tests;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import vector.uiComponents.VectorCanvas;
-import vector.exception.CanvasException;
+import vector.exception.ShapeException;
 import vector.exception.VecFileException;
 import vector.shape.Ellipse;
 import vector.shape.Rectangle;

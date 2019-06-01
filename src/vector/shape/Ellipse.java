@@ -1,6 +1,6 @@
 package vector.shape;
 
-import vector.util.Point;
+import vector.util.Coordinate;
 import vector.util.VectorColor;
 import vector.util.VectorPoint;
 
@@ -11,8 +11,8 @@ public class Ellipse extends BoxLikeShape {
 
     public Ellipse() { }
 
-    public Ellipse(Point startingPoint, VectorColor penColor, VectorColor fillColor) {
-        super(startingPoint, penColor, fillColor);
+    public Ellipse(Coordinate startingCoordinate, VectorColor penColor, VectorColor fillColor) {
+        super(startingCoordinate, penColor, fillColor);
     }
 
     public Ellipse(List<VectorPoint> points) {

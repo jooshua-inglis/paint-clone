@@ -1,12 +1,13 @@
 package vector.util;
 
+import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 
 /**
  * The x and y points of a key point of a shape. Must be between 0 and 1
  */
-public class VectorPoint implements Point {
+public class VectorPoint implements Coordinate {
     private double x;
     private double y;
 
@@ -19,18 +20,18 @@ public class VectorPoint implements Point {
         this.y = y;
     }
 
-    public VectorPoint(Point point) {
-        this.x = point.getX();
-        this.y = point.getY();
+    public VectorPoint(Coordinate coordinate) {
+        this.x = coordinate.getX();
+        this.y = coordinate.getY();
     }
 
     /**
-     * Updates this point with the values of newPoint
-     * @param newPoint
+     * Updates this point with the values of newCoordinate
+     * @param newCoordinate
      */
-    public void update(Point newPoint) {
-        x = newPoint.getX();
-        y = newPoint.getY();
+    public void update(Coordinate newCoordinate) {
+        x = newCoordinate.getX();
+        y = newCoordinate.getY();
     }
 
     /**
@@ -48,9 +49,9 @@ public class VectorPoint implements Point {
     /**
      * Returns the window coordinates of this point given the side length of the window. (Assuming window is a square)
      * @param canvasSideLength side length of sideLength of canvas
-     * @return awt.Point object
+     * @return awt.Coordinate object
      */
-    public java.awt.Point getAbsPoint(int canvasSideLength) {
+    public Point getAbsPoint(int canvasSideLength) {
         return new java.awt.Point((int) (x * canvasSideLength), (int) (y * canvasSideLength));
     }
 

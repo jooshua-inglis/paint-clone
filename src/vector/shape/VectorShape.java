@@ -3,7 +3,7 @@ package vector.shape;
 
 import vector.eventHandlers.CanvasMouse;
 import vector.uiComponents.VectorCanvas;
-import vector.util.Point;
+import vector.util.Coordinate;
 import vector.util.VectorColor;
 import vector.util.VectorPoint;
 
@@ -47,9 +47,9 @@ public abstract class VectorShape  {
         init(new VectorColor(0, false), new VectorColor(0));
     }
 
-    public VectorShape(vector.util.Point startingPoint, VectorColor penColor, VectorColor fillColor)  {
+    public VectorShape(Coordinate startingCoordinate, VectorColor penColor, VectorColor fillColor)  {
         init(fillColor, penColor);
-        addPoint(startingPoint);
+        addPoint(startingCoordinate);
     }
 
     public VectorShape(List<VectorPoint> points) {
@@ -65,7 +65,7 @@ public abstract class VectorShape  {
     public abstract void draw(Graphics g, int size);
 
 
-    public abstract void initialise(Point point, VectorColor penColor, VectorColor fillColor);
+    public abstract void initialise(Coordinate coordinate, VectorColor penColor, VectorColor fillColor);
 
 
  /** Function to find second vectorPoint of shape
@@ -94,23 +94,23 @@ public abstract class VectorShape  {
         if ( getMaxPoints() != 0 && points.size() + getVectorPoints().size() > getMaxPoints()) {
             throw new IllegalArgumentException("Too many points");
         }
-        for (vector.util.Point point: points ) {
-            addPoint(point);
+        for (Coordinate coordinate : points ) {
+            addPoint(coordinate);
         }
     }
 
     public void addPoints(VectorPoint... points) {
-        for (vector.util.Point point: points ) {
-            addPoint(point);
+        for (Coordinate coordinate : points ) {
+            addPoint(coordinate);
         }
     }
 
-    public void addPoint(vector.util.Point vectorPoint) throws IllegalStateException {
+    public void addPoint(Coordinate vectorCoordinate) throws IllegalStateException {
         if (getMaxPoints() != 0 && vectorPoints.size() >= getMaxPoints() ) {
             throw new IllegalStateException("Exceeded max VectorPoints");
         }
 
-        vectorPoints.add(new VectorPoint(vectorPoint));
+        vectorPoints.add(new VectorPoint(vectorCoordinate));
     }
 
     /**
@@ -124,12 +124,12 @@ public abstract class VectorShape  {
     }
 
     /**
-     * Updates the ith point with the x and y values of point.
-     * @param i the index of the point to update
-     * @param point Point object
+     * Updates the ith coordinate with the x and y values of coordinate.
+     * @param i the index of the coordinate to update
+     * @param coordinate Coordinate object
      */
-    public void editPoint(int i, vector.util.Point point) {
-        vectorPoints.get(i).update(point);
+    public void editPoint(int i, Coordinate coordinate) {
+        vectorPoints.get(i).update(coordinate);
     }
 
     /**
@@ -146,8 +146,8 @@ public abstract class VectorShape  {
      */
     public List<Double> asList() {
         ArrayList<Double> output = new ArrayList<>();
-        for (Point vectorPoint : vectorPoints) {
-            output.addAll(vectorPoint.asList());
+        for (Coordinate vectorCoordinate : vectorPoints) {
+            output.addAll(vectorCoordinate.asList());
         }
         return output;
     }

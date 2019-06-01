@@ -1,9 +1,11 @@
 package vector.util;
 
+import vector.exception.ShapeException;
 import vector.exception.VecFileException;
 import vector.shape.Polygon;
 import vector.shape.Rectangle;
 import vector.shape.*;
+import vector.uiComponents.Tool;
 import vector.uiComponents.VectorCanvas;
 
 import javax.imageio.ImageIO;
@@ -62,6 +64,7 @@ public class FileIO {
             String[] l = line.split("\\s+");
             String command = l[0];
             VectorShape newShape = null;
+
             try {
                 switch (command) {
                     case "PEN":

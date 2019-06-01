@@ -2,7 +2,7 @@ package vector.uiComponents;
 
 import vector.eventHandlers.CanvasKeys;
 import vector.eventHandlers.CanvasMouse;
-import vector.exception.CanvasException;
+import vector.exception.ShapeException;
 import vector.shape.Line;
 import vector.shape.VectorShape;
 import vector.util.VectorColor;
@@ -116,7 +116,7 @@ public class VectorCanvas extends JPanel {
     /**
      * Creates a shape given the value of {@link Tool selectedTool} and adds it to the canvas
      */
-    public VectorShape createShape() throws CanvasException {
+    public VectorShape createShape() throws ShapeException {
         VectorShape s = selectedTool.getCls();
         s.initialise(mouseListener, selectedPenColor, selectedFillColor);
         addShape(s);

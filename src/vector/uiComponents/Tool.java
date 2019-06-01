@@ -1,6 +1,6 @@
 package vector.uiComponents;
 
-import vector.exception.CanvasException;
+import vector.exception.ShapeException;
 import vector.shape.Polygon;
 import vector.shape.Rectangle;
 import vector.shape.*;
@@ -64,17 +64,7 @@ public enum Tool {
         }
     }
 
-    /**
-     * This method is used to execute the drawing method corresponding to the current enum value. The drawing methods
-     * are located in the 'shape' package
-     * @return a method of type VectorShape. The method contains drawing methods for the tool
-     * @throws CanvasException exception no shape function is found
-     */
-    public VectorShape getCls() throws CanvasException {
-        /*
-         switch-statement to determine which enum button representation is being resized. Can be used to change the
-         size of specific buttons
-        */
+
         switch (this) {
             case RECTANGLE:
                 return new Rectangle();
@@ -87,8 +77,17 @@ public enum Tool {
            case PLOT:
                return new Plot();
            default:
-                throw new CanvasException("Cannot create shape");
+                throw new ShapeException("Cannot create shape");
 
         }
     }
 }
+
+// Black
+// Then
+// White are
+// All I see
+// In my infancy
+// Red and yellow then came to be
+// Reaching out to me
+// Lets me see

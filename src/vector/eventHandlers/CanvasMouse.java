@@ -1,10 +1,10 @@
 package vector.eventHandlers;
 
-import vector.exception.CanvasException;
+import vector.exception.ShapeException;
 import vector.shape.Line;
 import vector.shape.VectorShape;
 import vector.uiComponents.VectorCanvas;
-import vector.util.Point;
+import vector.util.Coordinate;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;
@@ -13,7 +13,7 @@ import java.awt.event.MouseMotionListener;
 import java.util.Arrays;
 import java.util.List;
 
-public class CanvasMouse implements MouseListener, MouseMotionListener, Point {
+public class CanvasMouse implements MouseListener, MouseMotionListener, Coordinate {
 
     private VectorCanvas vectorCanvas;
     public boolean shapeCreating = false;
@@ -38,7 +38,7 @@ public class CanvasMouse implements MouseListener, MouseMotionListener, Point {
                     vectorCanvas.repaint();
                     Thread createShape = new Thread(() -> s.drag(vectorCanvas));
                     createShape.start();
-                } catch (CanvasException e) {
+                } catch (ShapeException e) {
                     JOptionPane.showMessageDialog(null,
                             "An error has occurred",
                             "Unhandled error",
