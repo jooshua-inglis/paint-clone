@@ -40,7 +40,7 @@ public enum Tool {
             case POLYGON:
             case LINE:
             case PLOT:
-                button.setPreferredSize(new Dimension(50,40));
+                button.setPreferredSize(new Dimension(40,30));
                 break;
         }
     }

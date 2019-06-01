@@ -652,14 +652,15 @@ public class GUI {
      * Used to initialize the frame
      */
     private void showFrame(){
-        JFrame.setDefaultLookAndFeelDecorated(true);
+        JFrame.setDefaultLookAndFeelDecorated(false);
         frame = new JFrame("VectorTool");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        // Set preferred size
         frame.setPreferredSize(new Dimension(720, 800));
+        // Set sidebar minimum size
+        frame.setMinimumSize(new Dimension(0,750));
         frame.setLocation(0,0);
         frame.getContentPane().setLayout(new BorderLayout());
-
-
     }
 
     /**
@@ -681,8 +682,6 @@ public class GUI {
         sidebar.setBackground(lightGray);
         // Set sidebar preferred size
         sidebar.setPreferredSize(new Dimension(65,800));
-        // Set sidebar minimum size
-        sidebar.setMinimumSize(new Dimension(65,700));
         // Loop through values of SidebarPanels and create panels based on these values
         for (SidebarPanels sidebarPanels : SidebarPanels.values()){
             // Initialize new panel

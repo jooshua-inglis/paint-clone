@@ -92,7 +92,7 @@ public class VectorCanvas extends JPanel {
     public VectorCanvas() {
         selectedFillColor = new VectorColor(0xfffff, false);
         selectedPenColor = new VectorColor(0);
-        gridToggle =true;
+        gridToggle = false;
         shapes = new LinkedList<>();
         selectedTool = Tool.LINE;
         mouseListener = new CanvasMouse();
@@ -126,6 +126,7 @@ public class VectorCanvas extends JPanel {
     public boolean undo() {
         try {
             shapes.removeLast();
+            mouseListener.shapeCreating = false;
             repaint();
             return true;
         } catch (NoSuchElementException e) {
