@@ -92,14 +92,6 @@ public class GUI {
         }
     }
 
-    //Opens new blank window
-    //Currently not very useful, if you close one window, all close
-    private void newFile() {
-        canvas = new VectorCanvas();
-        GUI untitled = new GUI();
-        System.out.println("new");
-
-    }
 
     //Opens File Chooser - Save Dialog
     //Currently allows the user to insert a file name then prints out the directory path
@@ -167,7 +159,6 @@ public class GUI {
     private void showMenuBar() {
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
-        fileMenu.add(createMenuItem("New", (event) -> newFile()));
         fileMenu.add(createMenuItem("Open", (event) -> open()));
         fileMenu.add(createMenuItem("Save", (event) -> save()));
         fileMenu.add(createMenuItem("Save As...", (event) -> saveAs()));
@@ -652,13 +643,10 @@ public class GUI {
      * Used to initialize the frame
      */
     private void showFrame(){
-        JFrame.setDefaultLookAndFeelDecorated(false);
         frame = new JFrame("VectorTool");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        // Set preferred size
+        frame.setMinimumSize(new Dimension(700, 800));
         frame.setPreferredSize(new Dimension(720, 800));
-        // Set sidebar minimum size
-        frame.setMinimumSize(new Dimension(0,750));
         frame.setLocation(0,0);
         frame.getContentPane().setLayout(new BorderLayout());
     }
