@@ -2,6 +2,10 @@ package vector.uiComponents;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * This enum class is used to determine what tool buttons will be used for the Colour panel on the sidebar. The enum
+ * values will form the names of buttons
+ */
 public enum ColourTools {
     PEN,
     PEN_COLOUR,
@@ -10,7 +14,13 @@ public enum ColourTools {
     FILL_OFF,
     PICKER;
 
+    /**
+     * This method is used to set the image icon for the button corresponding to a specific enum. The images are
+     * located in the UtilImages package.
+     * @return ImageIcon used to set button icon
+     */
     public Icon getImage() {
+        // switch-statement to determine which image is returned
         switch (this) {
             case PEN:
                 return new ImageIcon("src/vector/util/UtilImages/pen.png");
@@ -25,7 +35,16 @@ public enum ColourTools {
                 return null;
         }
     }
+
+    /**
+     * This method is used to set the size of the specified button.
+     * @param button The button that is being resized
+     */
     public void setSize(AbstractButton button) {
+        /*
+         switch-statement to determine which enum button representation is being resized. Can be used to change the
+         size of specific buttons
+         */
         switch (this) {
             case PEN:
             case PEN_COLOUR:
@@ -35,6 +54,8 @@ public enum ColourTools {
             case PICKER:
                 button.setPreferredSize(new Dimension(20,20));
                 break;
+            default:
+
         }
     }
 }

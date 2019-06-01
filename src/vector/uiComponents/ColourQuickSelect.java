@@ -81,6 +81,10 @@ public enum ColourQuickSelect {
      * @param button components that's being resized
      */
     public void setSize(AbstractButton button) {
+        /*
+         switch-statement to determine which enum button representation is being resized. Can be used to change the
+         size of specific buttons
+        */
         switch (this) {
             case RED:
             case BLUE:

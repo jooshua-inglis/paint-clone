@@ -8,6 +8,10 @@ import vector.shape.*;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * This enum class is used to determine what drawing tool buttons will be used in the Tools panel. The enums will form
+ * the names of the buttons.
+ */
 public enum Tool {
     RECTANGLE,
     ELLIPSE,
@@ -15,7 +19,11 @@ public enum Tool {
     LINE,
     PLOT;
 
-
+    /**
+     * This method is used to set the image icon for the button corresponding to a specific enum. The images are
+     * located in the UtilImages package.
+     * @return ImageIcon used to set button icon
+     */
     public Icon getImage() {
         switch (this) {
             case RECTANGLE:
@@ -33,7 +41,16 @@ public enum Tool {
                 return null;
         }
     }
+
+    /**
+     * This method is used to set the size of the specified button.
+     * @param button The button that is being resized
+     */
     public void setSize(AbstractButton button) {
+        /*
+         switch-statement to determine which enum button representation is being resized. Can be used to change the
+         size of specific buttons
+        */
         switch (this) {
             case RECTANGLE:
             case ELLIPSE:
@@ -42,10 +59,22 @@ public enum Tool {
             case PLOT:
                 button.setPreferredSize(new Dimension(40,30));
                 break;
+            default:
+                break;
         }
     }
 
+    /**
+     * This method is used to execute the drawing method corresponding to the current enum value. The drawing methods
+     * are located in the 'shape' package
+     * @return a method of type VectorShape. The method contains drawing methods for the tool
+     * @throws CanvasException exception no shape function is found
+     */
     public VectorShape getCls() throws CanvasException {
+        /*
+         switch-statement to determine which enum button representation is being resized. Can be used to change the
+         size of specific buttons
+        */
         switch (this) {
             case RECTANGLE:
                 return new Rectangle();
