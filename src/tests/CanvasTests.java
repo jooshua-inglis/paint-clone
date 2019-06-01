@@ -24,67 +24,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 class CanvasTests {
-    // Test basic functionality
-    @Test
-    void testRectangle() {
-        VectorCanvas subject = new VectorCanvas();
-        subject.selectTool(Tool.RECTANGLE);
-        assertEquals(subject.getSelectedTool(),Tool.RECTANGLE);
-        try {
-            assertEquals(subject.createShape().getClass(), Rectangle.class);
-        } catch (CanvasException e) {
-            fail();
-        }
-    }
-
-
     // To be completed after other tools are fully implemented
 
-    @Test
-    void testEllipse(){
-        VectorCanvas subject = new VectorCanvas();
-        subject.selectTool(Tool.ELLIPSE);
-        assertEquals(subject.getSelectedTool(),Tool.ELLIPSE);
-        try {
-            assertEquals(subject.createShape().getClass(), Ellipse.class);
-        } catch (CanvasException e) {
-            fail();
-        }
 
-    }
-    @Test
-    void testPolygon() throws CanvasException {
-        VectorCanvas subject = new VectorCanvas();
-        subject.selectTool(Tool.POLYGON);
-        assertEquals(subject.getSelectedTool(),Tool.POLYGON);
-        try {
-            assertEquals(subject.createShape().getClass(), Polygon.class);
-        } catch (CanvasException e) {
-            fail();
-        }
-    }
-    @Test
-    void testLine(){
-        VectorCanvas subject = new VectorCanvas();
-        subject.selectTool(Tool.LINE);
-        assertEquals(subject.getSelectedTool(),Tool.LINE);
-        try {
-            assertEquals(subject.createShape().getClass(), Line.class);
-        } catch (CanvasException e) {
-            fail();
-        }
-    }
-    @Test
-    void testPlot(){
-        VectorCanvas subject = new VectorCanvas();
-        subject.selectTool(Tool.PLOT);
-        assertEquals(subject.getSelectedTool(),Tool.PLOT);
-        try {
-            assertEquals(subject.createShape().getClass(), Plot.class);
-        } catch (CanvasException e) {
-            fail();
-        }
-    }
     @Test
     void testToolChange(){
         VectorCanvas subject = new VectorCanvas();

@@ -107,6 +107,50 @@ class ShapeTests {
         testPoints(0.6, 0.3, subject);
     }
 
+    /**
+     * Tests for Polygon and Plot which have non-standard vectorpoint parameters
+      */
+    @Test
+     void editPlotPoint(){
+        VectorShape plot = new Plot();
+
+        plot.addPoint(0.2,0.3);
+        plot.editPoint(0,plot.getPoint(0));
+        assertThrows(IndexOutOfBoundsException.class, () -> plot.editPoint(1,plot.getPoint(0)));
+    }
+
+    //Index 2 should not be considered out of bounds for the polygon
+    @Test
+    void editPolygonPoints(){
+        VectorShape polygon = new Polygon();
+        polygon.addPoint(0.2,0.3);
+        polygon.addPoint(0.3,0.5);
+        polygon.addPoint(0.4,0.3);
+        polygon.editPoint(2,polygon.getPoint(0));
+        assertThrows(IndexOutOfBoundsException.class, () -> polygon.editPoint(3,polygon.getPoint(0)));
+    }
+    /**
+     * Test to show that the plot only accepts one point
+     */
+    @Test
+    void addPlotPoints(){
+        VectorShape plot = new Plot();
+        plot.addPoint(0,0);
+        assertThrows(IllegalStateException.class, () -> plot.addPoint(0.2,0.2), "Exceeded max VectorPoints");
+        assertEquals(1,plot.getMaxPoints());
+    }
+
+    /**
+     * Test to show that the polygon accepts endless points without error
+     */
+    @Test
+    void addPolygonPoints(){
+        VectorShape polygon = new Polygon();
+        for( int i = 0; i<250; i++) {
+            polygon.addPoint(0, 0.1);
+        }
+        assertEquals(250,polygon.getVectorPoints().size());
+    }
     @Test
     void asList() {
         VectorShape subject = new Rectangle();
