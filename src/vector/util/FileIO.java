@@ -77,25 +77,10 @@ public class FileIO {
                             fillColor.setRgb(l[1]);
                         }
                         break;
-                    case "RECTANGLE":
-                        newShape = new Rectangle();
-                        break;
-                    case "ELLIPSE":
-                        newShape = new Ellipse();
-                        break;
-                    case "LINE":
-                        newShape = new Line();
-                        break;
-                    case "POLYGON":
-                        newShape = new Polygon();
-                        break;
-                    case "PLOT":
-                        newShape = new Plot();
-                        break;
-                    case "\n":
-                        break;
                     default:
-                        throw new VecFileException("Unknown command:" + command);
+                        try { newShape = Tool.valueOf(command).getCls(); }
+                        catch (ShapeException e){ throw new VecFileException(); }
+                        break;
                 }
             } catch (IllegalArgumentException e) {
                 throw new VecFileException();
