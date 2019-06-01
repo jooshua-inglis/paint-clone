@@ -81,6 +81,7 @@ class ShapeTests {
         assertEquals(subject1, subject2);
     }
 
+
     @Test
     void addPoint() {
         VectorShape subject = new Rectangle();
@@ -130,10 +131,52 @@ class ShapeTests {
         } catch (IllegalArgumentException error) { fail(error.getMessage()); }
     }
 
+    /**
+     * Tests to check shapes' fill and pen setters/getters
+     */
+    @Test
+    void testGetFillRGB() {
+        VectorShape rectangle = new Rectangle();
+        rectangle.setFill(new VectorColor(0xCECECC));
+        assertEquals("#CECECC", rectangle.getFillRGB());
+
+        VectorShape ellipse = new Ellipse();
+        ellipse.setFill(new VectorColor(0xCCCECC));
+        assertEquals("#CCCECC", ellipse.getFillRGB());
+
+        VectorShape plot = new Plot();
+        plot.setFill(new VectorColor(0xEECECC));
+        assertEquals("#EECECC", plot.getFillRGB());
+
+        VectorShape line = new Line();
+        line.setFill(new VectorColor(0xCEEECC));
+        assertEquals("#CEEECC", line.getFillRGB());
+
+        VectorShape polygon = new Polygon();
+        polygon.setFill(new VectorColor(0xCECECE));
+        assertEquals("#CECECE", polygon.getFillRGB());
+    }
     @Test
     void testGetPenRGB() {
-        VectorShape subject = new Rectangle();
-        subject.setFill(new VectorColor(0xFF));
-        assertEquals("#0000FF", subject.getFillRGB());
+        VectorShape rectangle = new Rectangle();
+        rectangle.setPen(new VectorColor(0xCECECC));
+        assertEquals("#CECECC", rectangle.getPenRGB());
+
+        VectorShape ellipse = new Ellipse();
+        ellipse.setPen(new VectorColor(0xCECCCE));
+        assertEquals("#CECCCE", ellipse.getPenRGB());
+
+        VectorShape plot = new Plot();
+        plot.setPen(new VectorColor(0xCEEECE));
+        assertEquals("#CEEECE", plot.getPenRGB());
+
+        VectorShape line = new Line();
+        line.setPen(new VectorColor(0xCCCECE));
+        assertEquals("#CCCECE", line.getPenRGB());
+
+        VectorShape polygon = new Polygon();
+        polygon.setPen(new VectorColor(0xCEEECE));
+        assertEquals("#CEEECE", polygon.getPenRGB());
     }
+
 }

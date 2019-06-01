@@ -86,17 +86,19 @@ class CanvasTests {
         }
     }
     @Test
-    void testMultipleTools(){
+    void testToolChange(){
         VectorCanvas subject = new VectorCanvas();
         subject.selectTool(Tool.PLOT);
         assertEquals(subject.getSelectedTool(),Tool.PLOT);
         subject.selectTool(Tool.LINE);
         assertEquals(subject.getSelectedTool(),Tool.LINE);
-        try {
-            assertEquals(subject.createShape().getClass(), Rectangle.class);
-        } catch (CanvasException e) {
-            fail();
-        }
+        subject.selectTool(Tool.RECTANGLE);
+        assertEquals(subject.getSelectedTool(),Tool.RECTANGLE);
+        subject.selectTool(Tool.ELLIPSE);
+        assertEquals(subject.getSelectedTool(),Tool.ELLIPSE);
+        subject.selectTool(Tool.POLYGON);
+        assertEquals(subject.getSelectedTool(),Tool.POLYGON);
+
     }
 
     /**
@@ -175,7 +177,6 @@ class CanvasTests {
     }
 
     VectorCanvas createEqualCanvas() {
-
         VectorCanvas output = new VectorCanvas();
         Rectangle shape1;
         Rectangle shape2;
