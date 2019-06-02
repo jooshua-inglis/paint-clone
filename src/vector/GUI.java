@@ -61,8 +61,10 @@ public class GUI {
         showCanvas();
     }
 
-    //Opens File Chooser - Open Dialog
-    //Currently chooses a file then prints out the directory path
+    /**
+     * This method is used to open a pre-existing vec file.
+     * The information stored in it will draw an image on the currenlty open canvas.
+     */
     private void open() {
         JFileChooser fileChooser = new JFileChooser();
         if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
@@ -93,25 +95,11 @@ public class GUI {
     }
 
 
-    //Opens File Chooser - Save Dialog
-    //Currently allows the user to insert a file name then prints out the directory path
+    /**
+     * This method is used to save a pre-existing vec file.
+     * It will store information about the canvas in a vec file.
+     */
     private void save() {
-        JFileChooser fileChooser = new JFileChooser();
-        if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-            File file = fileChooser.getSelectedFile();
-            System.out.println(file.toString());
-        }
-
-    }
-
-    //Opens File Chooser - Save Dialog
-    //Currently allows the user to insert a file name then prints out the directory path
-    private void saveAs() {
-//        JFileChooser fileChooser = new JFileChooser();
-//        if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-//            File file = fileChooser.getSelectedFile();
-//            System.out.println(file.toString());
-//        }
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Vector", "vec");
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileFilter(filter);
@@ -124,7 +112,6 @@ public class GUI {
             String content = FileIO.getString(canvas);
             try {
                 FileWriter myWriter = new FileWriter(file);
-
                 myWriter.write(content);
                 myWriter.close();
                 System.out.println("Successfully wrote to the file." + content);
@@ -136,6 +123,38 @@ public class GUI {
 
     }
 
+    /**
+     * This method is used to save a non-existing vec file.
+     * It will store information about the canvas in a vec file and allow the user to give the file a name.
+     */
+    private void saveAs() {
+
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Vector", "vec");
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileFilter(filter);
+
+        fileChooser.setSelectedFile(new File("untitled.vec"));
+
+        if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            System.out.println(file.toString());
+            String content = FileIO.getString(canvas);
+            try {
+                FileWriter myWriter = new FileWriter(file);
+                myWriter.write(content);
+                myWriter.close();
+                System.out.println("Successfully wrote to the file." + content);
+            } catch (IOException e) {
+                System.out.println("An error occurred.");
+                e.printStackTrace();
+            }
+        }
+
+    }
+    /**
+     * This method is used to export a vec file to a bmp file.
+     * It will store information about the canvas in a bitmap image file.
+     */
     private void export() {
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Bitmap", "bmp");
         JFileChooser fileChooser = new JFileChooser();
