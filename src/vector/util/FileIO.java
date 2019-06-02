@@ -31,7 +31,7 @@ public class FileIO {
         VectorColor penColor, fillColor;
         boolean includePen, includeFill;
         penColor = new VectorColor(0);
-        fillColor = new VectorColor(0, false);
+        fillColor = new VectorColor(0xffffff);
         for (VectorShape shape: canvas.getShapes() ) {
             includePen = !penColor.equals(shape.getPen());
             includeFill = !fillColor.equals(shape.getFill());
