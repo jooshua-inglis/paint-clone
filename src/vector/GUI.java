@@ -70,6 +70,7 @@ public class GUI {
      */
     private void open() {
         JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileFilter(new FileNameExtensionFilter("VEC", "vec"));
         if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
             currentFile = file;
@@ -131,7 +132,7 @@ public class GUI {
      * It will store information about the canvas in a vec file and allow the user to give the file a name.
      */
     private void saveAs() {
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Vector", "vec");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("VEC", "vec");
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileFilter(filter);
 
