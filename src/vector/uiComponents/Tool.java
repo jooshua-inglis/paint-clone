@@ -13,11 +13,11 @@ import java.awt.*;
  * the names of the buttons.
  */
 public enum Tool {
-    RECTANGLE("src/vector/shape/ShapeImages/rectangle.png"),
-    ELLIPSE("src/vector/shape/ShapeImages/ellipse.png"),
-    POLYGON("src/vector/shape/ShapeImages/polygon.png"),
-    LINE("src/vector/shape/ShapeImages/line.png"),
-    PLOT("src/vector/shape/ShapeImages/plot.png");
+    RECTANGLE("resources/rectangle.png"),
+    ELLIPSE("resources/ellipse.png"),
+    POLYGON("resources/polygon.png"),
+    LINE("resources/line.png"),
+    PLOT("resources/plot.png");
 
     private ImageIcon icon;
     private Dimension size;

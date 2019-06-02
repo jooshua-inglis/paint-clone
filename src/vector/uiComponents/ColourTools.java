@@ -7,12 +7,12 @@ import java.awt.*;
  * values will form the names of buttons
  */
 public enum ColourTools {
-    PEN("src/vector/util/UtilImages/pen.png"),
+    PEN("resources/pen.png"),
     PEN_COLOUR(null),
-    FILL("src/vector/util/UtilImages/fill.png"),
+    FILL("resources/fill.png"),
     FILL_COLOUR(null),
-    FILL_OFF("src/vector/util/UtilImages/FILL_OFF.png"),
-    PICKER("src/vector/util/UtilImages/picker.png");
+    FILL_OFF("resources/FILL_OFF.png"),
+    PICKER("resources/picker.png");
 
     private ImageIcon icon;
     private Dimension size;
