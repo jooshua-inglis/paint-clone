@@ -1,6 +1,7 @@
 package vector;
 
 import vector.eventHandlers.FrameResize;
+import vector.exception.UndoException;
 import vector.exception.VecFileException;
 import vector.uiComponents.*;
 import vector.util.FileIO;
@@ -358,8 +359,14 @@ public class GUI {
         Calling the undo() from VectorCanvas will return a boolean. It will return false when there are no more
         shapes to be undone, and a dialog box will inform the user.
         */
-        if (!canvas.undo()) {
-            JOptionPane.showMessageDialog(frame, "There are no more shapes to undo!", "Undo Error", JOptionPane.ERROR_MESSAGE);
+        try {
+            canvas.undo();
+        } catch (UndoException e) {
+            JOptionPane.showMessageDialog(
+                    frame,
+                   e.getMessage(),
+                   "Undo Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 

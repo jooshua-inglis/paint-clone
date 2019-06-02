@@ -2,6 +2,7 @@ package tests;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import vector.exception.UndoException;
 import vector.uiComponents.VectorCanvas;
 import vector.exception.ShapeException;
 import vector.exception.VecFileException;
@@ -103,7 +104,7 @@ class CanvasTests {
     void undoFailed(){
         VectorCanvas subject = new VectorCanvas();
         subject.gridToggle =false;
-        assertEquals(false,subject.undo());
+        assertThrows(UndoException.class, () -> subject.undo(), "There are no more shapes to undo!");
     }
     @Test
     void edgeCaseAdd(){

@@ -3,12 +3,14 @@ package vector.uiComponents;
 import vector.eventHandlers.CanvasKeys;
 import vector.eventHandlers.CanvasMouse;
 import vector.exception.ShapeException;
+import vector.exception.UndoException;
 import vector.shape.Line;
 import vector.shape.VectorShape;
 import vector.util.VectorColor;
 import vector.util.VectorPoint;
 
 import javax.swing.*;
+import javax.swing.undo.CannotUndoException;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -125,15 +127,14 @@ public class VectorCanvas extends JPanel {
         return s;
     }
 
-    public boolean undo() {
+    public void undo() {
+        if (mouseListener.shapeCreating) {throw new UndoException("Cannot undo when creating shape");}
         try {
             shapes.removeLast();
-            mouseListener.shapeCreating = false;
             repaint();
-            return true;
+
         } catch (NoSuchElementException e) {
-            System.out.println("No more undoes");
-            return false;
+            throw new UndoException("There are no more shapes to undo!");
         }
     }
 
