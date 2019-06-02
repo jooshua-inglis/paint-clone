@@ -112,6 +112,10 @@ public class Polygon extends VectorShape {
 
     }
 
+    public void setFinished(boolean finished) {
+        this.finished = finished;
+    }
+
     @Override
     public int getMaxPoints() {
         return 0;

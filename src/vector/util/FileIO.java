@@ -3,6 +3,7 @@ package vector.util;
 import vector.exception.ShapeException;
 import vector.exception.VecFileException;
 import vector.shape.*;
+import vector.shape.Polygon;
 import vector.uiComponents.Tool;
 import vector.uiComponents.VectorCanvas;
 
@@ -98,7 +99,10 @@ public class FileIO {
                         }
                         break;
                     default:
-                        try { newShape = Tool.valueOf(command).getCls(); }
+                        try {
+                            newShape = Tool.valueOf(command).getCls();
+                            if (newShape instanceof Polygon) { ((Polygon) newShape).setFinished(true); }
+                        }
                         catch (ShapeException e){ throw new VecFileException(); }
                         break;
                 }
