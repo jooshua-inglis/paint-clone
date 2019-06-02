@@ -566,6 +566,8 @@ public class GUI {
                 addListener(button, (event) -> addColourFunctionality(button, colourMap));
             }
         }
+        // Default colour for pen is black
+        colourMap.get(PEN_COLOUR).setBackground(black);
     }
 
     /**
