@@ -770,14 +770,26 @@ public class GUI {
         frame.addComponentListener(resize);
     }
 
+    /**
+     * Get the JScrollPane that contains the VectorCanvas
+     * @return scrollPane
+     */
     public JScrollPane getScrPane() {
         return scrPane;
     }
 
+    /**
+     * Gets the currently active canvas.
+     * @return
+     */
     public static VectorCanvas getCanvas() {
         return canvas;
     }
 
+    /**
+     * Gets the panel the contains the main canvas
+     * @return canvasPanel
+     */
     public JPanel getCanvasPanel() {
         return canvasPanel;
     }
