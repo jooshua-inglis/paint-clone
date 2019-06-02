@@ -307,6 +307,28 @@ public class GUI {
         // Repaint grid
         canvas.repaint();
     }
+    /**
+     * This method is used to make the grid display larger. Drawing operations will snap to this grid. See {@link VectorCanvas}
+     * for specification
+     */
+    public static void zoomInGrid(){
+        //Check grid is above minimum number of lines/below maximum size
+        if(canvas.nLines>5) {
+            //adjust the number of lines the grid will display
+            canvas.nLines--;
+            // Repaint grid
+            canvas.repaint();
+        }
+    }
+    public static void zoomOutGrid(){
+        //Check grid is below the maximum number of lines/above the minimum size
+        if(canvas.nLines<50) {
+            //adjust the number of lines the grid will display
+            canvas.nLines++;
+            // Repaint grid
+            canvas.repaint();
+        }
+    }
 
     /**
      * This method is used to {@link VectorCanvas undo} the last shape drawn on the canvas.

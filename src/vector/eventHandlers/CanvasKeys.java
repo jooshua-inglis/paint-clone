@@ -27,6 +27,12 @@ public class CanvasKeys implements KeyListener {
         if((e.getKeyCode() == KeyEvent.VK_Z) && e.isControlDown()) {
             GUI.undo();
         }
+        else if((e.getKeyCode() == KeyEvent.VK_UP) && e.isControlDown()) {
+            GUI.zoomInGrid();
+        }
+        else if((e.getKeyCode() == KeyEvent.VK_DOWN) && e.isControlDown()) {
+            GUI.zoomOutGrid();
+        }
     }
 
     @Override
