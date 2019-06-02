@@ -227,8 +227,13 @@ public class GUI {
                 }
                 // Show dialog box if it isn't currently shown
                 if (!showDialog) {
-                    // Dialog box
-                    JOptionPane.showMessageDialog(frame, "You must finish the current selected shape!", "Shape not completed", JOptionPane.ERROR_MESSAGE);
+                    if (currentSelectedTool.getName().equals(Tool.POLYGON.name())) {
+                        // Dialog box for Polygon tool
+                        JOptionPane.showMessageDialog(frame, "You must finish the current selected shape! Press Enter to finish shape.", "Shape not completed", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        // Dialog box for Tool other than Polygon
+                        JOptionPane.showMessageDialog(frame, "You must finish the current selected shape! Click to finish shape.", "Shape not completed", JOptionPane.ERROR_MESSAGE);
+                    }
                     // Dialog box is shown
                     showDialog = true;
                 }
@@ -263,7 +268,7 @@ public class GUI {
             tool.setSize(toggleButton);
             // Hide outline of image icon
             toggleButton.setFocusPainted(false);
-            // Add Actionlistener and event method to toggle button
+            // Add ActionListener and event method to toggle button
             addListener(toggleButton, (event) -> addToolFunctionality(tool,toolGroup));
             // Add Tool value and toggle button into LinkedHashMap
             toolButtonMap.put(tool, toggleButton);
