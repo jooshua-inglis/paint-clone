@@ -7,6 +7,9 @@ import vector.util.VectorColor;
 
 import java.awt.*;
 
+/**
+ * A {@link VectorShape} plot shape
+ */
 public class Plot extends VectorShape {
 
     public Plot() {
@@ -16,6 +19,11 @@ public class Plot extends VectorShape {
         super(startingCoordinate, penColor, fillColor);
     }
 
+    /**
+     * Draws Plot shape
+     * @param g graphic created by canvas in the paint phase. Shape will be drawn to this graphic.
+     * @param size size of canvas.
+     */
     @Override
     public void draw(Graphics g, int size) {
         java.awt.Point p1 = getPoint(0).getAbsPoint(size);
@@ -36,6 +44,10 @@ public class Plot extends VectorShape {
         setFill(fillColor);
     }
 
+    /**
+     * Disables the drag function in {@link java.awt.event.MouseListener}
+     * @param canvas relevant canvas to be used
+     */
     public void drag(VectorCanvas canvas){
         CanvasMouse mouseListener = canvas.getMouseListener();
         mouseListener.shapeCreating =false;

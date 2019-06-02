@@ -7,6 +7,9 @@ import vector.util.VectorPoint;
 import java.awt.*;
 import java.util.List;
 
+/**
+ * A {@link VectorShape} Line
+ */
 public class Line extends VectorShape{
 
     public Line() { }
@@ -14,6 +17,11 @@ public class Line extends VectorShape{
     public Line(Coordinate startingCoordinate, VectorColor penColor, VectorColor fillColor) {
         super(startingCoordinate, penColor, fillColor);
     }
+
+    /**
+     * Draws line between two points
+     * @param points list of VectorPoints
+     */
     public Line(List<VectorPoint> points) {
         super(points);
     }
@@ -37,6 +45,11 @@ public class Line extends VectorShape{
         g.drawLine(startX, startY,endX, endY);
     }
 
+    /**
+     * Draws the line shape
+     * @param g graphic created by canvas in the paint phase. Shape will be drawn to this graphic.
+     * @param size size of canvas.
+     */
     @Override
     public void draw(Graphics g, int size) {
         java.awt.Point p1 = getPoint(0).getAbsPoint(size);

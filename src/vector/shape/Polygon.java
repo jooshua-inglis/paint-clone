@@ -11,6 +11,9 @@ import java.awt.event.KeyEvent;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * A {@link VectorShape} Polygon
+ */
 public class Polygon extends VectorShape {
 
     private boolean finished = false;
@@ -24,6 +27,10 @@ public class Polygon extends VectorShape {
         super(startingCoordinate, penColor, fillColor);
     }
 
+    /**
+     * Creates a polygon based on a list of points
+     * @param points
+     */
     public Polygon(List<VectorPoint> points) {
         super(points);
     }
@@ -35,6 +42,11 @@ public class Polygon extends VectorShape {
         setFill(fillColor);
     }
 
+    /**
+     * An override of the drag function. This will stop
+     * the polygon from finalising until the user presses 'enter'
+     * @param canvas relevant canvas to be used
+     */
     @Override
     public void drag(VectorCanvas canvas) {
         CanvasMouse mouseListener = canvas.getMouseListener();
@@ -70,6 +82,11 @@ public class Polygon extends VectorShape {
         System.out.println("x position:"+mouseListener.getX()+"y"+mouseListener.getX());
     }
 
+    /**
+     * Draws the polygon
+     * @param g graphic created by canvas in the paint phase. Shape will be drawn to this graphic.
+     * @param size size of canvas.
+     */
     @Override
     public void draw(Graphics g, int size) {
         int nPoints = getVectorPoints().size();
