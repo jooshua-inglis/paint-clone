@@ -58,20 +58,24 @@ public abstract class VectorShape  {
     }
 
     /**
-     * Function implemented by subclasses to draw shape to g.
+     * Draws self to graphic g
      * @param g graphic created by canvas in the paint phase. Shape will be drawn to this graphic.
      * @param size size of canvas.
      */
     public abstract void draw(Graphics g, int size);
 
-
+    /**
+     * Initialises function when created by canvas
+     * @param coordinate Initial coordinate
+     * @param penColor Pen color
+     * @param fillColor Fill color
+     */
     public abstract void initialise(Coordinate coordinate, VectorColor penColor, VectorColor fillColor);
 
-
- /** Function to find second vectorPoint of shape
-  * @param canvas relevant canvas to be used
-  * */
-
+    /**
+     * Drags the shape across the screen so user can resize shape
+     * @param canvas relevant canvas to be used
+     */
     public void drag(VectorCanvas canvas) {
         CanvasMouse mouseListener = canvas.getMouseListener();
         while (mouseListener.shapeCreating) {
@@ -89,7 +93,6 @@ public abstract class VectorShape  {
         System.out.println("Done");
     }
 
-
     public void addPoints(List<VectorPoint> points) {
         if ( getMaxPoints() != 0 && points.size() + getVectorPoints().size() > getMaxPoints()) {
             throw new IllegalArgumentException("Too many points");
@@ -99,17 +102,10 @@ public abstract class VectorShape  {
         }
     }
 
-    public void addPoints(VectorPoint... points) {
-        for (Coordinate coordinate : points ) {
-            addPoint(coordinate);
-        }
-    }
-
     public void addPoint(Coordinate vectorCoordinate) throws IllegalStateException {
         if (getMaxPoints() != 0 && vectorPoints.size() >= getMaxPoints() ) {
             throw new IllegalStateException("Exceeded max VectorPoints");
         }
-
         vectorPoints.add(new VectorPoint(vectorCoordinate));
     }
 
@@ -117,7 +113,7 @@ public abstract class VectorShape  {
      * Creates a new VectorPoint with points x and y
      * @param x horizontal component
      * @param y vertical component
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException throws exception if point is less than 0 or greater than 1
      */
     public void addPoint(double x, double y) throws IllegalArgumentException {
         addPoint(new VectorPoint(x, y));
@@ -184,7 +180,8 @@ public abstract class VectorShape  {
     public void setFill(VectorColor color) {
         fillColor.update(color);
     }
-    public void setFill(int color) {fillColor.setRgb(color);}
+
+    public void setFill(int color) { fillColor.setRgb(color); }
 
     public VectorColor getFill() {
         return fillColor;
@@ -201,16 +198,8 @@ public abstract class VectorShape  {
     public void setPen(VectorColor color) {
         penColor.update(color);
     }
+
     public void setPen(int color) {fillColor.setRgb(color);}
-
-    public boolean isPenActive() {
-        return fillColor.isActive();
-    }
-
-    public void setPenActive(boolean fillActive) {
-        fillColor.setActive(fillActive);
-    }
-
 
     public VectorColor getPen() {
         return penColor;
@@ -237,7 +226,8 @@ public abstract class VectorShape  {
      * @param includePenColor Whether to include the PEN command
      * @param includeFillColor Whether to include the FILL command
      * @return String containing VEC
-     * @throws IllegalStateException
+     * @throws IllegalStateException throws exception if input is invalid (not proper hex string) or hex number is out
+     * of bounds ie less than 0 or greater than 0xffffff
      */
     public String getVec(boolean includePenColor, boolean includeFillColor) throws IllegalStateException {
         if ( getMaxPoints() != 0 && vectorPoints.size() != getMaxPoints()) {
@@ -255,14 +245,12 @@ public abstract class VectorShape  {
             output.append(getFillRGB());
             output.append('\n');
         }
-
         output.append(getName());
 
         for (VectorPoint vectorPoint : getVectorPoints() ) {
             output.append(" ");
             output.append(vectorPoint.toString());
         }
-
         return output.toString();
     }
 

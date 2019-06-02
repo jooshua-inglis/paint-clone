@@ -18,10 +18,18 @@ public class VectorColor {
         this.active = active;
     }
 
+    /**
+     * if active is false, no color is to be displayed. 100% transparency.
+     * @return active state
+     */
     public boolean isActive() {
         return active;
     }
 
+    /**
+     * if active is false, no color is to be displayed. 100% transparency.
+     * @param active
+     */
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -30,14 +38,24 @@ public class VectorColor {
         return rgb;
     }
 
-    public void setRgb(int rgb) {
+    /**
+     *
+     * @param rgb input hex int
+     * @throws IllegalArgumentException throws error if outside valid range (0 and 0xffffff)
+     */
+    public void setRgb(int rgb) throws IllegalArgumentException {
         if (rgb < 0 || rgb > 0xffffff) {
             throw new IllegalArgumentException("Color rgb outside of valid range");
         }
         this.rgb = rgb;
     }
 
-    public void setRgb(String rgb) {
+    /**
+     * interprets set color by interpreting hex string
+     * @param rgb hex string
+     * @throws IllegalArgumentException throws error if outside valid range (0 and 0xffffff) or invalid hex string
+     */
+    public void setRgb(String rgb) throws IllegalArgumentException {
         if (!rgb.startsWith("#")) {
             throw new IllegalArgumentException();
         }
@@ -49,6 +67,10 @@ public class VectorColor {
         setRgb(Integer.parseInt(num[1], 16));
     }
 
+    /**
+     * converts to awt Color object
+     * @return awt Color object
+     */
     public Color asColor() {
         return new Color(rgb);
     }

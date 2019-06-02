@@ -72,16 +72,16 @@ public class Polygon extends VectorShape {
 
     @Override
     public void draw(Graphics g, int size) {
+        int nPoints = getVectorPoints().size();
+        int[] xPoints = new int[nPoints];
+        int[] yPoints = new int[nPoints];
 
-            int nPoints = getVectorPoints().size();
-            int xPoints[]=new int[nPoints];
-            int yPoints[]=new int[nPoints];
-            for(int i=0; i<nPoints;i++){
-                Point point = getVectorPoints().get(i).getAbsPoint(size);
-                xPoints[i] = point.x;
-                yPoints[i] = point.y;
-            }
-            java.awt.Polygon polygon = new java.awt.Polygon(xPoints,yPoints,nPoints);
+        for(int i=0; i<nPoints;i++){
+            Point point = getVectorPoints().get(i).getAbsPoint(size);
+            xPoints[i] = point.x;
+            yPoints[i] = point.y;
+        }
+        java.awt.Polygon polygon = new java.awt.Polygon(xPoints,yPoints,nPoints);
 
         if(getFill().isActive()){
             g.setColor(getFill().asColor());

@@ -13,6 +13,10 @@ import java.awt.event.MouseMotionListener;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Listens to all mouse events on the canvas. Implements {@link Coordinate Coordinate} because any point on the canvas
+ * can be mapped to a VectorPoint between 0 and 1.
+ */
 public class CanvasMouse implements MouseListener, MouseMotionListener, Coordinate {
 
     private VectorCanvas vectorCanvas;
@@ -28,12 +32,17 @@ public class CanvasMouse implements MouseListener, MouseMotionListener, Coordina
 
     public void mouseClicked(MouseEvent mouseEvent) { }
 
+    /**
+     * if no shape is being create, new shape is created at the mouse point.
+     * @param mouseEvent
+     */
     public void mousePressed(MouseEvent mouseEvent) {
         clicked = true;
         if (!shapeCreating) {
             if(!polygon){
                 try {
                     VectorShape s = vectorCanvas.createShape();
+                    System.out.println("new " + s.getName());
                     shapeCreating = true;
                     vectorCanvas.repaint();
                     Thread createShape = new Thread(() -> s.drag(vectorCanvas));
@@ -49,7 +58,6 @@ public class CanvasMouse implements MouseListener, MouseMotionListener, Coordina
         } else {
             shapeCreating = false;
         }
-        System.out.println("Creating: " + vectorCanvas.getSelectedTool().name());
     }
 
     public boolean getShapeCreating(){
@@ -66,6 +74,10 @@ public class CanvasMouse implements MouseListener, MouseMotionListener, Coordina
 
     public void mouseMoved(MouseEvent mouseEvent) { }
 
+    /**
+     * get {@link Coordinate Coordinate} x
+     * @return x position
+     */
     public double getX() {
         try { x = vectorCanvas.getMousePosition().x; }
         catch (NullPointerException e) { }
@@ -96,6 +108,11 @@ public class CanvasMouse implements MouseListener, MouseMotionListener, Coordina
         }
         return  snapPosition;
     }
+
+    /**
+     * get {@link Coordinate Coordinate} y
+     * @return y position
+     */
     public double getY() {
         try {y = vectorCanvas.getMousePosition().y; }
         catch (NullPointerException e) { }

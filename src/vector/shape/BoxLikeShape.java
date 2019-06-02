@@ -32,24 +32,23 @@ public abstract class BoxLikeShape extends VectorShape {
         setFill(fillColor);
     }
 
-
     /**
      * Draws the shape outline to g
      * @param g
-     * @param startX
-     * @param startY
-     * @param width
-     * @param height
+     * @param startX top left x
+     * @param startY top left y
+     * @param width  width
+     * @param height height
      */
     abstract void drawPen(Graphics g, int startX, int startY, int width, int height);
 
     /**
      * Draws the shape fill to g
      * @param g
-     * @param startX
-     * @param startY
-     * @param width
-     * @param height
+     * @param startX top left x
+     * @param startY top left y
+     * @param width  width
+     * @param height height
      */
     abstract void drawFill(Graphics g, int startX, int startY, int width, int height);
 

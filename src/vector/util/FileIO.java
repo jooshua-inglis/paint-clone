@@ -2,8 +2,6 @@ package vector.util;
 
 import vector.exception.ShapeException;
 import vector.exception.VecFileException;
-import vector.shape.Polygon;
-import vector.shape.Rectangle;
 import vector.shape.*;
 import vector.uiComponents.Tool;
 import vector.uiComponents.VectorCanvas;
@@ -22,6 +20,11 @@ import java.util.concurrent.CancellationException;
 
 public class FileIO {
 
+    /**
+     * Converts canvas into VEC string
+     * @param canvas input canvas
+     * @return VEC string buffer
+     */
     public static String getString(VectorCanvas canvas) {
         StringBuilder output = new StringBuilder();
         VectorColor penColor, fillColor;
@@ -39,6 +42,12 @@ public class FileIO {
         return output.toString();
     }
 
+    /**
+     * Interprets the list of strings that make up a shape and output a new shape.
+     * @param parts command list, eg {"RECTANGLE, "0.2", "0.1", "0.7", "0.6"}
+     * @return Shape corresponding to the list
+     * @throws IllegalArgumentException if point is out of valid range
+     */
     private static List<VectorPoint> parseShape(String[] parts) throws IllegalArgumentException {
         ArrayList<VectorPoint> output = new ArrayList<>();
         if (parts.length % 2 == 0) {
@@ -50,12 +59,23 @@ public class FileIO {
         return output;
     }
 
-         public static VectorCanvas parseString(String input) throws VecFileException {
-                return parseString(Arrays.asList(input.split("\n")));
-         }
+    /**
+     * Interprets a shape command string and output a new shape.
+     * @param input command list, eg RECTANGLE 0.2 0.1 0.7 0.6
+     * @return Shape corresponding to the list
+     * @throws IllegalArgumentException if point is out of valid range
+     */
+    public static VectorCanvas parseString(String input) throws VecFileException {
+        return parseString(Arrays.asList(input.split("\n")));
+    }
 
-
-        public static VectorCanvas parseString(List<String> input) throws VecFileException {
+    /**
+     * Interprets lines of a vec buffer as a list. Returns corresponding canvas.
+     * @param input List of lines from a vec file
+     * @return canvas
+     * @throws VecFileException if there are unknown or invalid commands detected.
+     */
+    public static VectorCanvas parseString(List<String> input) throws VecFileException {
         VectorColor penColor = new VectorColor(0);
         VectorColor fillColor = new VectorColor(0xffffff);
         VectorCanvas output = new VectorCanvas();
@@ -99,18 +119,12 @@ public class FileIO {
         return output;
     }
 
-    private static JTextField constrain(String message, Component top, JPanel panel, SpringLayout layout) {
-        JLabel label = new JLabel(message);
-        JTextField text = new JTextField(5);
-        layout.putConstraint(SpringLayout.WEST, label, 5, SpringLayout.WEST, panel);
-        layout.putConstraint(SpringLayout.NORTH, label, 5, SpringLayout.SOUTH, top);
-        layout.putConstraint(SpringLayout.WEST, text, 5, SpringLayout.EAST, label);
-        layout.putConstraint(SpringLayout.NORTH, text, 5, SpringLayout.SOUTH, top);
-        panel.add(label);
-        panel.add(text);
-        return text;
-    }
-
+    /**
+     * Show a dialog for the user to pick side length of bmp image
+     * @param additionMessage additional message for the user (eg invalid input)
+     * @return user input
+     * @throws CancellationException if the user presses cancel, the export operation is cancelled.
+     */
     static private int showSizeDialog(String additionMessage) throws CancellationException {
         if (additionMessage == null) { additionMessage = "";}
         String message = "Please enter side width of bmp.\n(Output is always square)\n" + additionMessage;
@@ -132,10 +146,25 @@ public class FileIO {
         }
     }
 
+    /**
+     * Show a dialog for the user to pick side length of bmp image, with no additional message.
+     * @return user input
+     * @throws CancellationException if the user presses cancel, the export operation is cancelled.
+     */
     static private int showSizeDialog() throws CancellationException {
         return showSizeDialog(null);
     }
 
+    /**
+     * Converts a canvas into a bmp file
+     * @param canvas canvas to be converted
+     * @param file file to save bmp to
+     * @param size side width of image
+     * @throws IOException If there is an error writting to file, export operation is canceled
+     * @throws CancellationException if the user cancels, the export operation is canceled
+     * @throws OutOfMemoryError if the user picks a size too large (typically 2Gb), user is informed of out of memory
+     * error
+     */
     static private void toImage(VectorCanvas canvas, File file, int size)
             throws IOException, CancellationException, OutOfMemoryError {
         VectorCanvas bmp = new VectorCanvas();
@@ -149,6 +178,11 @@ public class FileIO {
         out.close();
     }
 
+    /**
+     * Asks user for desired bmp size and converts canvas to bmp of that size.
+     * @param canvas input VectorCanvas
+     * @param file File to save to
+     */
     static public void toImage(VectorCanvas canvas, File file) {
         int size = showSizeDialog();
         try {
