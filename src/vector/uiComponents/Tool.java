@@ -13,11 +13,24 @@ import java.awt.*;
  * the names of the buttons.
  */
 public enum Tool {
-    RECTANGLE,
-    ELLIPSE,
-    POLYGON,
-    LINE,
-    PLOT;
+    RECTANGLE("src/vector/shape/ShapeImages/rectangle.png"),
+    ELLIPSE("src/vector/shape/ShapeImages/ellipse.png"),
+    POLYGON("src/vector/shape/ShapeImages/polygon.png"),
+    LINE("src/vector/shape/ShapeImages/line.png"),
+    PLOT("src/vector/shape/ShapeImages/plot.png");
+
+    private ImageIcon icon;
+    private Dimension size;
+
+
+    Tool(String fileName, Dimension size) {
+        this.icon = new ImageIcon(fileName);
+        this.size = size;
+    }
+
+    Tool(String fileName) {
+        this(fileName, new Dimension(40, 30));
+    }
 
     /**
      * This method is used to set the image icon for the button corresponding to a specific enum. The images are
@@ -25,21 +38,7 @@ public enum Tool {
      * @return ImageIcon used to set button icon
      */
     public Icon getImage() {
-        switch (this) {
-            case RECTANGLE:
-                return new ImageIcon("src/vector/shape/ShapeImages/rectangle.png");
-            case ELLIPSE:
-                return new ImageIcon("src/vector/shape/ShapeImages/ellipse.png");
-            case POLYGON:
-                return new ImageIcon("src/vector/shape/ShapeImages/polygon.png");
-            case LINE:
-                return new ImageIcon("src/vector/shape/ShapeImages/line.png");
-            case PLOT:
-                return new ImageIcon("src/vector/shape/ShapeImages/plot.png");
-            default:
-                assert (true);
-                return null;
-        }
+        return this.icon;
     }
 
     /**
@@ -47,28 +46,14 @@ public enum Tool {
      * @param button The button that is being resized
      */
     public void setSize(AbstractButton button) {
-        /*
-         switch-statement to determine which enum button representation is being resized. Can be used to change the
-         size of specific buttons
-        */
-        switch (this) {
-            case RECTANGLE:
-            case ELLIPSE:
-            case POLYGON:
-            case LINE:
-            case PLOT:
-                button.setPreferredSize(new Dimension(40,30));
-                break;
-            default:
-                break;
-        }
+        button.setPreferredSize(size);
     }
 
     /**
      * This method is used to execute the drawing method corresponding to the current enum value. The drawing methods
      * are located in the 'shape' package
      * @return a method of type VectorShape. The method contains drawing methods for the tool
-     * @throws CanvasException exception no shape function is found
+     * @throws ShapeException exception no shape function is found
      */
     public VectorShape getCls() throws ShapeException {
         /*
