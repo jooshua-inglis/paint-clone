@@ -57,7 +57,7 @@ public class VectorPoint implements Coordinate {
 
     /**
      * get this point as a list containing [x, y]
-     * @return
+     * @return List
      */
     public List<Double> asList() {
         return Arrays.asList(x, y);
@@ -65,7 +65,7 @@ public class VectorPoint implements Coordinate {
 
     /**
      * Returns this point as a string. Eg, x = 0.2 and y = 0.5 becomes "0.20 0.50"
-     * @return
+     * @return String
      */
     public String toString() {
         return String.format("%.2f %.2f", this.x, this.y);

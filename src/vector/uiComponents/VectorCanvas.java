@@ -115,6 +115,8 @@ public class VectorCanvas extends JPanel {
 
     /**
      * Creates a shape given the value of {@link Tool selectedTool} and adds it to the canvas
+     * @return VectorShape
+     * @throws ShapeException
      */
     public VectorShape createShape() throws ShapeException {
         VectorShape s = selectedTool.getCls();
@@ -149,7 +151,7 @@ public class VectorCanvas extends JPanel {
 
     /**
      * Gets a list of {@link VectorShape shapes} on the canvas
-     * @return
+     * @param canvas
      */
 
     public void copyShapes(VectorCanvas canvas) {
