@@ -29,17 +29,22 @@ public enum ColourQuickSelect {
      * Variable to hold Color
      */
     public Color color;
-
+    public Dimension size;
     /**
      * Constructor to determine specified Color
      *
      * @param color Color that is specified
      */
-    ColourQuickSelect(Color color) {
+    ColourQuickSelect(Color color, Dimension size) {
         this.color = color;
+        this.size = size;
     }
 
-    /**
+    ColourQuickSelect(Color color){
+        this(color, new Dimension(20, 20));
+    }
+
+    /*
      * Used to fill quickSelectColour with class enum values and their constructor values
      */
     static {
@@ -66,13 +71,11 @@ public enum ColourQuickSelect {
      */
     public ColourQuickSelect getEnum(AbstractButton button) {
         // loop through all the ColourQuickSelect enum values
-        for (ColourQuickSelect quickSelect : ColourQuickSelect.values()) {
-            // Check if current quickSelect value is equal to the button name
-            if (quickSelect.toString().equals(button.getName())) {
-                return quickSelect;
-            }
+        try {
+            return ColourQuickSelect.valueOf(button.getName());
+        } catch (IllegalArgumentException e) {
+            return null;
         }
-        return null;
     }
 
     /**
@@ -81,26 +84,6 @@ public enum ColourQuickSelect {
      * @param button components that's being resized
      */
     public void setSize(AbstractButton button) {
-        /*
-         switch-statement to determine which enum button representation is being resized. Can be used to change the
-         size of specific buttons
-        */
-        switch (this) {
-            case RED:
-            case BLUE:
-            case GREEN:
-            case WHITE:
-            case BLACK:
-            case YELLOW:
-            case ORANGE:
-            case PINK:
-            case CYAN:
-            case GRAY:
-                button.setPreferredSize(new Dimension(20, 20));
-                break;
-            default:
-                button.setPreferredSize(new Dimension(20, 20));
-                break;
-        }
+        button.setPreferredSize(size);
     }
 }

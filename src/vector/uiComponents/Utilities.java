@@ -3,37 +3,28 @@ import javax.swing.*;
 import java.awt.*;
 
 public enum Utilities {
-    ZOOM_IN,
-    ZOOM_OUT,
-    GRID,
-    UNDO;
+    ZOOM_IN("src/vector/util/UtilImages/zoomIn.png"),
+    ZOOM_OUT("src/vector/util/UtilImages/zoomOut.png"),
+    GRID("src/vector/util/UtilImages/grid.png"),
+    UNDO("src/vector/util/UtilImages/undo.png");
+
+    private ImageIcon icon;
+    private Dimension size;
+
+    Utilities(String iconFileName, Dimension size) {
+        this.icon = new ImageIcon(iconFileName);
+        this.size = size;
+    }
+
+    Utilities(String iconFileName) {
+        this(iconFileName, new Dimension(50, 40));
+    }
 
     public Icon getImage() {
-        switch (this) {
-            case ZOOM_IN:
-                return new ImageIcon("src/vector/util/UtilImages/zoomIn.png");
-            case ZOOM_OUT:
-                return new ImageIcon("src/vector/util/UtilImages/zoomOut.png");
-            case GRID:
-                return new ImageIcon("src/vector/util/UtilImages/grid.png");
-            case UNDO:
-                return new ImageIcon("src/vector/util/UtilImages/undo.png");
-            default:
-                assert (true);
-                return null;
-        }
+        return icon;
     }
 
     public void setSize(AbstractButton button) {
-        switch (this) {
-            case ZOOM_IN:
-            case ZOOM_OUT:
-            case GRID:
-            case UNDO:
-                button.setPreferredSize(new Dimension(50,40));
-                break;
-            default:
-                button.setPreferredSize(new Dimension(50,40));
-        }
+        button.setPreferredSize(size);
     }
 }
