@@ -1,6 +1,2 @@
-out
-build
-dist
-.idea
-docs
-*.iml
+.vscode
+target

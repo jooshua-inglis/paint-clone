@@ -1,6 +1,7 @@
-package tests;
+package vector;
 
 import org.junit.jupiter.api.Test;
+
 import vector.shape.Polygon;
 import vector.shape.Rectangle;
 import vector.shape.Plot;
@@ -13,7 +14,6 @@ import vector.util.VectorPoint;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ShapeTests {
     void testPoints(double expectedX, double expectedY, VectorShape subject){

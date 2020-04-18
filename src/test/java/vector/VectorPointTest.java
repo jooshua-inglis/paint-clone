@@ -1,13 +1,12 @@
-package tests;
+package vector;
 
 import org.junit.jupiter.api.Test;
-import vector.util.VectorPoint;
 
 import java.awt.Point;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+import vector.util.VectorPoint;
 
 class VectorPointTest {
 

@@ -1,4 +1,4 @@
-import vector.GUI;
+package vector;
 
 import javax.swing.*;
 
