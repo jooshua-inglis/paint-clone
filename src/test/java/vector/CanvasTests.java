@@ -1,4 +1,4 @@
-package tests;
+package vector;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

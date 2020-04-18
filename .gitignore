@@ -1,6 +1,3 @@
-out
-build
-dist
-.idea
-docs
-*.iml
+target
+.project
+.settings

@@ -1,4 +1,4 @@
-package tests;
+package vector;
 
 import org.junit.jupiter.api.Test;
 import vector.util.VectorPoint;
