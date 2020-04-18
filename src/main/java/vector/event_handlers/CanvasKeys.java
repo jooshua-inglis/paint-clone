@@ -1,20 +1,13 @@
 package vector.event_handlers;
 
 import vector.GUI;
-import vector.ui_components.VectorCanvas;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class CanvasKeys implements KeyListener {
 
-    private VectorCanvas VectorCanvas;
-
     public int key;
-
-    public void attachCanvas(VectorCanvas c) {
-        VectorCanvas = c;
-    }
 
     @Override
     public void keyTyped(KeyEvent e) {

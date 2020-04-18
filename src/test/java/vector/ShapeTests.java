@@ -108,7 +108,7 @@ class ShapeTests {
     }
 
     /**
-     * Tests for Polygon and Plot which have non-standard vectorpoint parameters
+     * Tests for Polygon and Plot which have non-standard VectorPoint parameters
       */
     @Test
      void editPlotPoint(){

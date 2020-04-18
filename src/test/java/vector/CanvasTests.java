@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import vector.exception.UndoException;
 import vector.ui_components.VectorCanvas;
-import vector.exception.ShapeException;
 import vector.exception.VecFileException;
 import vector.shape.Ellipse;
 import vector.shape.Rectangle;

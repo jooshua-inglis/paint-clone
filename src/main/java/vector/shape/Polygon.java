@@ -98,7 +98,6 @@ public class Polygon extends VectorShape {
             xPoints[i] = point.x;
             yPoints[i] = point.y;
         }
-        java.awt.Polygon polygon = new java.awt.Polygon(xPoints,yPoints,nPoints);
 
         if(getFill().isActive()){
             g.setColor(getFill().asColor());

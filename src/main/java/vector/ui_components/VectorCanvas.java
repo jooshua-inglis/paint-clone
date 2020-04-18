@@ -10,7 +10,6 @@ import vector.util.VectorColor;
 import vector.util.VectorPoint;
 
 import javax.swing.*;
-import javax.swing.undo.CannotUndoException;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -74,7 +73,7 @@ public class VectorCanvas extends JPanel {
         // Set keyboard focus to a component
         this.setFocusable(true);
         this.requestFocusInWindow();
-        int num = 0;
+
         if(gridToggle) {
             grid = createGrid();
             //System.out.println(grid);
@@ -83,9 +82,7 @@ public class VectorCanvas extends JPanel {
             }
         }
         for (VectorShape shape : shapes) {
-
             shape.draw(g, getWidth());
-            num++;
         }
         g.dispose();
 
@@ -102,7 +99,6 @@ public class VectorCanvas extends JPanel {
         this.addMouseListener(mouseListener);
 
         keysListener = new CanvasKeys();
-        keysListener.attachCanvas(this);
         this.addKeyListener(keysListener);
         this.scale = 0.5;
     }

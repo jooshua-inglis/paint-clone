@@ -197,7 +197,7 @@ public class GUI {
      */
     private void addToolFunctionality(Tool tool, ButtonGroup toolGroup) {
         // Variable to store elements of toolGroup
-        Enumeration toolGroupElements = toolGroup.getElements();
+        Enumeration<AbstractButton> toolGroupElements = toolGroup.getElements();
         // check if dialog box is shown
         boolean showDialog = false;
         // loop through toolGroupElements
@@ -214,7 +214,7 @@ public class GUI {
                 // Toggle button OFF
                 selectedButton.setSelected(false);
                 // Variable to store toolGroup elements
-                Enumeration toolGroupElementsCopy = toolGroup.getElements();
+                Enumeration<AbstractButton> toolGroupElementsCopy = toolGroup.getElements();
                 // Loop through toolGroupElementsCopy
                 while (toolGroupElementsCopy.hasMoreElements()) {
                     // Abstract button set to the next element of toolGroupElementsCopy
