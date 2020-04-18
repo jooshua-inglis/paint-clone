@@ -4,8 +4,8 @@ import vector.exception.ShapeException;
 import vector.exception.VecFileException;
 import vector.shape.*;
 import vector.shape.Polygon;
-import vector.uiComponents.Tool;
-import vector.uiComponents.VectorCanvas;
+import vector.ui_components.Tool;
+import vector.ui_components.VectorCanvas;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

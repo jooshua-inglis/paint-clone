@@ -1,8 +1,8 @@
 package vector.shape;
 
 
-import vector.eventHandlers.CanvasMouse;
-import vector.uiComponents.VectorCanvas;
+import vector.event_handlers.CanvasMouse;
+import vector.ui_components.VectorCanvas;
 import vector.util.Coordinate;
 import vector.util.VectorColor;
 import vector.util.VectorPoint;

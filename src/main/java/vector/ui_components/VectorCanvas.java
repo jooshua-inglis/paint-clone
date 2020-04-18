@@ -1,7 +1,7 @@
-package vector.uiComponents;
+package vector.ui_components;
 
-import vector.eventHandlers.CanvasKeys;
-import vector.eventHandlers.CanvasMouse;
+import vector.event_handlers.CanvasKeys;
+import vector.event_handlers.CanvasMouse;
 import vector.exception.ShapeException;
 import vector.exception.UndoException;
 import vector.shape.Line;

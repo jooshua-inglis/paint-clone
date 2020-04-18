@@ -1,9 +1,9 @@
-package vector.eventHandlers;
+package vector.event_handlers;
 
 import vector.exception.ShapeException;
 import vector.shape.Line;
 import vector.shape.VectorShape;
-import vector.uiComponents.VectorCanvas;
+import vector.ui_components.VectorCanvas;
 import vector.util.Coordinate;
 
 import javax.swing.*;

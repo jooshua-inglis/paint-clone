@@ -3,7 +3,7 @@ package vector;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import vector.exception.UndoException;
-import vector.uiComponents.VectorCanvas;
+import vector.ui_components.VectorCanvas;
 import vector.exception.ShapeException;
 import vector.exception.VecFileException;
 import vector.shape.Ellipse;
@@ -13,7 +13,7 @@ import vector.shape.Polygon;
 import vector.shape.Line;
 import vector.shape.VectorShape;
 import vector.util.FileIO;
-import vector.uiComponents.Tool;
+import vector.ui_components.Tool;
 import vector.util.VectorColor;
 import vector.util.VectorPoint;
 

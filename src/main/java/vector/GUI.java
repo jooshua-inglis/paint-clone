@@ -1,11 +1,11 @@
 package vector;
 
-import vector.eventHandlers.FrameResize;
+import vector.event_handlers.FrameResize;
 import vector.exception.UndoException;
 import vector.exception.VecFileException;
-import vector.uiComponents.*;
+import vector.ui_components.*;
 import vector.util.FileIO;
-import vector.uiComponents.Utilities;
+import vector.ui_components.Utilities;
 import vector.util.VectorColor;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -22,7 +22,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import static java.awt.Color.*;
-import static vector.uiComponents.ColourTools.*;
+import static vector.ui_components.ColourTools.*;
 
 /**
  * GUI class controls the what is output to the window. It contains one JFrame that holds multiple JPanels to present

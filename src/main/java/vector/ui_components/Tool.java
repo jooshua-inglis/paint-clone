@@ -1,4 +1,4 @@
-package vector.uiComponents;
+package vector.ui_components;
 
 import vector.exception.ShapeException;
 import vector.shape.Polygon;

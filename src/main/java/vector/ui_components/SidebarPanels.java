@@ -1,4 +1,4 @@
-package vector.uiComponents;
+package vector.ui_components;
 
 import javax.swing.*;
 import java.awt.*;
