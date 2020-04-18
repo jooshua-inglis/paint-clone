@@ -74,7 +74,7 @@ class CanvasTests {
         VectorCanvas subject = new VectorCanvas();
         subject.gridToggle =false;
          addShapes(subject);
-        String helper = "RECTANGLE 0.20 0.60 0.80 0.70\nELLIPSE 0.20 0.60 0.80 0.70\nPLOT 0.20 0.60\nPOLYGON 0.20 0.60 0.80 0.70 0.90 0.60\nLINE 0.20 0.60 0.80 0.70\n";
+        String helper = "FILL OFF\nRECTANGLE 0.20 0.60 0.80 0.70\nELLIPSE 0.20 0.60 0.80 0.70\nPLOT 0.20 0.60\nPOLYGON 0.20 0.60 0.80 0.70 0.90 0.60\nLINE 0.20 0.60 0.80 0.70\n";
         assertEquals(helper, FileIO.getString(subject));
     }
     @Test
@@ -82,19 +82,19 @@ class CanvasTests {
         VectorCanvas subject = new VectorCanvas();
         subject.gridToggle =false;
         addShapes(subject);
-        String helper = "RECTANGLE 0.20 0.60 0.80 0.70\nELLIPSE 0.20 0.60 0.80 0.70\nPLOT 0.20 0.60\nPOLYGON 0.20 0.60 0.80 0.70 0.90 0.60\nLINE 0.20 0.60 0.80 0.70\n";
+        String helper = "FILL OFF\nRECTANGLE 0.20 0.60 0.80 0.70\nELLIPSE 0.20 0.60 0.80 0.70\nPLOT 0.20 0.60\nPOLYGON 0.20 0.60 0.80 0.70 0.90 0.60\nLINE 0.20 0.60 0.80 0.70\n";
         assertEquals(helper, FileIO.getString(subject));
         subject.undo();
-        helper = "RECTANGLE 0.20 0.60 0.80 0.70\nELLIPSE 0.20 0.60 0.80 0.70\nPLOT 0.20 0.60\nPOLYGON 0.20 0.60 0.80 0.70 0.90 0.60\n";
+        helper = "FILL OFF\nRECTANGLE 0.20 0.60 0.80 0.70\nELLIPSE 0.20 0.60 0.80 0.70\nPLOT 0.20 0.60\nPOLYGON 0.20 0.60 0.80 0.70 0.90 0.60\n";
         assertEquals(helper, FileIO.getString(subject));
         subject.undo();
-        helper = "RECTANGLE 0.20 0.60 0.80 0.70\nELLIPSE 0.20 0.60 0.80 0.70\nPLOT 0.20 0.60\n";
+        helper = "FILL OFF\nRECTANGLE 0.20 0.60 0.80 0.70\nELLIPSE 0.20 0.60 0.80 0.70\nPLOT 0.20 0.60\n";
         assertEquals(helper, FileIO.getString(subject));
         subject.undo();
-        helper = "RECTANGLE 0.20 0.60 0.80 0.70\nELLIPSE 0.20 0.60 0.80 0.70\n";
+        helper = "FILL OFF\nRECTANGLE 0.20 0.60 0.80 0.70\nELLIPSE 0.20 0.60 0.80 0.70\n";
         assertEquals(helper, FileIO.getString(subject));
         subject.undo();
-        helper = "RECTANGLE 0.20 0.60 0.80 0.70\n";
+        helper = "FILL OFF\nRECTANGLE 0.20 0.60 0.80 0.70\n";
         assertEquals(helper, FileIO.getString(subject));
         subject.undo();
         helper = "";
@@ -116,6 +116,7 @@ class CanvasTests {
             addShapes(subject);
             checker= checker + helper;
         }
+        checker = "FILL OFF\n" + checker;
         assertEquals(checker, FileIO.getString(subject));
     }
 
@@ -151,7 +152,7 @@ class CanvasTests {
         shape.addPoint(0.4, 0.4);
         subject.addShape(shape);
         subject.addShape(shape);
-        Assertions.assertEquals("RECTANGLE 0.20 0.20 0.40 0.40\nRECTANGLE 0.20 0.20 0.40 0.40\n", FileIO.getString(subject));
+        Assertions.assertEquals("FILL OFF\nRECTANGLE 0.20 0.20 0.40 0.40\nRECTANGLE 0.20 0.20 0.40 0.40\n", FileIO.getString(subject));
     }
 
     @Test

@@ -95,6 +95,7 @@ public class FileIO {
                         if (l[1].equals("OFF")) {
                             fillColor.setActive(false);
                         } else {
+                            fillColor.setActive(true);
                             fillColor.setRgb(l[1]);
                         }
                         break;
