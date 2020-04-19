@@ -6,8 +6,3 @@ To build
 ```bash
 mvn package
 ```
-
-to run
-```bash
-java -cp ./target/vector-tool-*.*.jar vector.Main
-```
