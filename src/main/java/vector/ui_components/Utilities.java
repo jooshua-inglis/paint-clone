@@ -3,16 +3,18 @@ import javax.swing.*;
 import java.awt.*;
 
 public enum Utilities {
-    ZOOM_IN("resources/zoomIn.png"),
-    ZOOM_OUT("resources/zoomOut.png"),
-    GRID("resources/grid.png"),
-    UNDO("resources/undo.png");
+    ZOOM_IN("zoomIn.png"),
+    ZOOM_OUT("zoomOut.png"),
+    GRID("grid.png"),
+    UNDO("undo.png");
 
     private ImageIcon icon;
     private Dimension size;
 
-    Utilities(String iconFileName, Dimension size) {
-        this.icon = new ImageIcon(iconFileName);
+    private ResourceLoader loader = new ResourceLoader();
+
+    Utilities(String fileName, Dimension size) {
+        this.icon = loader.getImageIcon(fileName);
         this.size = size;
     }
 

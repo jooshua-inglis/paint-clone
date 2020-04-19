@@ -13,18 +13,19 @@ import java.awt.*;
  * the names of the buttons.
  */
 public enum Tool {
-    RECTANGLE("resources/rectangle.png"),
-    ELLIPSE("resources/ellipse.png"),
-    POLYGON("resources/polygon.png"),
-    LINE("resources/line.png"),
-    PLOT("resources/plot.png");
+    RECTANGLE("rectangle.png"),
+    ELLIPSE("ellipse.png"),
+    POLYGON("polygon.png"),
+    LINE("line.png"),
+    PLOT("plot.png");
 
     private ImageIcon icon;
     private Dimension size;
 
+    private ResourceLoader loader = new ResourceLoader();
 
     Tool(String fileName, Dimension size) {
-        this.icon = new ImageIcon(fileName);
+        this.icon = loader.getImageIcon(fileName);
         this.size = size;
     }
 

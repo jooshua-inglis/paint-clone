@@ -7,18 +7,20 @@ import java.awt.*;
  * values will form the names of buttons
  */
 public enum ColourTools {
-    PEN("resources/pen.png"),
+    PEN("pen.png"),
     PEN_COLOUR(null),
-    FILL("resources/fill.png"),
+    FILL("fill.png"),
     FILL_COLOUR(null),
-    FILL_OFF("resources/FILL_OFF.png"),
-    PICKER("resources/picker.png");
+    FILL_OFF("FILL_OFF.png"),
+    PICKER("picker.png");
 
     private ImageIcon icon;
     private Dimension size;
 
-    ColourTools(String iconFileName, Dimension size) {
-        this.icon = new ImageIcon(iconFileName);
+    private ResourceLoader loader = new ResourceLoader();
+
+    ColourTools(String fileName, Dimension size) {
+        this.icon = loader.getImageIcon(fileName);
         this.size = size;
     }
 
