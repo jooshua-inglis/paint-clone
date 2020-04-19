@@ -30,6 +30,15 @@
     </dependency>
   </dependencies>
 
+  <distributionManagement>
+    
+    <repository>
+      <id>github</id>
+      <name>Temporary Staging Repository</name>
+      <url>https://github.com/jooshua-inglis/vector-tool</url>
+    </repository>
+  </distributionManagement>
+
 
   <build>
 
