@@ -35,7 +35,7 @@
     <repository>
       <id>github</id>
       <name>Temporary Staging Repository</name>
-      <url>https://github.com/jooshua-inglis/vector-tool</url>
+      <url>https://maven.pkg.github.com/jooshua-inglis/vector-tool</url>
     </repository>
   </distributionManagement>
 
