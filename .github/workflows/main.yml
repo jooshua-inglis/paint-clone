@@ -27,3 +27,5 @@ jobs:
           files: |
             LICENSE.txt
             target/vector-tool*.jar
+
+
